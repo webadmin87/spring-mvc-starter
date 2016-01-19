@@ -44,8 +44,9 @@
     <context:component-scan base-package="ru.rzncenter.webcore.utils" />
     <context:component-scan base-package="ru.rzncenter.webcore.rbac" />
     <context:component-scan base-package="ru.rzncenter.webcore.service" />
+    <context:component-scan base-package="ru.rzncenter.webcore.controllers" />
 
-    <!--<jpa:repositories base-package="com.acme.repositories" />-->
+    <jpa:repositories base-package="ru.rzncenter.webcore.dao" entity-manager-factory-ref="myEmf" />
 
     <!-- Кеширование -->
 

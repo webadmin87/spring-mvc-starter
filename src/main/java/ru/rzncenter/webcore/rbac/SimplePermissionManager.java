@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
+import ru.rzncenter.webcore.dao.UserDao;
 
 import javax.annotation.PostConstruct;
 import java.util.*;
@@ -22,7 +23,7 @@ public class SimplePermissionManager implements PermissionManager {
     PermissionInitializer initializer;
 
     @Autowired
-    UserDomainDao userDomainDao;
+    UserDao userDomainDao;
 
     @PostConstruct
     void init() {

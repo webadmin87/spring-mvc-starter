@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <web-app
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns="http://java.sun.com/xml/ns/javaee"
@@ -17,7 +16,6 @@
         <param-name>spring.profiles.default</param-name>
         <param-value>prod</param-value>
     </context-param>
-
     <session-config>
         <session-timeout>240</session-timeout>
     </session-config>
@@ -44,7 +42,6 @@
         <servlet-name>dispatcher</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
-
     <filter>
         <filter-name>EncodingFilter</filter-name>
         <filter-class>

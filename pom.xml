@@ -268,8 +268,8 @@
         <groupId>org.apache.tomcat.maven</groupId>
         <artifactId>tomcat7-maven-plugin</artifactId>
         <configuration>
-          <url>http://95.170.86.170:8080/manager/text</url>
-          <server>PokupkiServer</server>
+          <url>http://8.8.8.8:8080/manager/text</url>
+          <server>ServerName</server>
           <path>/ROOT</path>
         </configuration>
         <version>2.2</version>

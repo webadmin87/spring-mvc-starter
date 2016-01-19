@@ -248,4 +248,14 @@ public class User extends Domain implements Previews, UserDomain {
         return super.getAuthor();
     }
 
+    public List<String> rolesList()
+    {
+        ArrayList<String> l = new ArrayList<>();
+
+        l.add(getRole().toString());
+
+        return l;
+
+    }
+
 }
