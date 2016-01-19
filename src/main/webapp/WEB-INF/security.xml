@@ -28,9 +28,6 @@
 
     <http entry-point-ref="restAuthenticationEntryPoint" use-expressions="true" >
         <intercept-url pattern="/admin/**" access="isAuthenticated()"/>
-        <intercept-url pattern="/orders/**" access="isAuthenticated()"/>
-        <intercept-url pattern="/purchase-comments/**" access="isAuthenticated()"/>
-        <intercept-url pattern="/product-comments/**" access="isAuthenticated()"/>
         <form-login login-page="/login" default-target-url="/" authentication-failure-url="/login?error=true" authentication-success-handler-ref="authenticationSuccessHandler" />
         <logout logout-url="/logout" logout-success-url="/"/>
         <anonymous username="guest" granted-authority="ROLE_ANONYMOUS"/>
@@ -50,7 +47,7 @@
 
     <beans:bean id="expressionHandler" class= "org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler">
         <beans:property  name="permissionEvaluator">
-            <beans:bean class= "ru.rzncenter.webcore.rbac.SimplePermissionEvaluator"     />
+            <beans:bean class= "ru.rzncenter.webcore.rbac.SimplePermissionEvaluator" />
         </beans:property>
     </beans:bean>
 

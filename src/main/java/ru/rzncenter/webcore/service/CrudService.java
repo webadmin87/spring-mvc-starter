@@ -2,13 +2,15 @@ package ru.rzncenter.webcore.service;
 
 import org.springframework.data.repository.CrudRepository;
 
+import java.util.List;
+
 /**
  * Интерфейс сервиса CRUD операций
  * @param <T>
  */
 public interface CrudService<T> {
 
-    public Iterable<T> findAll();
+    public List<T> findAll();
 
     public T findOne(Long id);
 

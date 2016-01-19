@@ -1,6 +1,6 @@
 {
-  "name": "pokupki",
-  "version": "0.0.0",
+  "name": "spring-mvc-starter",
+  "version": "0.0.1",
   "description": "",
   "main": "gulpfile.js",
   "scripts": {
@@ -14,7 +14,6 @@
     "gulp-csso": "*",
     "gulp-uglify": "*",
     "gulp-concat": "*",
-    "gulp-compass": "*",
-    "gulp-uglify": "*"
+    "gulp-compass": "*"
   }
 }

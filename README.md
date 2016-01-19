@@ -1,6 +1,10 @@
-# Настройка Tomcat 7
+# Spring mvc starter
 
-## В server.xml
+Каркас для создание одностраничных REST приложений на основе Spring MVC и AngularJS
+
+## Настройка производственной среды для Tomcat 7
+
+### В server.xml
 
 ```
 <GlobalNamingResources>
@@ -24,19 +28,19 @@
 </GlobalNamingResources>
 ```
 
-## В context.xml
+### В context.xml
 
 ```
 <ResourceLink name="jdbc/ResourceDB" global="jdbc/ResourceDB" type="javax.sql.DataSource"/>
 ```
 
-## В catalina.sh
+### В catalina.sh
 
 ```
 export TOMCAT_USERFILES_DIR=/opt/tomcat-7/userfiles
 ```
 
-# Для разработки
+## Настрйки среды разработки
 
 Использовать Jetty. Запускать используя dev профиль:
 
@@ -44,12 +48,12 @@ export TOMCAT_USERFILES_DIR=/opt/tomcat-7/userfiles
 mvn -P dev -Dspring.profiles.active="dev" -Dorg.eclipse.jetty.LEVEL=DEBUG jetty:run
 ```
 
-Либо через IDE. Так же задать переменную окружения:
+Задать переменную окружения:
 
 ```
 TOMCAT_USERFILES_DIR=/path/to/userfiles
 ```
 
-# Настройка окружения
+## Общие настройка окружения
 
 Для кеша по умолчанию используется папка **/var/cache/ehcache**
