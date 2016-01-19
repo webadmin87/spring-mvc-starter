@@ -1,0 +1,6 @@
+/lib
+/target
+**/*.iml
+/.idea
+/src/main/webapp/resources/vendors
+/ddl_*.sql

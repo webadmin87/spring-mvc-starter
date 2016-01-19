@@ -1,0 +1,20 @@
+{
+  "name": "pokupki",
+  "version": "0.0.0",
+  "description": "",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Anton Churkin",
+  "license": "BSD-2-Clause",
+
+  "devDependencies": {
+    "gulp": "*",
+    "gulp-csso": "*",
+    "gulp-uglify": "*",
+    "gulp-concat": "*",
+    "gulp-compass": "*",
+    "gulp-uglify": "*"
+  }
+}

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+       ">
+
+       <!-- Миграции -->
+
+       <bean id="flyway" class="org.flywaydb.core.Flyway" init-method="migrate">
+              <property name="dataSource" ref="dbDataSource"/>
+       </bean>
+
+       <!-- JPA -->
+
+       <bean id="myEmf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean" depends-on="flyway">
+              <property name="sharedCacheMode" value="ALL" />
+              <property name="dataSource" ref="dbDataSource" />
+              <property name="packagesToScan" value="ru.rzncenter.webcore.domains" />
+              <property name="jpaVendorAdapter">
+                     <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
+              </property>
+
+              <property name="jpaProperties">
+                     <props>
+                            <prop key="hibernate.show_sql">true</prop>
+                            <prop key="hibernate.hbm2ddl.auto">none</prop>
+                            <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQL9Dialect</prop>
+                            <prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory</prop>
+                            <prop key="net.sf.ehcache.configurationResourceName">/ehcache.xml</prop>
+                            <prop key="hibernate.cache.use_second_level_cache">true</prop>
+                            <prop key="hibernate.cache.use_query_cache">false</prop>
+                            <prop key="hibernate.query.plan_cache_max_strong_references">64</prop>
+                            <prop key="hibernate.query.plan_cache_max_soft_references">1024</prop>
+                            <prop key="hibernate.cache.default_cache_concurrency_strategy">read-write</prop>
+                            <!--<prop key="hibernate.generate_statistics">true</prop>-->
+                     </props>
+              </property>
+       </bean>
+
+       <import resource="spring-common.xml" />
+
+       <beans profile="dev">
+              <bean id="dbDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+                     <property name="driverClassName" value="org.postgresql.Driver" />
+                     <property name="url" value="jdbc:postgresql://192.168.56.101/dbname" />
+                     <property name="username" value="postgres" />
+                     <property name="password" value="password" />
+              </bean>
+       </beans>
+
+       <beans profile="prod">
+              <bean id="dbDataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+                     <property name="jndiName" value="java:comp/env/jdbc/ResourceDB"/>
+              </bean>
+       </beans>
+
+</beans>

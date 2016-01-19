@@ -1,0 +1,30 @@
+{
+  "name": "springMvcStarter",
+  "version": "0.0.1",
+  "main": "./resources/js/app.js",
+  "authors": [
+    "Anton <webadmin87@gmail.com>"
+  ],
+  "description": "Spring mvc starter",
+  "moduleType": [
+    "globals"
+  ],
+  "dependencies": {
+    "jquery": "1.11.x",
+    "angular": "1.4.x",
+    "angular-cookies": "1.4.x",
+    "angular-route": "1.4.x",
+    "angular-i18n": "1.4.x",
+    "bootstrap": "3.3.x",
+    "angular-ui-router": "0.2.x",
+    "angular-bootstrap": "1.1.x",
+    "angular-file-upload": "2.2.x",
+    "angular-validation-match": "1.7.x",
+    "angular-translate": "2.8.x",
+    "ng-remote-validate": "0.6.x",
+    "underscore": "1.8.x",
+    "checklist-model": "0.9.x",
+    "angular-ui-tree": "2.13.x"
+  },
+  "license": "BSD"
+}

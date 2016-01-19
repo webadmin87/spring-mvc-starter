@@ -1,0 +1,4 @@
+.sass-cache
+node_modules
+resources/src/themes/pokupki/img/icons-*.png
+resources/src/themes/pokupki/css/screen.css
