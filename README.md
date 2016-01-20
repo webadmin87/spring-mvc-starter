@@ -67,4 +67,4 @@ TOMCAT_USERFILES_DIR=/path/to/userfiles
 bower install
 ```
 
-Также перед запуском maven необходимо через **npm** установить зависимости указанные в ***src/main/webapp/package.json**. Они необходимы для сборки фронтенда.
+Также перед запуском maven необходимо через **npm** установить зависимости указанные в **src/main/webapp/package.json**. Они необходимы для сборки фронтенда.
