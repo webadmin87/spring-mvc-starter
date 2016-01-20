@@ -12,11 +12,9 @@
 
     function UserListCtrl($scope, userService){
 
-        userService.getAll().success(function(data){
+        var Resource = userService.getResource();
 
-            $scope.models = data;
-
-        });
+        $scope.models = Resource.query();
 
     }
     

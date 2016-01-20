@@ -1,12 +1,18 @@
 (function (angular) {
 
     angular.module('springMvcStarter', [
+        'ngResource',
         'ui.router',
         'ui.bootstrap'
     ])
         .constant('urlMapping', {
 
         })
+
+        .config(['$resourceProvider', function($resourceProvider) {
+            // Don't strip trailing slashes from calculated URLs
+            $resourceProvider.defaults.stripTrailingSlashes = false;
+        }])
 
         .config(['$provide', '$httpProvider', function ($provide, $httpProvider) {
 
@@ -59,7 +65,7 @@
             // Главная страница
 
             $stateProvider.state('main', {
-                url: '',
+                url: '/',
                 templateUrl: 'resources/views/index.html',
                 controller: 'MainCtrl'
             });

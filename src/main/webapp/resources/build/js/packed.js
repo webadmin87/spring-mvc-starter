@@ -1,12 +1,18 @@
 (function (angular) {
 
     angular.module('springMvcStarter', [
+        'ngResource',
         'ui.router',
         'ui.bootstrap'
     ])
         .constant('urlMapping', {
 
         })
+
+        .config(['$resourceProvider', function($resourceProvider) {
+            // Don't strip trailing slashes from calculated URLs
+            $resourceProvider.defaults.stripTrailingSlashes = false;
+        }])
 
         .config(['$provide', '$httpProvider', function ($provide, $httpProvider) {
 
@@ -15,7 +21,7 @@
 
             $httpProvider.defaults.cache = true;
 
-            // Перехват http. Обработка ошибо и аутентификация
+            // Перехват http. Обработка ошибок и аутентификация
 
             $provide.factory('AppHttpInterceptor', ["$q", "$location", "authStorage", function ($q, $location, authStorage) {
                 return {
@@ -59,7 +65,7 @@
             // Главная страница
 
             $stateProvider.state('main', {
-                url: '',
+                url: '/',
                 templateUrl: 'resources/views/index.html',
                 controller: 'MainCtrl'
             });
@@ -96,7 +102,7 @@
 /**
  * Сервис для хранения информации об аутентификации пользователя
  */
-(function (angular, $, _) {
+(function (angular) {
 
     angular.module('springMvcStarter')
         .service("authStorage", [AuthStorage]);
@@ -119,7 +125,7 @@
 
     }
 
-})(angular, jQuery, _);
+})(angular);
 
 /**
  * Сервис пользователей
@@ -131,10 +137,12 @@
             "$http",
             "$q",
             "authStorage",
+            "$resource",
+            "$cacheFactory",
             UserService
         ]);
 
-    function UserService($http, $q, authStorage){
+    function UserService($http, $q, authStorage, $resource, $cacheFactory){
 
         this.login = function(model) {
 
@@ -174,6 +182,7 @@
 
         this.logout = function() {
             authStorage.reset();
+            $cacheFactory.get('$http').removeAll();
         }
 
         this.getUser = function() {
@@ -184,9 +193,18 @@
             return authStorage.getUser() != null;
         }
 
-        this.getAll = function() {
+        var resource = null;
 
-            return $http.get('/admin/users/');
+        this.getResource = function() {
+
+
+            if(resource == null) {
+
+                resource = $resource('/admin/user/:id', {id:'@id'});
+
+            }
+
+            return resource;
 
         }
 
@@ -267,6 +285,38 @@
 })(angular, _);
 
 /**
+ * Контроллер отображающий сраницу об авторизованном пользователе
+ */
+(function (angular, _) {
+
+    angular.module('springMvcStarter')
+        .controller("UserInfoCtrl", [
+            "$scope",
+            "userService",
+            "$state",
+            UserInfoCtrl
+        ]);
+
+    function UserInfoCtrl($scope, userService, $state) {
+
+        $scope.getUser = function() {
+            return userService.getUser();
+        }
+
+        $scope.logout = function() {
+            userService.logout();
+            $state.go("main");
+        }
+
+        $scope.isAuth = function() {
+            return userService.isAuth();
+        }
+
+    }
+    
+})(angular, _);
+
+/**
  * Контроллер списка пользователей
  */
 (function (angular, _) {
@@ -280,11 +330,9 @@
 
     function UserListCtrl($scope, userService){
 
-        userService.getAll().success(function(data){
+        var Resource = userService.getResource();
 
-            $scope.models = data;
-
-        });
+        $scope.models = Resource.query();
 
     }
     

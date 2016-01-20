@@ -8,10 +8,12 @@
             "$http",
             "$q",
             "authStorage",
+            "$resource",
+            "$cacheFactory",
             UserService
         ]);
 
-    function UserService($http, $q, authStorage){
+    function UserService($http, $q, authStorage, $resource, $cacheFactory){
 
         this.login = function(model) {
 
@@ -51,6 +53,7 @@
 
         this.logout = function() {
             authStorage.reset();
+            $cacheFactory.get('$http').removeAll();
         }
 
         this.getUser = function() {
@@ -61,9 +64,18 @@
             return authStorage.getUser() != null;
         }
 
-        this.getAll = function() {
+        var resource = null;
 
-            return $http.get('/admin/users/');
+        this.getResource = function() {
+
+
+            if(resource == null) {
+
+                resource = $resource('/admin/user/:id', {id:'@id'});
+
+            }
+
+            return resource;
 
         }
 

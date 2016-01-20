@@ -1,20 +1,25 @@
-<div class="alert alert-danger" ng-show="error===true">
-    Login error!
-</div>
 
-<form>
-<div class="form-group">
-    <label for="username">Username</label>
-    <input class="form-control" type="text" ng-model="model.username" name="username" id="username"/>
-</div>
+<div class="login-form">
 
-<div class="form-group">
-    <label for="password">Password</label>
-    <input class="form-control" type="password" ng-model="model.password" name="password" id="password"/>
-</div>
+    <div class="alert alert-danger" ng-show="error===true">
+        Login error!
+    </div>
 
-<div class="form-group">
-    <input type="button" class="btn btn-primary" ng-click="login(model)" value="Login"/>
-</div>
+    <form>
+    <div class="form-group">
+        <label for="username">Username</label>
+        <input class="form-control" type="text" ng-model="model.username" name="username" id="username"/>
+    </div>
 
-</form>
+    <div class="form-group">
+        <label for="password">Password</label>
+        <input class="form-control" type="password" ng-model="model.password" name="password" id="password"/>
+    </div>
+
+    <div class="form-group">
+        <input type="button" class="btn btn-primary" ng-click="login(model)" value="Login"/>
+    </div>
+
+    </form>
+
+</div>
