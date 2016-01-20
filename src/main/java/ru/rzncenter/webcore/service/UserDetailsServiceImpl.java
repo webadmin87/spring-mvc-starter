@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Created by anton on 08.02.15.
+ * Аутентификация по логину и паролю
  */
 @Component("userDetailsService")
 public class UserDetailsServiceImpl implements UserDetailsService {

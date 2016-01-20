@@ -9,36 +9,16 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
+/**
+ * Входная точка аутентификации
+ */
 public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
-
-    String loginUrl = "/login";
-
 	public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException arg2) throws IOException, ServletException
-
 	{
 
-        String xReq = request.getHeader("X-Requested-With");
-
-        if(xReq !=null && xReq.equals("XMLHttpRequest")) {
-
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
-
-        } else {
-
-            response.sendRedirect( request.getContextPath() + getLoginUrl());
-
-        }
-
-
+        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
 
 	}
 
-    public String getLoginUrl() {
-        return loginUrl;
-    }
-
-    public void setLoginUrl(String loginUrl) {
-        this.loginUrl = loginUrl;
-    }
 }

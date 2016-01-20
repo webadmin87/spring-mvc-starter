@@ -45,8 +45,10 @@
     <context:component-scan base-package="ru.rzncenter.webcore.rbac" />
     <context:component-scan base-package="ru.rzncenter.webcore.service" />
     <context:component-scan base-package="ru.rzncenter.webcore.controllers" />
+    <context:component-scan base-package="ru.rzncenter.webcore.controllers" />
+    <context:component-scan base-package="ru.rzncenter.webcore.handlers" />
 
-    <jpa:repositories base-package="ru.rzncenter.webcore.dao" entity-manager-factory-ref="myEmf" />
+    <jpa:repositories base-package="ru.rzncenter.webcore.dao" transaction-manager-ref="transactionManager" entity-manager-factory-ref="myEmf" />
 
     <!-- Кеширование -->
 
@@ -93,9 +95,6 @@
         <property name="defaultEncoding" value="utf-8"/>
     </bean>
 
-    <!-- Обработчик старта контекста -->
-
-    <!--<bean id="startContextHandler" class="ru.rzncenter.webcore.handlers.StartEventHandler" />-->
 
     <!-- Настройки безопасности -->
 

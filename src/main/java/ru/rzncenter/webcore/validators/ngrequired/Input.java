@@ -1,7 +1,7 @@
 package ru.rzncenter.webcore.validators.ngrequired;
 
 /**
- * Входный данные для валидации
+ * Входный данные для валидации angular
  */
 public class Input {
 

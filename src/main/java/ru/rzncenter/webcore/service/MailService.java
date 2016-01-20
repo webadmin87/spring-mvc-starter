@@ -3,7 +3,7 @@ package ru.rzncenter.webcore.service;
 import java.util.Map;
 
 /**
- * Created by anton on 22.06.15.
+ * Интерфейс компонента для отправки почты
  */
 public interface MailService {
 

@@ -2,6 +2,7 @@ package ru.rzncenter.webcore.domains;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.hibernate.annotations.*;
 import org.hibernate.annotations.Cache;
 import ru.rzncenter.webcore.constraints.FieldMatch;
@@ -117,6 +118,9 @@ public class User extends Domain implements Previews, UserDomain {
     @NotNull
     Role role = Role.ROLE_ADMIN;
 
+    @Column(unique = true)
+    String token;
+
     public String getName() {
         return name;
     }
@@ -213,6 +217,14 @@ public class User extends Domain implements Previews, UserDomain {
 
         setFilesToRemove(new ArrayList<String>());
 
+        if(getInputPassword() != null && getInputPassword().length()>0) {
+
+            setPassword(DigestUtils.md5Hex(getInputPassword()));
+
+        }
+
+        setToken(DigestUtils.md5Hex(getUsername()+getPassword()));
+
     }
 
     @Override
@@ -258,4 +270,11 @@ public class User extends Domain implements Previews, UserDomain {
 
     }
 
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 }

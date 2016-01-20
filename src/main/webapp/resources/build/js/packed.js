@@ -15,15 +15,24 @@
 
             $httpProvider.defaults.cache = true;
 
-            // Перехват ошибок http
+            // Перехват http. Обработка ошибо и аутентификация
 
-            $provide.factory('AppHttpInterceptor', ["$q", "$location", function ($q, $location) {
+            $provide.factory('AppHttpInterceptor', ["$q", "$location", "authStorage", function ($q, $location, authStorage) {
                 return {
+
+                    request: function(config) {
+                        var user = authStorage.getUser();
+                        if (user) {
+                            config.headers['X-AUTH-TOKEN'] = user.token;
+                        }
+                        return config;
+                    },
 
                     // Ошибка ответа
                     responseError: function (rejection) {
                         if (rejection.status == 401) {
-                            $location.path("/login");;
+                            authStorage.reset();
+                            $location.path("/login");
                         } else if (rejection.status == 404) {
                             $location.path("/not-found");
                         }
@@ -71,11 +80,121 @@
                 controller: 'NotFoundCtrl'
             });
 
+            // Пользователи
+
+            $stateProvider.state('users', {
+                url: '/users',
+                templateUrl: 'resources/views/users.html',
+                controller: 'UserListCtrl'
+            });
+
 
 
         }]);
 
 })(angular);
+/**
+ * Сервис для хранения информации об аутентификации пользователя
+ */
+(function (angular, $, _) {
+
+    angular.module('springMvcStarter')
+        .service("authStorage", [AuthStorage]);
+
+    function AuthStorage(){
+
+        var STORAGE_KEY = "AUTH_STORAGE";
+
+        this.setUser = function(u) {
+            localStorage.setItem(STORAGE_KEY, angular.toJson(u));
+        }
+
+        this.getUser = function() {
+            return angular.fromJson(localStorage.getItem(STORAGE_KEY));
+        }
+
+        this.reset = function() {
+            localStorage.removeItem(STORAGE_KEY);
+        }
+
+    }
+
+})(angular, jQuery, _);
+
+/**
+ * Сервис пользователей
+ */
+(function (angular, $, _) {
+
+    angular.module('springMvcStarter')
+        .service("userService", [
+            "$http",
+            "$q",
+            "authStorage",
+            UserService
+        ]);
+
+    function UserService($http, $q, authStorage){
+
+        this.login = function(model) {
+
+            var deferred = $q.defer();
+
+            $http.post('/login', model, {transformRequest: transformRequest, headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }})
+                .success(loginSuccess)
+                .error(loginError);
+
+
+            function loginSuccess(data, status, headers) {
+
+                if(status == 200) {
+                    authStorage.setUser(data);
+                    deferred.resolve();
+                } else {
+                    deferred.reject();
+                }
+
+            }
+
+            function loginError() {
+                deferred.reject();
+            }
+
+            function transformRequest(data, headersGetter) {
+
+                return $.param(data);
+
+            }
+
+            return deferred.promise;
+
+        }
+
+        this.logout = function() {
+            authStorage.reset();
+        }
+
+        this.getUser = function() {
+            return authStorage.getUser();
+        }
+
+        this.isAuth = function() {
+            return authStorage.getUser() != null;
+        }
+
+        this.getAll = function() {
+
+            return $http.get('/admin/users/');
+
+        }
+
+
+    }
+    
+})(angular, jQuery, _);
+
 /**
  * Контроллер страницы логина
  */
@@ -84,10 +203,36 @@
     angular.module('springMvcStarter')
         .controller("LoginCtrl", [
             "$scope",
+            "userService",
+            "$state",
             LoginCtrl
         ]);
 
-    function LoginCtrl($scope){    }
+    function LoginCtrl($scope, userService, $state) {
+
+        userService.logout();
+
+        $scope.error;
+
+        $scope.model = {};
+
+        $scope.login = function(model) {
+
+            var promise = userService.login(model);
+
+            promise.then(function() {
+
+                $state.go("main");
+
+            }, function(){
+
+                $scope.error = true;
+
+            });
+
+        }
+
+    }
     
 })(angular, _);
 
@@ -118,5 +263,29 @@
         ]);
 
     function NotFoundCtrl($scope){    }
+    
+})(angular, _);
+
+/**
+ * Контроллер списка пользователей
+ */
+(function (angular, _) {
+
+    angular.module('springMvcStarter')
+        .controller("UserListCtrl", [
+            "$scope",
+            "userService",
+            UserListCtrl
+        ]);
+
+    function UserListCtrl($scope, userService){
+
+        userService.getAll().success(function(data){
+
+            $scope.models = data;
+
+        });
+
+    }
     
 })(angular, _);

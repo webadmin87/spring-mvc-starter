@@ -1,7 +1,7 @@
 package ru.rzncenter.webcore.validators.ngrequired;
 
 /**
- * Результат валидации
+ * Результат валидации angular
  */
 public class Result {
 

@@ -4,10 +4,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import ru.rzncenter.webcore.domains.User;
 
 /**
- * Created by anton on 19.01.16.
+ * Репозиторий для пользователей
  */
 public interface UserDao extends JpaRepository<User, Long> {
 
     User findByUsername(String username);
+
+    User findByToken(String token);
 
 }

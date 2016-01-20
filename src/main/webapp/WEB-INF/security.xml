@@ -15,6 +15,22 @@
 
     <beans:bean id="authenticationSuccessHandler" class="ru.rzncenter.webcore.security.CustomAuthenticationSuccessHandler" />
 
+    <!-- Обработчик ошибки аутентификации -->
+
+    <beans:bean id="authenticationFailureHandler" class="ru.rzncenter.webcore.security.CustomAuthenticationFailureHandler" />
+
+    <!-- Правило для фильтра осуществляющего аутентификацию по токену -->
+
+    <beans:bean id="tokenRequestMatcher" class="ru.rzncenter.webcore.security.TokenRequestMatcher"></beans:bean>
+
+    <!-- Фильтр для аутентификации по токену -->
+
+    <beans:bean id="customTokenAuthenticationFilter" class="ru.rzncenter.webcore.security.CustomTokenAuthenticationFilter">
+        <beans:constructor-arg type="java.lang.String" value="/**"></beans:constructor-arg>
+        <beans:property name="authenticationManager" ref="authenticationManager"></beans:property>
+        <beans:property name="requiresAuthenticationRequestMatcher" ref="tokenRequestMatcher"></beans:property>
+    </beans:bean>
+
     <!-- Enable Security in child threads -->
 
     <beans:bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
@@ -23,24 +39,25 @@
         <beans:property name="arguments"><beans:list><beans:value>MODE_INHERITABLETHREADLOCAL</beans:value></beans:list></beans:property>
     </beans:bean>
 
-    <!--<http pattern="/resources/**" security="none"/>
-    <http pattern="/login.jsp" security="none"/>-->
+    <http pattern="/resources/**" security="none"/>
 
-    <http entry-point-ref="restAuthenticationEntryPoint" use-expressions="true" >
+    <http entry-point-ref="restAuthenticationEntryPoint" use-expressions="true" create-session="stateless" authentication-manager-ref="authenticationManager">
+        <custom-filter position="PRE_AUTH_FILTER" ref="customTokenAuthenticationFilter"></custom-filter>
         <intercept-url pattern="/admin/**" access="isAuthenticated()"/>
-        <form-login login-page="/login" default-target-url="/" authentication-failure-url="/login?error=true" authentication-success-handler-ref="authenticationSuccessHandler" />
+        <form-login authentication-success-handler-ref="authenticationSuccessHandler" authentication-failure-handler-ref="authenticationFailureHandler" />
         <logout logout-url="/logout" logout-success-url="/"/>
         <anonymous username="guest" granted-authority="ROLE_ANONYMOUS"/>
         <remember-me user-service-ref="userDetailsService" />
+        <csrf disabled="true"/>
     </http>
 
-    <authentication-manager>
+    <authentication-manager id="authenticationManager">
+        <!-- Аутентификация по паролю -->
         <authentication-provider user-service-ref="userDetailsService">
             <password-encoder hash="md5" />
-            <!--<user-service>
-                <user name="admin" password="pass" authorities="ROLE_ADMIN,ROLE_USER"/>
-            </user-service>-->
         </authentication-provider>
+        <!-- Аутентификация по токену -->
+        <authentication-provider user-service-ref="userDetailsTokenService" />
     </authentication-manager>
 
     <!-- Регистрируем свой обработчик hasPermission -->

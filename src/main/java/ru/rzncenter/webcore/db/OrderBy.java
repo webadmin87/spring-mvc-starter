@@ -1,7 +1,7 @@
 package ru.rzncenter.webcore.db;
 
 /**
- * Created by anton on 25.11.14.
+ * Возможные значения сортировки
  */
 public enum OrderBy {
 

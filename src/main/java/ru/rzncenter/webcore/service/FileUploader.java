@@ -3,7 +3,7 @@ package ru.rzncenter.webcore.service;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
- * Created by anton on 24.08.15.
+ * Интерфейс загрузчика файлов
  */
 public interface FileUploader {
 

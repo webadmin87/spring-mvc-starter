@@ -5,7 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 /**
- * Created by anton on 19.01.16.
+ * Сервис для CRUD операций
+ * @param <T>
  */
 public abstract class CrudServiceImpl<T> implements CrudService<T> {
 

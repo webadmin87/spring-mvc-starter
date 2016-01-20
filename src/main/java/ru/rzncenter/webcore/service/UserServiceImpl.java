@@ -5,6 +5,9 @@ import org.springframework.stereotype.Service;
 import ru.rzncenter.webcore.dao.UserDao;
 import ru.rzncenter.webcore.domains.User;
 
+/**
+ * Сервис слой пользователей
+ */
 @Service
 public class UserServiceImpl extends CrudServiceImpl<User> implements UserService {
 

@@ -11,7 +11,7 @@ import ru.rzncenter.webcore.service.UserService;
 import java.util.List;
 
 /**
- * Created by anton on 19.01.16.
+ * Рест контроллер пользователей
  */
 @RestController
 @RequestMapping("/admin/users/")

@@ -13,7 +13,7 @@ var cssBuildDir = './resources/build/css';
 
 gulp.task('jsConcat', function() {
 
-    var src = [srcDir+'/js/app.js', srcDir+'/js/*.js'];
+    var src = [srcDir+'/js/app.js', srcDir+'/js/*Service.js', srcDir+'/js/*.js'];
 
     gulp.src(src)
         .pipe(concat('packed.js'))

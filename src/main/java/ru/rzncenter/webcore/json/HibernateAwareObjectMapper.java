@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
 
 /**
- * Created by anton on 11.01.16.
+ * Меппер для сериализации сущностей hibernate. Работает с proxy классами.
  */
 public class HibernateAwareObjectMapper extends ObjectMapper {
 

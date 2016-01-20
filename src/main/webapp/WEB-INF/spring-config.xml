@@ -7,13 +7,14 @@
 
        <!-- Миграции -->
 
-       <bean id="flyway" class="org.flywaydb.core.Flyway" init-method="migrate">
+       <!--<bean id="flyway" class="org.flywaydb.core.Flyway" init-method="migrate">
               <property name="dataSource" ref="dbDataSource"/>
-       </bean>
+       </bean>-->
 
        <!-- JPA -->
 
-       <bean id="myEmf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean" depends-on="flyway">
+       <!--<bean id="myEmf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean" depends-on="flyway">-->
+       <bean id="myEmf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
               <property name="sharedCacheMode" value="ALL" />
               <property name="dataSource" ref="dbDataSource" />
               <property name="packagesToScan" value="ru.rzncenter.webcore.domains" />

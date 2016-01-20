@@ -15,15 +15,24 @@
 
             $httpProvider.defaults.cache = true;
 
-            // Перехват ошибок http
+            // Перехват http. Обработка ошибок и аутентификация
 
-            $provide.factory('AppHttpInterceptor', ["$q", "$location", function ($q, $location) {
+            $provide.factory('AppHttpInterceptor', ["$q", "$location", "authStorage", function ($q, $location, authStorage) {
                 return {
+
+                    request: function(config) {
+                        var user = authStorage.getUser();
+                        if (user) {
+                            config.headers['X-AUTH-TOKEN'] = user.token;
+                        }
+                        return config;
+                    },
 
                     // Ошибка ответа
                     responseError: function (rejection) {
                         if (rejection.status == 401) {
-                            $location.path("/login");;
+                            authStorage.reset();
+                            $location.path("/login");
                         } else if (rejection.status == 404) {
                             $location.path("/not-found");
                         }
@@ -69,6 +78,14 @@
                 url: '/not-found',
                 templateUrl: 'resources/views/not-found.html',
                 controller: 'NotFoundCtrl'
+            });
+
+            // Пользователи
+
+            $stateProvider.state('users', {
+                url: '/users',
+                templateUrl: 'resources/views/users.html',
+                controller: 'UserListCtrl'
             });
 
 

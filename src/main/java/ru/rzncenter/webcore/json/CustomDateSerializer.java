@@ -10,7 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * Cериалайзер даты
+ * Cериалайзер даты в формат yyyy-MM-dd
  */
 public class CustomDateSerializer extends JsonSerializer<Date> {
     @Override
