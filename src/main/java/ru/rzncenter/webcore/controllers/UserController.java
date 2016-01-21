@@ -1,11 +1,10 @@
 package ru.rzncenter.webcore.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 import ru.rzncenter.webcore.domains.User;
 import ru.rzncenter.webcore.service.UserService;
-
-import java.util.List;
 
 /**
  * Рест контроллер пользователей
@@ -18,9 +17,9 @@ public class UserController {
     UserService userService;
 
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public List<User> list() {
+    public Page<User> list(@RequestParam(defaultValue = "1", required = false) Integer page, @RequestParam(defaultValue = "1", required = false) Integer pageSize) {
 
-        return userService.findAll();
+        return userService.findAll(page, pageSize);
 
     }
 

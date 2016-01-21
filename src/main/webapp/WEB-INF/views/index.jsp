@@ -12,9 +12,11 @@
     <script type="text/javascript" src="resources/vendors/angular-file-upload/dist/angular-file-upload.min.js"></script>
     <script type="text/javascript" src="resources/vendors/angular-i18n/angular-locale_ru.js"></script>
     <script type="text/javascript" src="resources/vendors/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script type="text/javascript" src="resources/vendors/angular-ui-grid/ui-grid.min.js"></script>
 
     <script type="text/javascript" src="resources/build/js/packed.js"></script>
 
+    <link rel="stylesheet" href="resources/vendors/angular-ui-grid/ui-grid.min.css"/>
     <link rel="stylesheet" href="resources/vendors/bootstrap/dist/css/bootstrap.min.css"/>
 
     <link rel="stylesheet" href="resources/build/css/styles.css"/>

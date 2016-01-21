@@ -1,5 +1,6 @@
 package ru.rzncenter.webcore.service;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
@@ -11,6 +12,8 @@ import java.util.List;
 public interface CrudService<T> {
 
     public List<T> findAll();
+
+    public Page<T> findAll(Integer page, Integer pageSize);
 
     public T findOne(Long id);
 

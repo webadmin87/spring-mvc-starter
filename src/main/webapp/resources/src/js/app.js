@@ -3,7 +3,9 @@
     angular.module('springMvcStarter', [
         'ngResource',
         'ui.router',
-        'ui.bootstrap'
+        'ui.bootstrap',
+        'ui.grid',
+        'ui.grid.pagination'
     ])
         .constant('urlMapping', {
 
