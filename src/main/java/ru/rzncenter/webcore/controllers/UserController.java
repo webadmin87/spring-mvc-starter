@@ -2,6 +2,7 @@ package ru.rzncenter.webcore.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 import ru.rzncenter.webcore.domains.User;
 import ru.rzncenter.webcore.service.UserService;
@@ -17,9 +18,14 @@ public class UserController {
     UserService userService;
 
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public Page<User> list(@RequestParam(defaultValue = "1", required = false) Integer page, @RequestParam(defaultValue = "1", required = false) Integer pageSize) {
+    public Page<User> list(
+            @RequestParam(defaultValue = "1", required = false) Integer page,
+            @RequestParam(defaultValue = "1", required = false) Integer pageSize,
+            @RequestParam(defaultValue = "id", required = false) String sortField,
+            @RequestParam(defaultValue = "DESC", required = false) Sort.Direction sortDirection
+    ) {
 
-        return userService.findAll(page, pageSize);
+        return userService.findAll(page, pageSize, new Sort(sortDirection, sortField));
 
     }
 
