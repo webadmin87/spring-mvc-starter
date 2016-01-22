@@ -7,91 +7,23 @@
         .controller("UserListCtrl", [
             "$scope",
             "userService",
+            "gridService",
             UserListCtrl
         ]);
 
-    function UserListCtrl($scope, userService){
+    function UserListCtrl($scope, userService, gridService){
 
         var Resource = userService.getResource();
 
-        var defaultPageSize = 20;
+        var Wrapper = gridService.getWrapper($scope);
 
-        var paginationOptions = {
-            page: 1,
-            pageSize: defaultPageSize,
-            sortDirection: null,
-            sortField: null
-        };
+        $scope.gridWrapper = new Wrapper (Resource, { columnDefs: [
+            {name: 'id'},
+            {name: 'username'},
+            {name: 'email'}
+        ]});
 
-        $scope.gridOptions = {
-            paginationPageSizes: [defaultPageSize, 40, 80],
-            useExternalPagination: true,
-            paginationPageSize: defaultPageSize,
-            useExternalSorting: true,
-            columnDefs: [
-                { name: 'id' },
-                { name: 'username' },
-                { name: 'email' }
-            ]
-        };
-
-        $scope.gridOptions.onRegisterApi = function (gridApi) {
-
-            $scope.gridApi = gridApi;
-
-            $scope.gridApi.core.on.sortChanged($scope, function(grid, sortColumns) {
-                if (sortColumns.length == 0) {
-                    paginationOptions.sortField = null;
-                    paginationOptions.sortDirection = null;
-                } else {
-                    paginationOptions.sortField = sortColumns[0].field;
-                    paginationOptions.sortDirection = sortColumns[0].sort.direction.toUpperCase();
-                }
-                loadData();
-            });
-
-            $scope.gridApi.pagination.on.paginationChanged($scope, function (newPage, pageSize) {
-
-                paginationOptions.page = newPage;
-                paginationOptions.pageSize = pageSize;
-
-                loadData();
-
-            });
-
-        }
-
-        loadData();
-
-        function getRequestParams() {
-
-            var params = {};
-
-            for(var k in paginationOptions) {
-
-                if(paginationOptions[k]) {
-
-                    params[k] = paginationOptions[k];
-
-                }
-
-            }
-
-            return params;
-
-        }
-
-        function loadData() {
-
-            $scope.page = Resource.page(getRequestParams(), function(page) {
-
-                $scope.gridOptions.data = page.content;
-                $scope.gridOptions.totalItems = page.totalElements;
-
-
-            });
-
-        }
+        $scope.gridWrapper.loadData();
 
     }
     

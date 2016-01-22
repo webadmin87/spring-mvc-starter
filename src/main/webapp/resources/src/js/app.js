@@ -16,6 +16,46 @@
             $resourceProvider.defaults.stripTrailingSlashes = false;
         }])
 
+        // Проверка прав доступа
+
+        .run(['$rootScope', 'userService', '$state', function($rootScope, userService, $state){
+
+            $rootScope.$on('$stateChangeStart', function(event, toState, toStateParams) {
+
+                if($rootScope.stateChangeBypass) {
+
+                    $rootScope.stateChangeBypass = false;
+
+                    return;
+
+                }
+
+                // Есть ограничение по ролям
+
+                if(toState.data && toState.data.roles) {
+
+                    event.preventDefault();
+
+                    if(userService.isAuth() && userService.hasRole(toState.data.roles)) {
+
+                        $rootScope.stateChangeBypass = true;
+
+                        $state.go(toState, toStateParams);
+
+                    } else {
+
+                        $rootScope.stateChangeBypass = false;
+
+                        alert('Forbidden 403');
+
+                    }
+
+                }
+
+            });
+
+        }])
+
         .config(['$provide', '$httpProvider', function ($provide, $httpProvider) {
 
             $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
@@ -93,7 +133,10 @@
             $stateProvider.state('users', {
                 url: '/users',
                 templateUrl: 'resources/views/users.html',
-                controller: 'UserListCtrl'
+                controller: 'UserListCtrl',
+                data: {
+                    roles: ['ROLE_ADMIN']
+                }
             });
 
 

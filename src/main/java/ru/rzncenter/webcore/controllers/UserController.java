@@ -3,9 +3,15 @@ package ru.rzncenter.webcore.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.rzncenter.webcore.domains.User;
+import ru.rzncenter.webcore.service.PageUtils;
 import ru.rzncenter.webcore.service.UserService;
+
+import java.util.List;
 
 /**
  * Рест контроллер пользователей
@@ -17,15 +23,24 @@ public class UserController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    PageUtils pageUtils;
+
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public Page<User> list(
+    public ResponseEntity<List<User>> list(
             @RequestParam(defaultValue = "1", required = false) Integer page,
             @RequestParam(defaultValue = "1", required = false) Integer pageSize,
             @RequestParam(defaultValue = "id", required = false) String sortField,
             @RequestParam(defaultValue = "DESC", required = false) Sort.Direction sortDirection
     ) {
 
-        return userService.findAll(page, pageSize, new Sort(sortDirection, sortField));
+        Page<User> userPage = userService.findAll(page, pageSize, new Sort(sortDirection, sortField));
+
+        HttpHeaders headers = new HttpHeaders();
+
+        pageUtils.pageToHeareds(headers, userPage);
+
+        return new ResponseEntity<>(userPage.getContent(), headers, HttpStatus.OK);
 
     }
 

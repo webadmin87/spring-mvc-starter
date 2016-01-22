@@ -71,13 +71,22 @@
 
             if(resource == null) {
 
-                resource = $resource('/admin/user/:id', {id:'@id'}, {
-                    page: {method: 'GET', isArray: false}
-                });
+                resource = $resource('/admin/user/:id', {id:'@id'});
 
             }
 
             return resource;
+
+        }
+
+        this.hasRole = function(roles) {
+
+            var user = this.getUser();
+
+            if(!user)
+                return false;
+
+            return roles.indexOf(user.role) > -1
 
         }
 

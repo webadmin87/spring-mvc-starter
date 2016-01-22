@@ -16,6 +16,46 @@
             $resourceProvider.defaults.stripTrailingSlashes = false;
         }])
 
+        // Проверка прав доступа
+
+        .run(['$rootScope', 'userService', '$state', function($rootScope, userService, $state){
+
+            $rootScope.$on('$stateChangeStart', function(event, toState, toStateParams) {
+
+                if($rootScope.stateChangeBypass) {
+
+                    $rootScope.stateChangeBypass = false;
+
+                    return;
+
+                }
+
+                // Есть ограничение по ролям
+
+                if(toState.data && toState.data.roles) {
+
+                    event.preventDefault();
+
+                    if(userService.isAuth() && userService.hasRole(toState.data.roles)) {
+
+                        $rootScope.stateChangeBypass = true;
+
+                        $state.go(toState, toStateParams);
+
+                    } else {
+
+                        $rootScope.stateChangeBypass = false;
+
+                        alert('Forbidden 403');
+
+                    }
+
+                }
+
+            });
+
+        }])
+
         .config(['$provide', '$httpProvider', function ($provide, $httpProvider) {
 
             $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
@@ -93,7 +133,10 @@
             $stateProvider.state('users', {
                 url: '/users',
                 templateUrl: 'resources/views/users.html',
-                controller: 'UserListCtrl'
+                controller: 'UserListCtrl',
+                data: {
+                    roles: ['ROLE_ADMIN']
+                }
             });
 
 
@@ -128,6 +171,111 @@
     }
 
 })(angular);
+
+/**
+ * Сервис фабрика для обертки грида
+ */
+(function (angular, $, _) {
+
+    angular.module('springMvcStarter')
+        .service("gridService", [
+            GridService
+        ]);
+
+    function GridService() {
+
+        this.getWrapper = function ($scope) {
+
+            var GridWrapper = function(Resource, options, requestParams) {
+
+                var self = this;
+
+                this.defaultPageSize = 20;
+
+                this.Resource = Resource;
+
+                this.paginationOptions = {
+                    page: 1,
+                    pageSize: this.defaultPageSize,
+                    sortDirection: null,
+                    sortField: null
+                };
+
+                this.gridOptions = angular.extend({
+                    paginationPageSizes: [this.defaultPageSize, 40, 80],
+                    useExternalPagination: true,
+                    paginationPageSize: this.defaultPageSize,
+                    useExternalSorting: true
+                }, options);
+
+                this.requestParams = requestParams || {};
+
+                this.gridOptions.onRegisterApi = function (gridApi) {
+
+                    self.gridApi = gridApi;
+
+                    gridApi.core.on.sortChanged($scope, function (grid, sortColumns) {
+                        if (sortColumns.length == 0) {
+                            self.paginationOptions.sortField = null;
+                            self.paginationOptions.sortDirection = null;
+                        } else {
+                            self.paginationOptions.sortField = sortColumns[0].field;
+                            self.paginationOptions.sortDirection = sortColumns[0].sort.direction.toUpperCase();
+                        }
+                        self.loadData();
+                    });
+
+                    gridApi.pagination.on.paginationChanged($scope, function (newPage, pageSize) {
+
+                        self.paginationOptions.page = newPage;
+                        self.paginationOptions.pageSize = pageSize;
+
+                        self.loadData();
+
+                    });
+
+                }
+
+            }
+
+            GridWrapper.prototype.loadData = function() {
+
+                var self = this;
+
+                return this.Resource.query(this.getRequestParams(), function(models, headers) {
+
+                    self.gridOptions.data = models;
+                    self.gridOptions.totalItems = headers('X-pagination-total-elements');
+
+                });
+
+            }
+
+            GridWrapper.prototype.getRequestParams = function() {
+
+                var params = {};
+
+                for(var k in this.paginationOptions) {
+
+                    if(this.paginationOptions[k]) {
+
+                        params[k] = this.paginationOptions[k];
+
+                    }
+
+                }
+
+                return angular.extend(params, this.requestParams);
+
+            }
+
+            return GridWrapper;
+
+        }
+
+    }
+
+})(angular, jQuery, _);
 
 /**
  * Сервис пользователей
@@ -202,13 +350,22 @@
 
             if(resource == null) {
 
-                resource = $resource('/admin/user/:id', {id:'@id'}, {
-                    page: {method: 'GET', isArray: false}
-                });
+                resource = $resource('/admin/user/:id', {id:'@id'});
 
             }
 
             return resource;
+
+        }
+
+        this.hasRole = function(roles) {
+
+            var user = this.getUser();
+
+            if(!user)
+                return false;
+
+            return roles.indexOf(user.role) > -1
 
         }
 
@@ -329,91 +486,23 @@
         .controller("UserListCtrl", [
             "$scope",
             "userService",
+            "gridService",
             UserListCtrl
         ]);
 
-    function UserListCtrl($scope, userService){
+    function UserListCtrl($scope, userService, gridService){
 
         var Resource = userService.getResource();
 
-        var defaultPageSize = 20;
+        var Wrapper = gridService.getWrapper($scope);
 
-        var paginationOptions = {
-            page: 1,
-            pageSize: defaultPageSize,
-            sortDirection: null,
-            sortField: null
-        };
+        $scope.gridWrapper = new Wrapper (Resource, { columnDefs: [
+            {name: 'id'},
+            {name: 'username'},
+            {name: 'email'}
+        ]});
 
-        $scope.gridOptions = {
-            paginationPageSizes: [defaultPageSize, 40, 80],
-            useExternalPagination: true,
-            paginationPageSize: defaultPageSize,
-            useExternalSorting: true,
-            columnDefs: [
-                { name: 'id' },
-                { name: 'username' },
-                { name: 'email' }
-            ]
-        };
-
-        $scope.gridOptions.onRegisterApi = function (gridApi) {
-
-            $scope.gridApi = gridApi;
-
-            $scope.gridApi.core.on.sortChanged($scope, function(grid, sortColumns) {
-                if (sortColumns.length == 0) {
-                    paginationOptions.sortField = null;
-                    paginationOptions.sortDirection = null;
-                } else {
-                    paginationOptions.sortField = sortColumns[0].field;
-                    paginationOptions.sortDirection = sortColumns[0].sort.direction.toUpperCase();
-                }
-                loadData();
-            });
-
-            $scope.gridApi.pagination.on.paginationChanged($scope, function (newPage, pageSize) {
-
-                paginationOptions.page = newPage;
-                paginationOptions.pageSize = pageSize;
-
-                loadData();
-
-            });
-
-        }
-
-        loadData();
-
-        function getRequestParams() {
-
-            var params = {};
-
-            for(var k in paginationOptions) {
-
-                if(paginationOptions[k]) {
-
-                    params[k] = paginationOptions[k];
-
-                }
-
-            }
-
-            return params;
-
-        }
-
-        function loadData() {
-
-            $scope.page = Resource.page(getRequestParams(), function(page) {
-
-                $scope.gridOptions.data = page.content;
-                $scope.gridOptions.totalItems = page.totalElements;
-
-
-            });
-
-        }
+        $scope.gridWrapper.loadData();
 
     }
     
