@@ -1,4 +1,4 @@
-package ru.rzncenter.webcore.web;
+package ru.rzncenter.webcore.utils;
 
 /**
  * Интерфейс компонента переводов

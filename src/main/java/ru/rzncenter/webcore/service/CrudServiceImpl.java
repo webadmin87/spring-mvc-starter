@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -34,11 +35,13 @@ public abstract class CrudServiceImpl<T> implements CrudService<T> {
     }
 
     @Override
+    @Transactional
     public T save(T domain) {
         return getRepository().save(domain);
     }
 
     @Override
+    @Transactional
     public void delete(T domain) {
         getRepository().delete(domain);
     }

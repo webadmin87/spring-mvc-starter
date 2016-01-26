@@ -59,7 +59,14 @@ public class UserController {
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)
-    public User save(@RequestBody User user) {
+    public User insert(@RequestBody User user) {
+
+        return userService.save(user);
+
+    }
+
+    @RequestMapping(value = "{id}/", method = RequestMethod.POST)
+    public User update(@PathVariable Long id, @RequestBody User user) {
 
         return userService.save(user);
 

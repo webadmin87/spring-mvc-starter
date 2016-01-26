@@ -1,4 +1,4 @@
-package ru.rzncenter.webcore.utils;
+package ru.rzncenter.webcore.json;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;

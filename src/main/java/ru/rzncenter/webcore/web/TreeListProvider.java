@@ -4,11 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.rzncenter.webcore.db.TreeDomain;
 import ru.rzncenter.webcore.domains.KeyValue;
+import ru.rzncenter.webcore.utils.Translate;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Провайдер данных для выпадающих списков древовидных сущностей

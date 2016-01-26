@@ -2,7 +2,6 @@ package ru.rzncenter.webcore.domains;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.apache.commons.codec.digest.DigestUtils;
 import org.hibernate.annotations.*;
 import org.hibernate.annotations.Cache;
 import ru.rzncenter.webcore.constraints.FieldMatch;
@@ -13,6 +12,7 @@ import javax.validation.constraints.*;
 import org.hibernate.validator.constraints.*;
 import ru.rzncenter.webcore.constraints.Unique;
 import ru.rzncenter.webcore.rbac.UserDomain;
+
 import java.util.*;
 
 /**
@@ -142,10 +142,12 @@ public class User extends Domain implements Previews, UserDomain {
     }
 
     public void setInputPassword(String inputPassword) {
+
         this.inputPassword = inputPassword;
+
+
     }
 
-    @JsonIgnore
     public String getPassword() {
         return password;
     }
@@ -211,21 +213,6 @@ public class User extends Domain implements Previews, UserDomain {
         this.filesToRemove = filesToRemove;
     }
 
-    @PrePersist
-    @PreUpdate
-    public void beforeSave() {
-
-        setFilesToRemove(new ArrayList<String>());
-
-        if(getInputPassword() != null && getInputPassword().length()>0) {
-
-            setPassword(DigestUtils.md5Hex(getInputPassword()));
-
-        }
-
-        setToken(DigestUtils.md5Hex(getUsername()+getPassword()));
-
-    }
 
     @Override
     public SortedMap<Integer, String> getPreviews() {

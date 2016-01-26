@@ -77,6 +77,22 @@
 
             }
 
+            GridWrapper.prototype.remove = function(model) {
+
+                var self = this;
+
+                if(confirm("Confirm remove?")) {
+
+                    model.$remove(function () {
+
+                        self.loadData();
+
+                    });
+
+                }
+
+            }
+
             GridWrapper.prototype.getRequestParams = function() {
 
                 var params = {};

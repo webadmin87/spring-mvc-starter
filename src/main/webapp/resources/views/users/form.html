@@ -1,0 +1,90 @@
+<form name="modelForm" novalidate>
+
+    <div class="alert alert-danger" ng-show="result===false">Error</div>
+
+    <label for="user-username">{{'username' | translate}}</label>
+    <input class="form-control" type="text" ng-model="model.username" name="username" id="user-username"
+           ng-minlength=3
+           ng-maxlength=50
+           ng-pattern="/^[A-zА-я0-9_-]+$/"
+           required/>
+
+
+    <div class="form-group">
+        <label><input type="checkbox" ng-model="model.active"/> {{'active' | translate}}</label>
+    </div>
+
+    <div class="form-group required">
+        <label for="user-name">{{'fio' | translate}}</label>
+        <input class="form-control" type="text" ng-model="model.name" name="name" id="user-name" required/>
+    </div>
+
+    <div class="form-group" ng-class="{required: !update}">
+        <label for="user-input-password">{{'password' | translate}}</label>
+        <input class="form-control" type="password" ng-model="model.inputPassword"
+               name="inputPassword"
+               id="user-input-password"
+               empty-to-null
+               ng-minlength=6
+               ng-required="{{!update}}" autocomplete="off"/>
+    </div>
+
+
+    <div class="form-group" ng-class="{required: !update}">
+        <label for="user-confirm-input-password">{{'confirm_password' | translate}}</label>
+        <input class="form-control" type="password" ng-model="model.confirmInputPassword"
+               name="confirmInputPassword"
+               id="user-confirm-input-password"
+               empty-to-null
+               match="model.inputPassword"
+               ng-required="{{!update}}" autocomplete="off"/>
+    </div>
+
+
+    <div class="form-group">
+        <label>{{'avatar' | translate}}</label>
+
+        <div
+                file-upload
+                files-attr="filePaths"
+                remove-files-attr="filesToRemove"
+                uploader-params="uploaderParams"
+                model="model"
+
+                ></div>
+    </div>
+
+    <div class="form-group">
+        <label for="user-text">{{'text' | translate}}</label>
+
+        <div text-angular ng-model="model.text" id="user-text"></div>
+    </div>
+
+
+    <div class="form-group required">
+        <label for="user-email">{{'email' | translate}}</label>
+        <input class="form-control" type="text" ng-model="model.email" name="email" id="user-email" required />
+    </div>
+
+
+    <div class="form-group required">
+        <label for="user-phone">{{'phone' | translate}}</label>
+        <input
+                placeholder="79039998877"
+                ng-minlength=11
+                ng-maxlength=11
+                ng-pattern="/^7[0-9]+$/"
+                class="form-control"
+                type="text"
+                ng-model="model.phone"
+                name="phone"
+                id="user-phone" required/>
+    </div>
+
+
+    <input type="button" value="{{'save' | translate}}" class="btn btn-primary" ng-disabled="modelForm.$invalid"
+           ng-click="save(modelForm)"/>
+
+    <a class="btn btn-default" ui-sref="users">{{'cancel' | translate}}</a>
+
+</form>

@@ -1,4 +1,4 @@
-package ru.rzncenter.webcore.web;
+package ru.rzncenter.webcore.utils;
 
 import org.springframework.stereotype.Component;
 import ru.rzncenter.webcore.db.TreeDomain;

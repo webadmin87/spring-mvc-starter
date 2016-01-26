@@ -71,7 +71,7 @@
 
             if(resource == null) {
 
-                resource = $resource('/admin/user/:id', {id:'@id'});
+                resource = $resource('/admin/user/:id/', {id:'@id'});
 
             }
 
