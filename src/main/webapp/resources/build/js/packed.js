@@ -8,7 +8,8 @@
         'ui.grid.pagination',
         'textAngular',
         'angularFileUpload',
-        'pascalprecht.translate'
+        'pascalprecht.translate',
+        'ngMessages'
     ])
 
         // Настройки url
@@ -230,7 +231,7 @@
 
                 var self = this;
 
-                this.defaultPageSize = 1;
+                this.defaultPageSize = 20;
 
                 this.Resource = Resource;
 
@@ -295,11 +296,15 @@
 
                 var self = this;
 
-                model.$remove(function() {
+                if(confirm("Confirm remove?")) {
 
-                    self.loadData();
+                    model.$remove(function () {
 
-                });
+                        self.loadData();
+
+                    });
+
+                }
 
             }
 
@@ -402,7 +407,9 @@
 
             if(resource == null) {
 
-                resource = $resource('/admin/user/:id/', {id:'@id'});
+                resource = $resource('/admin/user/:id/', {id:'@id'}, {
+                    roles: {url: '/admin/user/roles/', method:'GET', isArray: true}
+                });
 
             }
 
@@ -515,6 +522,8 @@
 
         var Resource = userService.getResource();
 
+        $scope.roles = Resource.roles();
+
         $scope.model = new Resource({
             active: true,
             filePaths: {},
@@ -589,27 +598,33 @@
             "$scope",
             "userService",
             "gridService",
+            "$translate",
             UserListCtrl
         ]);
 
-    function UserListCtrl($scope, userService, gridService){
+    function UserListCtrl($scope, userService, gridService, $translate){
 
         var Resource = userService.getResource();
 
         var Wrapper = gridService.getWrapper($scope);
 
-        $scope.gridWrapper = new Wrapper (Resource, { columnDefs: [
-            {name: 'id'},
-            {name: 'username'},
-            {name: 'email'},
-            { name: 'Actions',
-                cellTemplate:'<div class="ui-grid-cell-contents">' +
-                '<a ui-sref="users.update({id: row.entity.id})">Edit</a> ' +
-                '<a href="" ng-click="grid.appScope.gridWrapper.remove(row.entity)">Remove</a>' +
-                '</div>' }
-        ]});
+        $translate(['Username', 'Email', 'Actions']).then(function(translations){
 
-        $scope.gridWrapper.loadData();
+            $scope.gridWrapper = new Wrapper (Resource, { columnDefs: [
+                {name: 'id'},
+                {name: 'username', displayName: translations.Username},
+                {name: 'email', displayName: translations.Email},
+                { name: 'Actions', enableSorting: false, displayName: translations.Actions,
+                    cellTemplate:'<div class="ui-grid-cell-contents">' +
+                    '<a ui-sref="users.update({id: row.entity.id})" class="glyphicon glyphicon-pencil"></a> ' +
+                    '<a href="" ng-click="grid.appScope.gridWrapper.remove(row.entity)" class="glyphicon glyphicon-trash"></a>' +
+                    '</div>'
+                }
+            ]});
+
+            $scope.gridWrapper.loadData();
+
+        });
 
     }
     
@@ -634,6 +649,8 @@
 
         var Resource = userService.getResource();
 
+        $scope.roles = Resource.roles();
+
         $scope.model = Resource.get({id: $stateParams.id});
 
         $scope.uploaderParams = uploaderParams;
@@ -645,9 +662,13 @@
                 $scope.gridWrapper.loadData();
             }
 
-            var error = function() {
+            var error = function(res) {
+
+                console.log(arguments);
 
                 $scope.result = false;
+
+                $scope.errors = res.data;
 
             }
 
@@ -1068,12 +1089,63 @@ match.$inject = ["$parse"];
 })(angular);
 (function(angular){
 
+    /**
+     * Преобразует строку в объект даты
+     */
+    angular.module('springMvcStarter')
+        .directive("stringToDate", StringToDate);
+
+    function StringToDate() {
+
+        return {
+            restrict: 'A',
+            require: 'ngModel',
+            priority: 0,
+            link: function ($scope, element, attrs, ngModel) {
+
+                ngModel.$formatters.unshift(function (value) {
+                    return angular.isString(value) ? new Date(value) : value;
+                });
+
+            }
+        };
+
+    }
+
+})(angular);
+(function(angular){
+
     angular.module('springMvcStarter')
         .config(["$translateProvider", function ($translateProvider) {
 
             $translateProvider.translations('ru', {
 
-                'Users': 'Пользователи'
+                'Users': 'Пользователи',
+                'Login error': 'Ошибка входа',
+                'Username': 'Имя пользователя',
+                'Password': 'Пароль',
+                'Login': 'Вход',
+                'Not found': '404 страница не найдена',
+                'Add': 'Создать',
+                'Save': 'Сохранить',
+                'Cancel': 'Отменить',
+                'Error saving': 'Ошибка сохранения',
+                'Active': 'Активность',
+                'Fio': 'ФИО',
+                'Confirm password': 'Подтверждение пароля',
+                'Avatar': 'Аватар',
+                'Phone': 'Телефон',
+                'Text': 'Текс',
+                'Email': 'Электронный адрес',
+                'Role': 'Роль',
+                'Actions': 'Действия',
+                'Field is required': 'Поле обязательно к заполнению',
+                'Invalid field value': 'Неверное значение поля',
+                'Filed to short': 'Значение слишком короткое',
+                'Field to long': 'Значение слишком длинное',
+                'Passwords does not match': 'Пароли не совпадают',
+                'Email incorrect': 'Элекстронный адрес введен неверно'
+
 
             });
 

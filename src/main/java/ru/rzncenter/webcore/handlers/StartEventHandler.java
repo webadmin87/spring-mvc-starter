@@ -8,6 +8,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import ru.rzncenter.webcore.dao.UserDao;
 import ru.rzncenter.webcore.domains.User;
+import ru.rzncenter.webcore.service.UserService;
 
 /**
  * Обработчик старта контекста приложения
@@ -16,7 +17,7 @@ import ru.rzncenter.webcore.domains.User;
 public class StartEventHandler implements ApplicationListener{
 
     @Autowired
-    UserDao userDao;
+    UserService userService;
 
     @Transactional
     public void onApplicationEvent(ApplicationEvent event) {
@@ -32,7 +33,7 @@ public class StartEventHandler implements ApplicationListener{
      */
     private void initAdminUser() {
         
-        User u = userDao.findByUsername("admin");
+        User u = userService.findByUsername("admin");
         
         if(u == null) {
 
@@ -51,7 +52,7 @@ public class StartEventHandler implements ApplicationListener{
 
             u.setRole(User.Role.ROLE_ADMIN);
 
-            userDao.save(u);
+            userService.save(u);
 
         }
         

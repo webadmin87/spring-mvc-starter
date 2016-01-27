@@ -17,3 +17,7 @@
 .login-form {
     max-width: 300px;
 }
+
+.errors {
+    color: #a70000;
+}

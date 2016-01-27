@@ -71,7 +71,9 @@
 
             if(resource == null) {
 
-                resource = $resource('/admin/user/:id/', {id:'@id'});
+                resource = $resource('/admin/user/:id/', {id:'@id'}, {
+                    roles: {url: '/admin/user/roles/', method:'GET', isArray: true}
+                });
 
             }
 

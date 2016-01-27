@@ -8,27 +8,33 @@
             "$scope",
             "userService",
             "gridService",
+            "$translate",
             UserListCtrl
         ]);
 
-    function UserListCtrl($scope, userService, gridService){
+    function UserListCtrl($scope, userService, gridService, $translate){
 
         var Resource = userService.getResource();
 
         var Wrapper = gridService.getWrapper($scope);
 
-        $scope.gridWrapper = new Wrapper (Resource, { columnDefs: [
-            {name: 'id'},
-            {name: 'username'},
-            {name: 'email'},
-            { name: 'Actions',
-                cellTemplate:'<div class="ui-grid-cell-contents">' +
-                '<a ui-sref="users.update({id: row.entity.id})">Edit</a> ' +
-                '<a href="" ng-click="grid.appScope.gridWrapper.remove(row.entity)">Remove</a>' +
-                '</div>' }
-        ]});
+        $translate(['Username', 'Email', 'Actions']).then(function(translations){
 
-        $scope.gridWrapper.loadData();
+            $scope.gridWrapper = new Wrapper (Resource, { columnDefs: [
+                {name: 'id'},
+                {name: 'username', displayName: translations.Username},
+                {name: 'email', displayName: translations.Email},
+                { name: 'Actions', enableSorting: false, displayName: translations.Actions,
+                    cellTemplate:'<div class="ui-grid-cell-contents">' +
+                    '<a ui-sref="users.update({id: row.entity.id})" class="glyphicon glyphicon-pencil"></a> ' +
+                    '<a href="" ng-click="grid.appScope.gridWrapper.remove(row.entity)" class="glyphicon glyphicon-trash"></a>' +
+                    '</div>'
+                }
+            ]});
+
+            $scope.gridWrapper.loadData();
+
+        });
 
     }
     

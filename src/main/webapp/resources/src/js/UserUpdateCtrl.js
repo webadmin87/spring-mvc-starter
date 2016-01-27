@@ -17,6 +17,8 @@
 
         var Resource = userService.getResource();
 
+        $scope.roles = Resource.roles();
+
         $scope.model = Resource.get({id: $stateParams.id});
 
         $scope.uploaderParams = uploaderParams;
@@ -28,9 +30,13 @@
                 $scope.gridWrapper.loadData();
             }
 
-            var error = function() {
+            var error = function(res) {
+
+                console.log(arguments);
 
                 $scope.result = false;
+
+                $scope.errors = res.data;
 
             }
 

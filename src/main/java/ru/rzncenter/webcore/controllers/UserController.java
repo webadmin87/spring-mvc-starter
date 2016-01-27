@@ -6,11 +6,14 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import ru.rzncenter.webcore.domains.User;
 import ru.rzncenter.webcore.service.PageUtils;
 import ru.rzncenter.webcore.service.UserService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -59,16 +62,33 @@ public class UserController {
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)
-    public User insert(@RequestBody User user) {
+    public User insert(@RequestBody @Valid User user) {
 
         return userService.save(user);
 
     }
 
     @RequestMapping(value = "{id}/", method = RequestMethod.POST)
-    public User update(@PathVariable Long id, @RequestBody User user) {
+    public User update(@PathVariable Long id, @RequestBody @Valid User user) {
 
         return userService.save(user);
+
+    }
+
+    /**
+     * Обработка ошибок валидации.
+     * @param exception
+     * @return
+     */
+    @ExceptionHandler
+    public ResponseEntity<List<ObjectError>> handleValidationException(MethodArgumentNotValidException exception) {
+        return new ResponseEntity<>(exception.getBindingResult().getAllErrors(), HttpStatus.BAD_REQUEST);
+    }
+
+    @RequestMapping(value = "roles/", method = RequestMethod.GET)
+    public User.Role[] roles() {
+
+        return User.Role.values();
 
     }
 

@@ -1,48 +1,73 @@
 <form name="modelForm" novalidate>
 
-    <div class="alert alert-danger" ng-show="result===false">Error</div>
-
-    <label for="user-username">{{'username' | translate}}</label>
-    <input class="form-control" type="text" ng-model="model.username" name="username" id="user-username"
-           ng-minlength=3
-           ng-maxlength=50
-           ng-pattern="/^[A-zА-я0-9_-]+$/"
-           required/>
-
-
-    <div class="form-group">
-        <label><input type="checkbox" ng-model="model.active"/> {{'active' | translate}}</label>
+    <div class="alert alert-danger" ng-show="result===false">
+        <div>{{'Error saving' | translate}}</div>
+        <div ng-repeat="error in errors">{{error.defaultMessage}}</div>
     </div>
 
     <div class="form-group required">
-        <label for="user-name">{{'fio' | translate}}</label>
+
+        <label for="user-username">{{'Username' | translate}}</label>
+
+        <input class="form-control" type="text" ng-model="model.username" name="username" id="user-username"
+               ng-minlength=3
+               ng-maxlength=50
+               ng-pattern="/^[A-zА-я0-9_-]+$/"
+               required/>
+
+        <div ng-messages="modelForm.username.$error" class="errors">
+            <div ng-message="required">{{'Field is required' | translate}}</div>
+            <div ng-message="pattern">{{'Invalid field value' | translate}}</div>
+            <div ng-message="minlength">{{'Filed to short' | translate}}</div>
+            <div ng-message="maxlength">{{'Field to long' | translate}}</div>
+        </div>
+
+    </div>
+
+    <div class="form-group checkbox">
+        <label><input type="checkbox" ng-model="model.active"/> {{'Active' | translate}}</label>
+    </div>
+
+    <div class="form-group required">
+        <label for="user-name">{{'Fio' | translate}}</label>
         <input class="form-control" type="text" ng-model="model.name" name="name" id="user-name" required/>
+        <div ng-messages="modelForm.name.$error" class="errors">
+            <div ng-message="required">{{'Field is required' | translate}}</div>
+        </div>
     </div>
 
     <div class="form-group" ng-class="{required: !update}">
-        <label for="user-input-password">{{'password' | translate}}</label>
+        <label for="user-input-password">{{'Password' | translate}}</label>
         <input class="form-control" type="password" ng-model="model.inputPassword"
                name="inputPassword"
                id="user-input-password"
                empty-to-null
                ng-minlength=6
                ng-required="{{!update}}" autocomplete="off"/>
+        <div ng-messages="modelForm.inputPassword.$error" class="errors">
+            <div ng-message="required">{{'Field is required' | translate}}</div>
+            <div ng-message="minlength">{{'Filed to short' | translate}}</div>
+        </div>
     </div>
 
 
     <div class="form-group" ng-class="{required: !update}">
-        <label for="user-confirm-input-password">{{'confirm_password' | translate}}</label>
+        <label for="user-confirm-input-password">{{'Confirm password' | translate}}</label>
         <input class="form-control" type="password" ng-model="model.confirmInputPassword"
                name="confirmInputPassword"
                id="user-confirm-input-password"
                empty-to-null
                match="model.inputPassword"
                ng-required="{{!update}}" autocomplete="off"/>
+        <div ng-messages="modelForm.confirmInputPassword.$error" class="errors">
+            <div ng-message="required">{{'Field is required' | translate}}</div>
+            <div ng-message="match">{{'Passwords does not match' | translate}}</div>
+        </div>
     </div>
 
 
     <div class="form-group">
-        <label>{{'avatar' | translate}}</label>
+        <label>{{'Avatar' | translate}}</label>
 
         <div
                 file-upload
@@ -54,21 +79,39 @@
                 ></div>
     </div>
 
+    <div class="form-group required">
+        <label for="user-role">{{'Role' | translate}}</label>
+        <select
+                ng-options="role as role for role in roles" class="form-control"
+                ng-model="model.role"
+                name="role"
+                id="user-role"
+                required>
+        </select>
+        <div ng-messages="modelForm.role.$error" class="errors">
+            <div ng-message="required">{{'Field is required' | translate}}</div>
+        </div>
+    </div>
+
     <div class="form-group">
-        <label for="user-text">{{'text' | translate}}</label>
+        <label for="user-text">{{'Text' | translate}}</label>
 
         <div text-angular ng-model="model.text" id="user-text"></div>
     </div>
 
 
     <div class="form-group required">
-        <label for="user-email">{{'email' | translate}}</label>
-        <input class="form-control" type="text" ng-model="model.email" name="email" id="user-email" required />
+        <label for="user-email">{{'Email' | translate}}</label>
+        <input class="form-control" type="email" ng-model="model.email" name="email" id="user-email" required />
+        <div ng-messages="modelForm.email.$error" class="errors">
+            <div ng-message="required">{{'Field is required' | translate}}</div>
+            <div ng-message="email">{{'Email incorrect' | translate}}</div>
+        </div>
     </div>
 
 
     <div class="form-group required">
-        <label for="user-phone">{{'phone' | translate}}</label>
+        <label for="user-phone">{{'Phone' | translate}}</label>
         <input
                 placeholder="79039998877"
                 ng-minlength=11
@@ -79,12 +122,18 @@
                 ng-model="model.phone"
                 name="phone"
                 id="user-phone" required/>
+        <div ng-messages="modelForm.phone.$error" class="errors">
+            <div ng-message="required">{{'Field is required' | translate}}</div>
+            <div ng-message="pattern">{{'Invalid field value' | translate}}</div>
+            <div ng-message="minlength">{{'Filed to short' | translate}}</div>
+            <div ng-message="maxlength">{{'Field to long' | translate}}</div>
+        </div>
     </div>
 
 
-    <input type="button" value="{{'save' | translate}}" class="btn btn-primary" ng-disabled="modelForm.$invalid"
+    <input type="button" value="{{'Save' | translate}}" class="btn btn-primary" ng-disabled="modelForm.$invalid"
            ng-click="save(modelForm)"/>
 
-    <a class="btn btn-default" ui-sref="users">{{'cancel' | translate}}</a>
+    <a class="btn btn-default" ui-sref="users">{{'Cancel' | translate}}</a>
 
 </form>

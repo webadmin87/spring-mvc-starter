@@ -28,6 +28,12 @@ public class UserServiceImpl extends CrudServiceImpl<User> implements UserServic
         this.repository = repository;
     }
 
+
+    @Override
+    public User findByUsername(String username) {
+        return getRepository().findByUsername(username);
+    }
+
     @Override
     @Transactional
     public User save(User domain) {

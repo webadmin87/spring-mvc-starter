@@ -8,7 +8,8 @@
         'ui.grid.pagination',
         'textAngular',
         'angularFileUpload',
-        'pascalprecht.translate'
+        'pascalprecht.translate',
+        'ngMessages'
     ])
 
         // Настройки url

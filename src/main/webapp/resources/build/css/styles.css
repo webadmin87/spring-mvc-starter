@@ -1,1 +1,1 @@
-.required label:after{content:" *";color:red}#loader{background:url('../images/ajax-loader.gif');width:48px;height:48px;position:fixed;top:50%;left:50%;margin-top:-24px;margin-left:-24px}.login-form{max-width:300px}
+.required label:after{content:" *";color:red}#loader{background:url('../images/ajax-loader.gif');width:48px;height:48px;position:fixed;top:50%;left:50%;margin-top:-24px;margin-left:-24px}.login-form{max-width:300px}.errors{color:#a70000}

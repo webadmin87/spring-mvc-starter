@@ -16,6 +16,8 @@
 
         var Resource = userService.getResource();
 
+        $scope.roles = Resource.roles();
+
         $scope.model = new Resource({
             active: true,
             filePaths: {},

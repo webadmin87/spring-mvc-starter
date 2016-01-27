@@ -13,6 +13,7 @@
     <script type="text/javascript" src="resources/vendors/angular-i18n/angular-locale_ru.js"></script>
     <script type="text/javascript" src="resources/vendors/angular-ui-router/release/angular-ui-router.min.js"></script>
     <script type="text/javascript" src="resources/vendors/angular-ui-grid/ui-grid.min.js"></script>
+    <script type="text/javascript" src="resources/vendors/angular-messages/angular-messages.min.js"></script>
     <script type="text/javascript" src="resources/vendors/textAngular/dist/textAngular-rangy.min.js"></script>
     <script type="text/javascript" src="resources/vendors/textAngular/dist/textAngular-sanitize.min.js"></script>
     <script type="text/javascript" src="resources/vendors/textAngular/dist/textAngular.min.js"></script>

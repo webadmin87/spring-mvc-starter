@@ -108,7 +108,12 @@
 
     <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
         <property name="defaultEncoding" value="UTF-8" />
-        <property name="basename" value="messages" />
+        <property name="basenames">
+            <list>
+                <value>messages</value>
+                <value>ValidationMessages</value>
+            </list>
+        </property>
     </bean>
 
     <!-- AOP (конфигурируем через аннотации)-->

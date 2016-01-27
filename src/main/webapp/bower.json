@@ -14,6 +14,7 @@
     "angular": "1.4.x",
     "angular-cookies": "1.4.x",
     "angular-resource": "1.4.x",
+    "angular-messages": "1.4.x",
     "angular-i18n": "1.4.x",
     "bootstrap": "3.3.x",
     "angular-ui-router": "0.2.x",

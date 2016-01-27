@@ -6,4 +6,7 @@ import ru.rzncenter.webcore.domains.User;
  * Интерфейс сервис слоя пользователей
  */
 public interface UserService extends CrudService<User> {
+
+    public User findByUsername(String username);
+
 }

@@ -21,7 +21,11 @@ import java.util.*;
 @Entity
 @Table(name="users")
 @FieldMatch(first="inputPassword", second="confirmInputPassword")
-@Unique("username")
+@Unique.List({
+    @Unique(value = "username", message = "{constraints.usernameUnique}"),
+    @Unique(value = "email", message = "{constraints.emailUnique}"),
+    @Unique(value = "phone", message = "{constraints.phoneUnique}"),
+})
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class User extends Domain implements Previews, UserDomain {
