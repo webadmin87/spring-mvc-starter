@@ -1,5 +1,7 @@
 package ru.rzncenter.webcore.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,8 +12,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class AppController {
 
+    @Autowired
+    Environment env;
+
     @RequestMapping("")
     public String run(Model model) {
+
+        String[] profiles = env.getActiveProfiles();
+
+        if(profiles.length == 0)
+            profiles = env.getDefaultProfiles();
+
+        model.addAttribute("profiles", profiles);
 
         return "index";
 

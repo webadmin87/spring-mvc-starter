@@ -21,7 +21,7 @@ gulp.task('jsConcat', function() {
 
     gulp.src(src)
         .pipe(concat('packed.min.js'))
-        .pipe(uglify())
+        .pipe(uglify({ mangle: false }))
         .pipe(gulp.dest(jsBuildDir))
 
 });

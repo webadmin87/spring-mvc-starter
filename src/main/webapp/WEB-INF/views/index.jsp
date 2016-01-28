@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html ng-app="springMvcStarter" lang="ru">
 <head>
@@ -19,9 +20,21 @@
     <script type="text/javascript" src="resources/vendors/textAngular/dist/textAngular.min.js"></script>
     <script type="text/javascript" src="resources/vendors/angular-translate/angular-translate.min.js"></script>
 
+    <c:choose>
 
+        <c:when test="${profiles[0] == 'prod'}">
 
-    <script type="text/javascript" src="resources/build/js/packed.js"></script>
+            <script type="text/javascript" src="resources/build/js/packed.min.js"></script>
+
+        </c:when>
+
+        <c:otherwise>
+
+            <script type="text/javascript" src="resources/build/js/packed.js"></script>
+
+        </c:otherwise>
+
+    </c:choose>
 
     <link rel="stylesheet" href="resources/vendors/angular-ui-grid/ui-grid.min.css"/>
     <link rel="stylesheet" href="resources/vendors/bootstrap/dist/css/bootstrap.min.css"/>
