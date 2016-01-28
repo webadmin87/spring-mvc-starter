@@ -1,5 +1,8 @@
 (function(angular){
 
+    /**
+     * Преобразует пустую строку и undefined в null при биндинге к свойству модели
+     */
     angular.module('springMvcStarter')
         .directive('emptyToNull', function () {
             return {

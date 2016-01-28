@@ -23,10 +23,6 @@
 
    function FileUpload(FileUploader, $http, userService) {
 
-       /*var scripts = document.getElementsByTagName("script");
-       var currentScriptPath = scripts[scripts.length-1].src;
-       var templateUrl = currentScriptPath.substring(0, currentScriptPath.lastIndexOf('/js/')) + '/templates/fileUploadDirective.html';*/
-
        var templateUrl = '/resources/build/templates/fileUploadDirective.html';
 
        return {

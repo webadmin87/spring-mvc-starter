@@ -3,7 +3,7 @@
     <div class="col-xs-12 col-md-6">
 
         <div class="panel panel-default">
-            <div class="panel-heading">Uploaded files</div>
+            <div class="panel-heading">{{'Uploaded files' | translate}}</div>
 
             <div class="panel-body">
                 <table class="table">
@@ -34,15 +34,15 @@
 
     <div class="col-xs-12 col-md-6">
         <div class="panel panel-default">
-            <div class="panel-heading">Upload queue</div>
+            <div class="panel-heading">{{'Upload queue' | translate}}</div>
             <div class="panel-body">
 
                 <div class="form-group" ng-if="urlUploaderParams">
 
                     <div class="input-group">
-                          <input type="text" class="form-control input-sm" ng-model="$parent.fileUrl" placeholder="Загрузить по URL" />
+                          <input type="text" class="form-control input-sm" ng-model="$parent.fileUrl" placeholder="{{'Upload by url' | translate}}" />
                           <span class="input-group-btn">
-                              <button class="btn btn-success btn-sm" ng-click="ctrl.uploadByUrl($parent.fileUrl)" ng-disabled="urlUploaderProcess">Upload</button>
+                              <button class="btn btn-success btn-sm" ng-click="ctrl.uploadByUrl($parent.fileUrl)" ng-disabled="urlUploaderProcess">{{'Upload' | translate}}</button>
                           </span>
                     </div>
 
@@ -55,10 +55,10 @@
                 <table class="table">
                     <thead>
                     <tr>
-                        <th>Имя</th>
-                        <th ng-show="ctrl.uploader.isHTML5">Инфо</th>
-                        <!--<th>Статус</th>-->
-                        <th>Действия</th>
+                        <th>{{'Name' | translate}}</th>
+                        <th ng-show="ctrl.uploader.isHTML5">{{'Info' | translate}}</th>
+                        <th>{{'Status' | translate}}</th>
+                        <th>{{'Actions' | translate}}</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -79,11 +79,12 @@
 
                         </td>
 
-                        <!--<td class="text-center">
+                        <td class="text-center">
                             <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
                             <span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
                             <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
-                        </td>-->
+                        </td>
+
                         <td>
                             <button type="button" class="btn btn-success btn-xs" ng-click="item.upload()"
                                     ng-disabled="item.isReady || item.isUploading || item.isSuccess">
@@ -103,7 +104,7 @@
 
                 <div>
                     <div>
-                        Progress:
+                        {{'Progress' | translate}}:
                         <div class="progress" style="">
                             <div class="progress-bar" role="progressbar"
                                  ng-style="{ 'width': ctrl.uploader.progress + '%' }"></div>
@@ -111,15 +112,15 @@
                     </div>
                     <button type="button" class="btn btn-success btn-xs" ng-click="ctrl.uploader.uploadAll()"
                             ng-disabled="!ctrl.uploader.getNotUploadedItems().length">
-                        <span class="glyphicon glyphicon-upload"></span> Upload
+                        <span class="glyphicon glyphicon-upload"></span> {{'Upload' | translate}}
                     </button>
                     <button type="button" class="btn btn-warning btn-xs" ng-click="ctrl.uploader.cancelAll()"
                             ng-disabled="!ctrl.uploader.isUploading">
-                        <span class="glyphicon glyphicon-ban-circle"></span> Cancel
+                        <span class="glyphicon glyphicon-ban-circle"></span> {{'Cancel' | translate}}
                     </button>
                     <button type="button" class="btn btn-danger btn-xs" ng-click="ctrl.uploader.clearQueue()"
                             ng-disabled="!ctrl.uploader.queue.length">
-                        <span class="glyphicon glyphicon-trash"></span> Remove
+                        <span class="glyphicon glyphicon-trash"></span> {{'Remove' | translate}}
                     </button>
                 </div>
             </div>

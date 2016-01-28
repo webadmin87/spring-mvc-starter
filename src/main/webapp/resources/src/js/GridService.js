@@ -5,10 +5,11 @@
 
     angular.module('springMvcStarter')
         .service("gridService", [
+            "$translate",
             GridService
         ]);
 
-    function GridService() {
+    function GridService($translate) {
 
         this.getWrapper = function ($scope) {
 
@@ -81,15 +82,19 @@
 
                 var self = this;
 
-                if(confirm("Confirm remove?")) {
+                $translate("Confirm remove?").then(function(mes){
 
-                    model.$remove(function () {
+                    if(confirm(mes)) {
 
-                        self.loadData();
+                        model.$remove(function () {
 
-                    });
+                            self.loadData();
 
-                }
+                        });
+
+                    }
+
+                });
 
             }
 
