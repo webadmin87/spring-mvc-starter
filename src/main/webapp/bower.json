@@ -26,7 +26,8 @@
     "underscore": "1.8.x",
     "checklist-model": "0.9.x",
     "angular-ui-tree": "2.13.x",
-    "textAngular": "1.4.x"
+    "textAngular": "1.4.x",
+    "font-awesome": "4.5.x"
   },
   "license": "BSD"
 }

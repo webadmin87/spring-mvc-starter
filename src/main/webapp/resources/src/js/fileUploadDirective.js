@@ -17,7 +17,7 @@
 
 (function (angular, _) {
 
-   angular.module('springMvcStarter')
+   angular.module(MVC_STARTER_APP)
        .directive('fileUpload', ["FileUploader", "$http", "userService", FileUpload]);
 
 

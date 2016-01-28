@@ -1,6 +1,6 @@
 (function(angular){
 
-    angular.module('springMvcStarter')
+    angular.module(MVC_STARTER_APP)
         .config(["$translateProvider", function ($translateProvider) {
 
             $translateProvider.translations('ru', {
@@ -20,7 +20,7 @@
                 'Confirm password': 'Подтверждение пароля',
                 'Avatar': 'Аватар',
                 'Phone': 'Телефон',
-                'Text': 'Текс',
+                'Text': 'Текст',
                 'Email': 'Электронный адрес',
                 'Role': 'Роль',
                 'Actions': 'Действия',
@@ -39,7 +39,8 @@
                 'Info': 'Инфо',
                 'Progress': 'Прогресс',
                 'Remove': 'Удалить',
-                'Confirm remove?': 'Подтвердить удаление?'
+                'Confirm remove?': 'Подтвердить удаление?',
+                'Queue length': 'Размер очереди'
 
             });
 

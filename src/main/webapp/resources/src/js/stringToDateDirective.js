@@ -3,7 +3,7 @@
     /**
      * Преобразует строку в объект даты
      */
-    angular.module('springMvcStarter')
+    angular.module(MVC_STARTER_APP)
         .directive("stringToDate", StringToDate);
 
     function StringToDate() {

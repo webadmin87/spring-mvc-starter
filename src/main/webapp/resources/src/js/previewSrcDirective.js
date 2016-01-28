@@ -3,7 +3,7 @@
 	/**
 	 * Директива для отображения превью
 	 */
-	angular.module('springMvcStarter')
+	angular.module(MVC_STARTER_APP)
 		.directive('previewSrc', [function () {
 			return {
 				restrict: 'A',

@@ -7,7 +7,7 @@
  */
 (function(window, angular, undefined){'use strict';
 
-angular.module('springMvcStarter').directive('match', match);
+angular.module(MVC_STARTER_APP).directive('match', match);
 
 function match ($parse) {
     return {

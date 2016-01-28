@@ -3,7 +3,7 @@
  */
 (function (angular) {
 
-    angular.module('springMvcStarter')
+    angular.module(MVC_STARTER_APP)
         .service("authStorage", [AuthStorage]);
 
     function AuthStorage(){

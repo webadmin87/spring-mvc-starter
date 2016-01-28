@@ -3,7 +3,7 @@
  */
 (function (angular, _) {
 
-    angular.module('springMvcStarter')
+    angular.module(MVC_STARTER_APP)
         .controller("UserAddCtrl", [
             "$scope",
             "userService",

@@ -3,7 +3,7 @@
     /**
      * Преобразует пустую строку и undefined в null при биндинге к свойству модели
      */
-    angular.module('springMvcStarter')
+    angular.module(MVC_STARTER_APP)
         .directive('emptyToNull', function () {
             return {
                 restrict: 'A',

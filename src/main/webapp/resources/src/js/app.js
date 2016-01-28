@@ -1,6 +1,8 @@
-(function (angular) {
+(function (angular, window) {
 
-    angular.module('springMvcStarter', [
+    window.MVC_STARTER_APP = 'springMvcStarter';
+
+    angular.module(MVC_STARTER_APP, [
         'ngResource',
         'ui.router',
         'ui.bootstrap',
@@ -184,4 +186,4 @@
 
         }]);
 
-})(angular);
+})(angular, window);

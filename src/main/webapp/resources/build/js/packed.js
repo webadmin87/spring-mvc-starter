@@ -1,6 +1,8 @@
-(function (angular) {
+(function (angular, window) {
 
-    angular.module('springMvcStarter', [
+    window.MVC_STARTER_APP = 'springMvcStarter';
+
+    angular.module(MVC_STARTER_APP, [
         'ngResource',
         'ui.router',
         'ui.bootstrap',
@@ -184,13 +186,13 @@
 
         }]);
 
-})(angular);
+})(angular, window);
 /**
  * Сервис для хранения информации об аутентификации пользователя
  */
 (function (angular) {
 
-    angular.module('springMvcStarter')
+    angular.module(MVC_STARTER_APP)
         .service("authStorage", [AuthStorage]);
 
     function AuthStorage(){
@@ -218,7 +220,7 @@
  */
 (function (angular, $, _) {
 
-    angular.module('springMvcStarter')
+    angular.module(MVC_STARTER_APP)
         .service("gridService", [
             "$translate",
             GridService
@@ -344,7 +346,7 @@
  */
 (function (angular, $, _) {
 
-    angular.module('springMvcStarter')
+    angular.module(MVC_STARTER_APP)
         .service("userService", [
             "$http",
             "$q",
@@ -443,7 +445,7 @@
  */
 (function (angular, _) {
 
-    angular.module('springMvcStarter')
+    angular.module(MVC_STARTER_APP)
         .controller("LoginCtrl", [
             "$scope",
             "userService",
@@ -484,7 +486,7 @@
  */
 (function (angular, _) {
 
-    angular.module('springMvcStarter')
+    angular.module(MVC_STARTER_APP)
         .controller("MainCtrl", [
             "$scope",
             MainCtrl
@@ -499,7 +501,7 @@
  */
 (function (angular, _) {
 
-    angular.module('springMvcStarter')
+    angular.module(MVC_STARTER_APP)
         .controller("NotFoundCtrl", [
             "$scope",
             NotFoundCtrl
@@ -514,7 +516,7 @@
  */
 (function (angular, _) {
 
-    angular.module('springMvcStarter')
+    angular.module(MVC_STARTER_APP)
         .controller("UserAddCtrl", [
             "$scope",
             "userService",
@@ -568,7 +570,7 @@
  */
 (function (angular, _) {
 
-    angular.module('springMvcStarter')
+    angular.module(MVC_STARTER_APP)
         .controller("UserInfoCtrl", [
             "$scope",
             "userService",
@@ -600,7 +602,7 @@
  */
 (function (angular, _) {
 
-    angular.module('springMvcStarter')
+    angular.module(MVC_STARTER_APP)
         .controller("UserListCtrl", [
             "$scope",
             "userService",
@@ -648,7 +650,7 @@
  */
 (function (angular, _) {
 
-    angular.module('springMvcStarter')
+    angular.module(MVC_STARTER_APP)
         .controller("UserUpdateCtrl", [
             "$scope",
             "userService",
@@ -698,7 +700,7 @@
     /**
      * Преобразует пустую строку и undefined в null при биндинге к свойству модели
      */
-    angular.module('springMvcStarter')
+    angular.module(MVC_STARTER_APP)
         .directive('emptyToNull', function () {
             return {
                 restrict: 'A',
@@ -735,7 +737,7 @@
 
 (function (angular, _) {
 
-   angular.module('springMvcStarter')
+   angular.module(MVC_STARTER_APP)
        .directive('fileUpload', ["FileUploader", "$http", "userService", FileUpload]);
 
 
@@ -961,7 +963,7 @@
  */
 (function(window, angular, undefined){'use strict';
 
-angular.module('springMvcStarter').directive('match', match);
+angular.module(MVC_STARTER_APP).directive('match', match);
 
 function match ($parse) {
     return {
@@ -1033,7 +1035,7 @@ match.$inject = ["$parse"];
 
 (function (angular) {
 
-    angular.module('springMvcStarter')
+    angular.module(MVC_STARTER_APP)
         .directive('ngThumb', ['$window', NgThumb]);
 
 
@@ -1120,7 +1122,7 @@ match.$inject = ["$parse"];
 	/**
 	 * Директива для отображения превью
 	 */
-	angular.module('springMvcStarter')
+	angular.module(MVC_STARTER_APP)
 		.directive('previewSrc', [function () {
 			return {
 				restrict: 'A',
@@ -1176,7 +1178,7 @@ match.$inject = ["$parse"];
     /**
      * Преобразует строку в объект даты
      */
-    angular.module('springMvcStarter')
+    angular.module(MVC_STARTER_APP)
         .directive("stringToDate", StringToDate);
 
     function StringToDate() {
@@ -1199,7 +1201,7 @@ match.$inject = ["$parse"];
 })(angular);
 (function(angular){
 
-    angular.module('springMvcStarter')
+    angular.module(MVC_STARTER_APP)
         .config(["$translateProvider", function ($translateProvider) {
 
             $translateProvider.translations('ru', {
@@ -1219,7 +1221,7 @@ match.$inject = ["$parse"];
                 'Confirm password': 'Подтверждение пароля',
                 'Avatar': 'Аватар',
                 'Phone': 'Телефон',
-                'Text': 'Текс',
+                'Text': 'Текст',
                 'Email': 'Электронный адрес',
                 'Role': 'Роль',
                 'Actions': 'Действия',
@@ -1238,7 +1240,8 @@ match.$inject = ["$parse"];
                 'Info': 'Инфо',
                 'Progress': 'Прогресс',
                 'Remove': 'Удалить',
-                'Confirm remove?': 'Подтвердить удаление?'
+                'Confirm remove?': 'Подтвердить удаление?',
+                'Queue length': 'Размер очереди'
 
             });
 

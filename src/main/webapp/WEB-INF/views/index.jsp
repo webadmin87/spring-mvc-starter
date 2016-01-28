@@ -38,6 +38,7 @@
 
     <link rel="stylesheet" href="resources/vendors/angular-ui-grid/ui-grid.min.css"/>
     <link rel="stylesheet" href="resources/vendors/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="resources/vendors/font-awesome/css/font-awesome.min.css"/>
     <link rel="stylesheet" href="resources/vendors/textAngular/dist/textAngular.css"/>
 
     <link rel="stylesheet" href="resources/build/css/styles.css"/>

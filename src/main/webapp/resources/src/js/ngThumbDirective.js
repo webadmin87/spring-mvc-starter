@@ -10,7 +10,7 @@
 
 (function (angular) {
 
-    angular.module('springMvcStarter')
+    angular.module(MVC_STARTER_APP)
         .directive('ngThumb', ['$window', NgThumb]);
 
 
