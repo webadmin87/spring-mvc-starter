@@ -263,7 +263,7 @@ public class FileUtils {
     }
 
     /**
-     * Копирует файлы закупки и товаров
+     * Копирует файлы
      * @param files
      * @return
      */
