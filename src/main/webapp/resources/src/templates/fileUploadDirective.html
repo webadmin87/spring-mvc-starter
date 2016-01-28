@@ -8,7 +8,7 @@
             <div class="panel-body">
                 <table class="table">
                     <tbody>
-                    <tr ng-repeat="(key, path) in model[filesAttr]">
+                    <tr ng-repeat="key in uploadedFileKeys" ng-init="path=model[filesAttr][key]">
                         <td>
                             <div ng-if="$parent.descriptions" class="form-group">
                                 <input type="text" class="form-control input-sm" ng-model="$parent.descriptions[key]" />

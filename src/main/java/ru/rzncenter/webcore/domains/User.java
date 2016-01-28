@@ -237,12 +237,12 @@ public class User extends Domain implements Previews, UserDomain {
 
     @Override
     public int previewWidth() {
-        return 150;
+        return 100;
     }
 
     @Override
     public int previewHeight() {
-        return 0;
+        return 100;
     }
 
     @Override

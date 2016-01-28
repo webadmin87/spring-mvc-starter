@@ -2,12 +2,17 @@ package ru.rzncenter.webcore.service;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.rzncenter.webcore.dao.UserDao;
+import ru.rzncenter.webcore.domains.Previews;
 import ru.rzncenter.webcore.domains.User;
+import ru.rzncenter.webcore.web.Resizer;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Queue;
 
 /**
@@ -18,6 +23,9 @@ public class UserServiceImpl extends CrudServiceImpl<User> implements UserServic
 
     @Autowired
     UserDao repository;
+
+    @Autowired
+    Resizer resizer;
 
     @Override
     public UserDao getRepository() {
@@ -32,6 +40,17 @@ public class UserServiceImpl extends CrudServiceImpl<User> implements UserServic
     @Override
     public User findByUsername(String username) {
         return getRepository().findByUsername(username);
+    }
+
+    @Override
+    public Page<User> findAll(Integer page, Integer pageSize, Sort sort) {
+
+        Page<User> pageObj = super.findAll(page, pageSize, sort);
+
+        resizer.resize(pageObj.getContent());
+
+        return pageObj;
+
     }
 
     @Override

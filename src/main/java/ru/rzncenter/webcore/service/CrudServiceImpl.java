@@ -6,6 +6,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
 /**
@@ -13,6 +14,14 @@ import java.util.List;
  * @param <T>
  */
 public abstract class CrudServiceImpl<T> implements CrudService<T> {
+
+    protected Class<T> getGenericSuperClass() {
+
+        ParameterizedType genericSuperclass = (ParameterizedType) getClass().getGenericSuperclass();
+
+        return  (Class<T>) genericSuperclass.getActualTypeArguments()[0];
+
+    }
 
     @Override
     public List<T> findAll() {

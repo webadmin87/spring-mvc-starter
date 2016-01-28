@@ -34,9 +34,11 @@
                 $scope.gridWrapper.loadData();
             }
 
-            var error = function() {
+            var error = function(res) {
 
                 $scope.result = false;
+
+                $scope.errors = res.data;
 
             }
 

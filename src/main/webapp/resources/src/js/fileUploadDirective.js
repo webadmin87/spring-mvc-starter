@@ -15,7 +15,7 @@
  *
  */
 
-(function (angular) {
+(function (angular, _) {
 
    angular.module('springMvcStarter')
        .directive('fileUpload', ["FileUploader", "$http", "userService", FileUpload]);
@@ -57,7 +57,28 @@
                if(!$scope.model[$attrs.removeFilesAttr])
                    $scope.model[$attrs.removeFilesAttr] = [];
 
+
+               $scope.$watch('model.'+$attrs.filesAttr, function(newVal){
+
+                   if(newVal) {
+
+                       var keys = _.keys(newVal);
+
+                       keys =  _.reduce(keys, function(arr, num){
+                           arr.push(parseInt(num));
+                           return arr;
+                       }, []);
+
+                       keys.sort();
+
+                       $scope.uploadedFileKeys = keys;
+
+                   }
+
+               }, true);
+
                // Если передан атрибут для хранения подписей к файлам
+
                if($attrs.fileDescriptionsAttr) {
 
                    $scope.descriptions = {};
@@ -137,18 +158,13 @@
 
                this.getMaxKey = function(obj) {
 
-                   var key = 0;
+                   var keys = _.keys(obj);
 
-                   for(var i in obj) {
+                   var max = keys.length>0?_.max(keys, function(num) {
+                       return parseInt(num);
+                   }):0;
 
-                       var num = parseInt(i);
-
-                       if(num>key)
-                            key=num;
-
-                   }
-
-                   return key;
+                   return parseInt(max);
 
                }
 
@@ -183,7 +199,7 @@
                        });
 
                        promise.error(function(){
-                           alert('Ошибка загрузки');
+                           alert('Upload error!');
                        });
 
                    }
@@ -202,9 +218,11 @@
                        }
 
                        $scope.model[$attrs.filesAttr][key] = response;
+
                    }
 
                }
+
 
            },
 
@@ -215,4 +233,4 @@
 
    }
 
-})(angular);
+})(angular, _);

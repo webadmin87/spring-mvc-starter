@@ -4,6 +4,7 @@ import org.imgscalr.Scalr;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.apache.commons.codec.digest.DigestUtils;
+import ru.rzncenter.webcore.domains.Previews;
 import ru.rzncenter.webcore.utils.FileUtils;
 import org.imgscalr.Scalr.*;
 
@@ -11,6 +12,10 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 
 /**
@@ -203,5 +208,43 @@ public class ResizerImpl implements Resizer {
 
     public void setDirName(String dirName) {
         this.dirName = dirName;
+    }
+
+    @Override
+    public void resize(Previews model) {
+
+        Map<Integer, String> previews = model.getPreviews();
+
+        if(previews == null)
+            return;
+
+        SortedMap<Integer, String> resized = new TreeMap<>();
+
+        for(Map.Entry<Integer, String> entry : previews.entrySet()) {
+
+            String resizedPath = resize(new File(fileUtils.webToServerPath(entry.getValue())), model.previewWidth(), model.previewHeight());
+
+            if(resizedPath != null && resizedPath.length()>0) {
+
+                resized.put(entry.getKey(), resizedPath);
+
+            }
+
+        }
+
+        model.setPreviews(resized);
+
+
+    }
+
+    @Override
+    public void resize(List models) {
+
+        for(Object model : models) {
+
+            if(model instanceof Previews)
+                resize((Previews) model);
+        }
+
     }
 }

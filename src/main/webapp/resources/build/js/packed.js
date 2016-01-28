@@ -220,10 +220,11 @@
 
     angular.module('springMvcStarter')
         .service("gridService", [
+            "$translate",
             GridService
         ]);
 
-    function GridService() {
+    function GridService($translate) {
 
         this.getWrapper = function ($scope) {
 
@@ -296,15 +297,19 @@
 
                 var self = this;
 
-                if(confirm("Confirm remove?")) {
+                $translate("Confirm remove?").then(function(mes){
 
-                    model.$remove(function () {
+                    if(confirm(mes)) {
 
-                        self.loadData();
+                        model.$remove(function () {
 
-                    });
+                            self.loadData();
 
-                }
+                        });
+
+                    }
+
+                });
 
             }
 
@@ -540,9 +545,11 @@
                 $scope.gridWrapper.loadData();
             }
 
-            var error = function() {
+            var error = function(res) {
 
                 $scope.result = false;
+
+                $scope.errors = res.data;
 
             }
 
@@ -608,9 +615,13 @@
 
         var Wrapper = gridService.getWrapper($scope);
 
-        $translate(['Username', 'Email', 'Actions']).then(function(translations){
+        $translate(['Avatar', 'Username', 'Email', 'Actions']).then(function(translations){
 
             $scope.gridWrapper = new Wrapper (Resource, { columnDefs: [
+                {name: 'previews', enableSorting: false, displayName: translations.Avatar,
+                    cellTemplate:'<div class="ui-grid-cell-contents">' +
+                '<img preview-src="row.entity.previews" height="60" alt="" />' +
+                '</div>'},
                 {name: 'id'},
                 {name: 'username', displayName: translations.Username},
                 {name: 'email', displayName: translations.Email},
@@ -620,7 +631,9 @@
                     '<a href="" ng-click="grid.appScope.gridWrapper.remove(row.entity)" class="glyphicon glyphicon-trash"></a>' +
                     '</div>'
                 }
-            ]});
+            ],
+                rowHeight:60
+            });
 
             $scope.gridWrapper.loadData();
 
@@ -664,8 +677,6 @@
 
             var error = function(res) {
 
-                console.log(arguments);
-
                 $scope.result = false;
 
                 $scope.errors = res.data;
@@ -684,6 +695,9 @@
 
 (function(angular){
 
+    /**
+     * Преобразует пустую строку и undefined в null при биндинге к свойству модели
+     */
     angular.module('springMvcStarter')
         .directive('emptyToNull', function () {
             return {
@@ -719,17 +733,13 @@
  *
  */
 
-(function (angular) {
+(function (angular, _) {
 
    angular.module('springMvcStarter')
        .directive('fileUpload', ["FileUploader", "$http", "userService", FileUpload]);
 
 
    function FileUpload(FileUploader, $http, userService) {
-
-       /*var scripts = document.getElementsByTagName("script");
-       var currentScriptPath = scripts[scripts.length-1].src;
-       var templateUrl = currentScriptPath.substring(0, currentScriptPath.lastIndexOf('/js/')) + '/templates/fileUploadDirective.html';*/
 
        var templateUrl = '/resources/build/templates/fileUploadDirective.html';
 
@@ -765,7 +775,28 @@
                if(!$scope.model[$attrs.removeFilesAttr])
                    $scope.model[$attrs.removeFilesAttr] = [];
 
+
+               $scope.$watch('model.'+$attrs.filesAttr, function(newVal){
+
+                   if(newVal) {
+
+                       var keys = _.keys(newVal);
+
+                       keys =  _.reduce(keys, function(arr, num){
+                           arr.push(parseInt(num));
+                           return arr;
+                       }, []);
+
+                       keys.sort();
+
+                       $scope.uploadedFileKeys = keys;
+
+                   }
+
+               }, true);
+
                // Если передан атрибут для хранения подписей к файлам
+
                if($attrs.fileDescriptionsAttr) {
 
                    $scope.descriptions = {};
@@ -845,18 +876,13 @@
 
                this.getMaxKey = function(obj) {
 
-                   var key = 0;
+                   var keys = _.keys(obj);
 
-                   for(var i in obj) {
+                   var max = keys.length>0?_.max(keys, function(num) {
+                       return parseInt(num);
+                   }):0;
 
-                       var num = parseInt(i);
-
-                       if(num>key)
-                            key=num;
-
-                   }
-
-                   return key;
+                   return parseInt(max);
 
                }
 
@@ -891,7 +917,7 @@
                        });
 
                        promise.error(function(){
-                           alert('Ошибка загрузки');
+                           alert('Upload error!');
                        });
 
                    }
@@ -910,9 +936,11 @@
                        }
 
                        $scope.model[$attrs.filesAttr][key] = response;
+
                    }
 
                }
+
 
            },
 
@@ -923,7 +951,7 @@
 
    }
 
-})(angular);
+})(angular, _);
 /*!
  * angular-input-match
  * Checks if one input matches another
@@ -1087,6 +1115,62 @@ match.$inject = ["$parse"];
     }
 
 })(angular);
+(function(angular, _){
+
+	/**
+	 * Директива для отображения превью
+	 */
+	angular.module('springMvcStarter')
+		.directive('previewSrc', [function () {
+			return {
+				restrict: 'A',
+				scope: {
+					'previewSrc': '='
+				},
+
+				link: function ($scope, elem, attrs) {
+
+
+					$scope.$watch('previewSrc', function(newVal) {
+
+						if(!newVal) {
+							elem.hide();
+							return;
+						}
+
+						var keys = _.keys(newVal);
+
+						if(keys.length > 0) {
+
+							keys =  _.reduce(keys, function(arr, num){
+								arr.push(parseInt(num));
+								return arr;
+							}, []);
+
+							keys.sort();
+
+							var src = $scope.previewSrc[keys[0]];
+
+							elem.attr('src', src);
+
+							elem.show();
+
+						} else {
+
+							elem.attr('src', '');
+
+							elem.hide();
+
+						}
+
+
+					}, true);
+
+				}
+			};
+		}]);
+
+})(angular, _);
 (function(angular){
 
     /**
@@ -1144,8 +1228,17 @@ match.$inject = ["$parse"];
                 'Filed to short': 'Значение слишком короткое',
                 'Field to long': 'Значение слишком длинное',
                 'Passwords does not match': 'Пароли не совпадают',
-                'Email incorrect': 'Элекстронный адрес введен неверно'
-
+                'Email incorrect': 'Элекстронный адрес введен неверно',
+                'Uploaded files': 'Загруженные файла',
+                'Upload queue': 'Очередь загрузки',
+                'Upload by url': 'Загрузить по URL',
+                'Upload': 'Загрузить',
+                'Name': 'Имя',
+                'Status': 'Статус',
+                'Info': 'Инфо',
+                'Progress': 'Прогресс',
+                'Remove': 'Удалить',
+                'Confirm remove?': 'Подтвердить удаление?'
 
             });
 

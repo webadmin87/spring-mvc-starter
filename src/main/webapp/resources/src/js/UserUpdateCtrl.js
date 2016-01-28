@@ -32,8 +32,6 @@
 
             var error = function(res) {
 
-                console.log(arguments);
-
                 $scope.result = false;
 
                 $scope.errors = res.data;
