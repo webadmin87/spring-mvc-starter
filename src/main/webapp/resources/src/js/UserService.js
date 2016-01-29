@@ -60,6 +60,10 @@
             return authStorage.getUser();
         }
 
+        this.setUser = function(u) {
+            return authStorage.setUser(u);
+        }
+
         this.isAuth = function() {
             return authStorage.getUser() != null;
         }

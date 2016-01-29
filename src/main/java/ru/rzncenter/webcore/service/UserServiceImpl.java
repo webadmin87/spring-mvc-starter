@@ -74,7 +74,7 @@ public class UserServiceImpl extends CrudServiceImpl<User> implements UserServic
 
         }
 
-        domain.setToken(DigestUtils.md5Hex(domain.getUsername() + domain.getPassword()));
+        domain.setToken(DigestUtils.md5Hex(domain.getUsername() + domain.getPassword() + domain.getRole()));
         return super.save(domain);
     }
 

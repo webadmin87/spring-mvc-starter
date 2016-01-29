@@ -25,9 +25,16 @@
 
         $scope.save = function(form) {
 
-            var success = function() {
+            var success = function(data) {
+
+                if(userService.isAuth() && userService.getUser().id == data.id) {
+                    userService.setUser(data);
+                }
+
                 $state.go('users');
+
                 $scope.gridWrapper.loadData();
+
             }
 
             var error = function(res) {

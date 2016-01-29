@@ -403,6 +403,10 @@
             return authStorage.getUser();
         }
 
+        this.setUser = function(u) {
+            return authStorage.setUser(u);
+        }
+
         this.isAuth = function() {
             return authStorage.getUser() != null;
         }
@@ -672,9 +676,16 @@
 
         $scope.save = function(form) {
 
-            var success = function() {
+            var success = function(data) {
+
+                if(userService.isAuth() && userService.getUser().id == data.id) {
+                    userService.setUser(data);
+                }
+
                 $state.go('users');
+
                 $scope.gridWrapper.loadData();
+
             }
 
             var error = function(res) {
