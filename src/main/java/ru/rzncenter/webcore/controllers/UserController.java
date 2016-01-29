@@ -1,5 +1,6 @@
 package ru.rzncenter.webcore.controllers;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
@@ -10,6 +11,8 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import ru.rzncenter.webcore.domains.User;
+import ru.rzncenter.webcore.domains.UserFilter;
+import ru.rzncenter.webcore.json.JsonUtils;
 import ru.rzncenter.webcore.service.PageUtils;
 import ru.rzncenter.webcore.service.UserService;
 
@@ -29,15 +32,26 @@ public class UserController {
     @Autowired
     PageUtils pageUtils;
 
+    @Autowired
+    JsonUtils jsonUtils;
+
     @RequestMapping(value = "", method = RequestMethod.GET)
     public ResponseEntity<List<User>> list(
             @RequestParam(defaultValue = "1", required = false) Integer page,
             @RequestParam(defaultValue = "1", required = false) Integer pageSize,
             @RequestParam(defaultValue = "id", required = false) String sortField,
-            @RequestParam(defaultValue = "DESC", required = false) Sort.Direction sortDirection
+            @RequestParam(defaultValue = "DESC", required = false) Sort.Direction sortDirection,
+            @RequestParam(required = false) String filter
     ) {
 
-        Page<User> userPage = userService.findAll(page, pageSize, new Sort(sortDirection, sortField));
+        UserFilter userFilter = jsonUtils.jsonToObject(filter, new TypeReference<UserFilter>() {});
+
+        Page<User> userPage;
+
+        if(userFilter == null)
+            userPage = userService.findAll(page, pageSize, new Sort(sortDirection, sortField));
+        else
+            userPage = userService.findAll(userFilter, page, pageSize, new Sort(sortDirection, sortField));
 
         HttpHeaders headers = new HttpHeaders();
 

@@ -6,16 +6,21 @@
     angular.module(MVC_STARTER_APP)
         .service("gridService", [
             "$translate",
+            "$timeout",
             GridService
         ]);
 
-    function GridService($translate) {
+    function GridService($translate, $timeout) {
 
         this.getWrapper = function ($scope) {
 
             var GridWrapper = function(Resource, options, requestParams) {
 
                 var self = this;
+
+                this.filter = null;
+
+                this.filterTimeout = null;
 
                 this.defaultPageSize = 20;
 
@@ -41,6 +46,7 @@
 
                     self.gridApi = gridApi;
 
+                    // Сортировка
                     gridApi.core.on.sortChanged($scope, function (grid, sortColumns) {
                         if (sortColumns.length == 0) {
                             self.paginationOptions.sortField = null;
@@ -52,6 +58,7 @@
                         self.loadData();
                     });
 
+                    // Пагинация
                     gridApi.pagination.on.paginationChanged($scope, function (newPage, pageSize) {
 
                         self.paginationOptions.page = newPage;
@@ -60,6 +67,44 @@
                         self.loadData();
 
                     });
+
+                    // Фильтрация
+                    if(self.gridOptions.enableFiltering && self.gridOptions.useExternalFiltering) {
+
+                        gridApi.core.on.filterChanged($scope, function () {
+
+                            if(self.filterTimeout) {
+                                $timeout.cancel(self.filterTimeout);
+                                self.filterTimeout = null;
+                            }
+
+                            var grid = this.grid;
+
+                            var filter = {}
+
+                            for (var k in grid.columns) {
+
+                                var col = grid.columns[k];
+
+                                if (col.enableFiltering && col.filters[0].term) {
+                                    filter[col.field] = col.filters[0].term;
+                                }
+
+                            }
+
+                            if (!angular.equals(filter, {}))
+                                self.filter = filter;
+                            else
+                                self.filter = null;
+
+
+                            self.filterTimeout = $timeout(function () {
+                                self.loadData();
+                            }, 500);
+
+                        });
+
+                    }
 
                 }
 
@@ -111,6 +156,9 @@
                     }
 
                 }
+
+                if(this.filter)
+                    params.filter = angular.toJson(this.filter);
 
                 return angular.extend(params, this.requestParams);
 

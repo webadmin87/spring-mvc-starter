@@ -223,10 +223,11 @@
     angular.module(MVC_STARTER_APP)
         .service("gridService", [
             "$translate",
+            "$timeout",
             GridService
         ]);
 
-    function GridService($translate) {
+    function GridService($translate, $timeout) {
 
         this.getWrapper = function ($scope) {
 
@@ -234,7 +235,11 @@
 
                 var self = this;
 
-                this.defaultPageSize = 20;
+                this.filter = null;
+
+                this.filterTimeout = null;
+
+                this.defaultPageSize = 1;
 
                 this.Resource = Resource;
 
@@ -258,6 +263,7 @@
 
                     self.gridApi = gridApi;
 
+                    // Сортировка
                     gridApi.core.on.sortChanged($scope, function (grid, sortColumns) {
                         if (sortColumns.length == 0) {
                             self.paginationOptions.sortField = null;
@@ -269,6 +275,7 @@
                         self.loadData();
                     });
 
+                    // Пагинация
                     gridApi.pagination.on.paginationChanged($scope, function (newPage, pageSize) {
 
                         self.paginationOptions.page = newPage;
@@ -277,6 +284,44 @@
                         self.loadData();
 
                     });
+
+                    // Фильтрация
+                    if(self.gridOptions.enableFiltering && self.gridOptions.useExternalFiltering) {
+
+                        gridApi.core.on.filterChanged($scope, function () {
+
+                            if(self.filterTimeout) {
+                                $timeout.cancel(self.filterTimeout);
+                                self.filterTimeout = null;
+                            }
+
+                            var grid = this.grid;
+
+                            var filter = {}
+
+                            for (var k in grid.columns) {
+
+                                var col = grid.columns[k];
+
+                                if (col.enableFiltering && col.filters[0].term) {
+                                    filter[col.field] = col.filters[0].term;
+                                }
+
+                            }
+
+                            if (!angular.equals(filter, {}))
+                                self.filter = filter;
+                            else
+                                self.filter = null;
+
+
+                            self.filterTimeout = $timeout(function () {
+                                self.loadData();
+                            }, 500);
+
+                        });
+
+                    }
 
                 }
 
@@ -328,6 +373,9 @@
                     }
 
                 }
+
+                if(this.filter)
+                    params.filter = angular.toJson(this.filter);
 
                 return angular.extend(params, this.requestParams);
 
@@ -624,21 +672,23 @@
         $translate(['Avatar', 'Username', 'Email', 'Actions']).then(function(translations){
 
             $scope.gridWrapper = new Wrapper (Resource, { columnDefs: [
-                {name: 'previews', enableSorting: false, displayName: translations.Avatar,
+                {name: 'previews', enableSorting: false, enableFiltering: false, displayName: translations.Avatar,
                     cellTemplate:'<div class="ui-grid-cell-contents">' +
                 '<img preview-src="row.entity.previews" height="60" alt="" />' +
                 '</div>'},
                 {name: 'id'},
                 {name: 'username', displayName: translations.Username},
                 {name: 'email', displayName: translations.Email},
-                { name: 'Actions', enableSorting: false, displayName: translations.Actions,
+                { name: 'Actions', enableSorting: false, enableFiltering: false, displayName: translations.Actions,
                     cellTemplate:'<div class="ui-grid-cell-contents">' +
                     '<a ui-sref="users.update({id: row.entity.id})" class="glyphicon glyphicon-pencil"></a> ' +
                     '<a href="" ng-click="grid.appScope.gridWrapper.remove(row.entity)" class="glyphicon glyphicon-trash"></a>' +
                     '</div>'
                 }
             ],
-                rowHeight:60
+                rowHeight:60,
+                enableFiltering: true,
+                useExternalFiltering: true
             });
 
             $scope.gridWrapper.loadData();

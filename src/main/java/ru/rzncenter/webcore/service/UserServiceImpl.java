@@ -3,12 +3,16 @@ package ru.rzncenter.webcore.service;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.rzncenter.webcore.dao.UserDao;
+import ru.rzncenter.webcore.dao.UserSpec;
 import ru.rzncenter.webcore.domains.Previews;
 import ru.rzncenter.webcore.domains.User;
+import ru.rzncenter.webcore.domains.UserFilter;
 import ru.rzncenter.webcore.web.Resizer;
 
 import java.util.ArrayList;
@@ -22,18 +26,11 @@ import java.util.Queue;
 public class UserServiceImpl extends CrudServiceImpl<User> implements UserService {
 
     @Autowired
-    UserDao repository;
-
-    @Autowired
     Resizer resizer;
 
     @Override
     public UserDao getRepository() {
-        return repository;
-    }
-
-    public void setRepository(UserDao repository) {
-        this.repository = repository;
+        return getUserDao();
     }
 
 
@@ -91,5 +88,10 @@ public class UserServiceImpl extends CrudServiceImpl<User> implements UserServic
         }
 
         super.delete(domain);
+    }
+
+    @Override
+    public Page<User> findAll(UserFilter filter, Integer page, Integer pageSize, Sort sort) {
+        return getRepository().findAll(Specifications.where(UserSpec.filter(filter)), new PageRequest(page-1, pageSize, sort));
     }
 }

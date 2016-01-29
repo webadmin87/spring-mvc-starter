@@ -2,8 +2,7 @@ package ru.rzncenter.webcore.service;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.repository.CrudRepository;
-
+import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 /**
@@ -24,6 +23,6 @@ public interface CrudService<T> {
 
     public void delete(T domain);
 
-    abstract CrudRepository<T, Long> getRepository();
+    public JpaRepository<T, Long> getRepository();
 
 }
