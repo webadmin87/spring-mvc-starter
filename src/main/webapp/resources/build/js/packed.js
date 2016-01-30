@@ -239,7 +239,7 @@
 
                 this.filterTimeout = null;
 
-                this.defaultPageSize = 1;
+                this.defaultPageSize = 20;
 
                 this.Resource = Resource;
 

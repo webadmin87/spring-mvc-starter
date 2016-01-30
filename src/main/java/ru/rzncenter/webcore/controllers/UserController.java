@@ -15,6 +15,7 @@ import ru.rzncenter.webcore.domains.UserFilter;
 import ru.rzncenter.webcore.json.JsonUtils;
 import ru.rzncenter.webcore.service.PageUtils;
 import ru.rzncenter.webcore.service.UserService;
+import ru.rzncenter.webcore.web.Resizer;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -25,6 +26,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/admin/user/")
 public class UserController {
+
+    @Autowired
+    Resizer resizer;
 
     @Autowired
     UserService userService;
@@ -52,6 +56,8 @@ public class UserController {
             userPage = userService.findAll(page, pageSize, new Sort(sortDirection, sortField));
         else
             userPage = userService.findAll(userFilter, page, pageSize, new Sort(sortDirection, sortField));
+
+        resizer.resize(userPage.getContent());
 
         HttpHeaders headers = new HttpHeaders();
 

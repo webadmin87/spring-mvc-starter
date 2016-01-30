@@ -25,29 +25,14 @@ import java.util.Queue;
 @Service
 public class UserServiceImpl extends CrudServiceImpl<User> implements UserService {
 
-    @Autowired
-    Resizer resizer;
-
     @Override
     public UserDao getRepository() {
         return getUserDao();
     }
 
-
     @Override
     public User findByUsername(String username) {
         return getRepository().findByUsername(username);
-    }
-
-    @Override
-    public Page<User> findAll(Integer page, Integer pageSize, Sort sort) {
-
-        Page<User> pageObj = super.findAll(page, pageSize, sort);
-
-        resizer.resize(pageObj.getContent());
-
-        return pageObj;
-
     }
 
     @Override
