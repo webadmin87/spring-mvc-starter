@@ -95,16 +95,6 @@ public class UserController {
 
     }
 
-    /**
-     * Обработка ошибок валидации.
-     * @param exception
-     * @return
-     */
-    @ExceptionHandler
-    public ResponseEntity<List<ObjectError>> handleValidationException(MethodArgumentNotValidException exception) {
-        return new ResponseEntity<>(exception.getBindingResult().getAllErrors(), HttpStatus.BAD_REQUEST);
-    }
-
     @RequestMapping(value = "roles/", method = RequestMethod.GET)
     public User.Role[] roles() {
 
