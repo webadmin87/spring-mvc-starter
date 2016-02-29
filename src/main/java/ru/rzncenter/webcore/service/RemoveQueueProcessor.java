@@ -26,9 +26,11 @@ public class RemoveQueueProcessor {
 
         List<String> files = new ArrayList<>();
 
-        while (!queue.isEmpty()) {
+        String name;
 
-            files.add(queue.poll());
+        while ((name = queue.poll()) != null) {
+
+            files.add(name);
 
         }
 
