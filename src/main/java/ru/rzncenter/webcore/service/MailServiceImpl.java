@@ -19,7 +19,7 @@ public class MailServiceImpl implements MailService {
     @Autowired
     JavaMailSender mailSender;
 
-    @Value("#{props['mailserver.email']}")
+    @Value("${mailserver.email}")
     String mailFrom;
 
     @Autowired

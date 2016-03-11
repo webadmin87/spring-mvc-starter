@@ -80,7 +80,9 @@
 
     <!-- Настройки приложения -->
 
-    <util:properties id="props" location="classpath:/application.properties" />
+    <!--<util:properties id="props" location="classpath:/application.properties" />-->
+
+    <context:property-placeholder location="classpath:application.properties" />
 
     <!-- Сообщения интернализации -->
 
@@ -102,12 +104,12 @@
 
     <bean id="mailSender"
           class="org.springframework.mail.javamail.JavaMailSenderImpl">
-        <property name="host" value="#{props['mailserver.host']}"></property>
-        <property name="port" value="#{props['mailserver.port']}"></property>
-        <property name="protocol" value="#{props['mailserver.protocol']}"></property>
-        <property name="username" value="#{props['mailserver.username']}"></property>
-        <property name="password" value="#{props['mailserver.password']}"></property>
-        <property name="defaultEncoding" value="#{props['mailserver.defaulEncoding']}"></property>
+        <property name="host" value="${mailserver.host}"></property>
+        <property name="port" value="${mailserver.port}"></property>
+        <property name="protocol" value="${mailserver.protocol}"></property>
+        <property name="username" value="${mailserver.username}"></property>
+        <property name="password" value="${mailserver.password}"></property>
+        <property name="defaultEncoding" value="${mailserver.defaulEncoding}"></property>
         <property name="javaMailProperties">
             <props>
                 <prop key="mail.smtp.auth">true</prop>

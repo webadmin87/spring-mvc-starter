@@ -16,7 +16,7 @@ public class TranslateImpl implements Translate {
     @Autowired
     MessageSource msg;
 
-    @Value("#{props['app.locale']}")
+    @Value("${app.locale}")
     String locale;
 
     @Override

@@ -9,16 +9,16 @@ import org.springframework.stereotype.Component;
 @Component
 public class EnvironmetInfoImpl implements EnvironmentInfo {
 
-    @Value("#{props['app.name']}")
+    @Value("${app.name}")
     String applicationName;
 
-    @Value("#{props['app.userfilesEnvVariable']}")
+    @Value("${app.userfilesEnvVariable}")
     String userfilesEnvVariable;
 
-    @Value("#{props['app.userfilesDirName']}")
+    @Value("${app.userfilesDirName}")
     String userfilesDirName;
 
-    @Value("#{props['app.contextPath']}")
+    @Value("${app.contextPath}")
     String contextPath;
 
     @Override
