@@ -146,29 +146,29 @@ public class ResizerImpl implements Resizer {
 
                 // Делаем ресайз до указанной пропорции
 
-                float prop = width*1.00f / height;
+                double prop = width*1.0 / height;
 
                 int originWidth = inp.getWidth();
 
                 int originHeight = inp.getHeight();
 
-                int cropHeight = ((Double) Math.floor(originWidth / prop)).intValue();
+                int cropHeight = (int) Math.floor(originWidth / prop);
 
                 int cropWidth = 0;
 
                 if (cropHeight > originHeight) {
-                    cropWidth = ((Double) Math.floor(originHeight * prop)).intValue();
+                    cropWidth = (int) Math.floor(originHeight * prop);
                 }
 
                 if (cropWidth != 0) {
-                    cropHeight = ((Double) Math.floor(cropWidth / prop)).intValue();
+                    cropHeight = (int) Math.floor(cropWidth / prop);
                 } else {
-                    cropWidth = ((Double) Math.floor(cropHeight * prop)).intValue();
+                    cropWidth = (int) Math.floor(cropHeight * prop);
                 }
 
-                int x = ((Double) Math.floor((originWidth - cropWidth) / 2)).intValue();
+                int x = (int) Math.floor((originWidth - cropWidth) / 2);
 
-                int y = ((Double) Math.floor((originHeight - cropHeight) / 2)).intValue();
+                int y = (int) Math.floor((originHeight - cropHeight) / 2);
 
 
                 BufferedImage croped = Scalr.crop(inp, x, y, cropWidth, cropHeight);
