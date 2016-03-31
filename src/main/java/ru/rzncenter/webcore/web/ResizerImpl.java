@@ -154,16 +154,13 @@ public class ResizerImpl implements Resizer {
 
                 int cropHeight = (int) (originWidth / prop);
 
-                int cropWidth = 0;
+                int cropWidth;
 
                 if (cropHeight > originHeight) {
                     cropWidth = (int) (originHeight * prop);
-                }
-
-                if (cropWidth != 0) {
-                    cropHeight = (int) (cropWidth / prop);
+                    cropHeight = originHeight;
                 } else {
-                    cropWidth = (int) (cropHeight * prop);
+                    cropWidth = originWidth;
                 }
 
                 int x = (originWidth - cropWidth) / 2;
