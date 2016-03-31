@@ -152,23 +152,23 @@ public class ResizerImpl implements Resizer {
 
                 int originHeight = inp.getHeight();
 
-                int cropHeight = (int) Math.floor(originWidth / prop);
+                int cropHeight = (int) (originWidth / prop);
 
                 int cropWidth = 0;
 
                 if (cropHeight > originHeight) {
-                    cropWidth = (int) Math.floor(originHeight * prop);
+                    cropWidth = (int) (originHeight * prop);
                 }
 
                 if (cropWidth != 0) {
-                    cropHeight = (int) Math.floor(cropWidth / prop);
+                    cropHeight = (int) (cropWidth / prop);
                 } else {
-                    cropWidth = (int) Math.floor(cropHeight * prop);
+                    cropWidth = (int) (cropHeight * prop);
                 }
 
-                int x = (int) Math.floor((originWidth - cropWidth) / 2);
+                int x = (originWidth - cropWidth) / 2;
 
-                int y = (int) Math.floor((originHeight - cropHeight) / 2);
+                int y = (originHeight - cropHeight) / 2;
 
 
                 BufferedImage croped = Scalr.crop(inp, x, y, cropWidth, cropHeight);
