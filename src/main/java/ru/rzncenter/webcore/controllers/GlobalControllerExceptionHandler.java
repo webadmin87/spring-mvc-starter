@@ -1,6 +1,7 @@
 package ru.rzncenter.webcore.controllers;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ import java.util.List;
 @RestController
 public class GlobalControllerExceptionHandler {
 
-    private static final Logger logger = Logger.getLogger(GlobalControllerExceptionHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(GlobalControllerExceptionHandler.class);
 
     /**
      * Обработка ошибок ограничений целостности

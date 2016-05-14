@@ -39,7 +39,7 @@
         <beans:property name="arguments"><beans:list><beans:value>MODE_INHERITABLETHREADLOCAL</beans:value></beans:list></beans:property>
     </beans:bean>
 
-    <http pattern="/resources/**" security="none"/>
+    <http pattern="/resources/vendors/angular-ui-tree/dist" security="none"/>
 
     <http entry-point-ref="restAuthenticationEntryPoint" use-expressions="true" create-session="stateless" authentication-manager-ref="authenticationManager">
         <custom-filter position="PRE_AUTH_FILTER" ref="customTokenAuthenticationFilter"></custom-filter>
