@@ -93,7 +93,7 @@ public class CyrTranslation implements Translation {
 
         char[] chars = input.toCharArray();
 
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
 
         for(Character ch  : chars) {
 

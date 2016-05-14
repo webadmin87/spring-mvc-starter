@@ -127,7 +127,8 @@ public class FileUploaderImpl implements FileUploader {
             return null;
 
         } finally {
-            connection.disconnect();
+            if(connection != null)
+                connection.disconnect();
         }
 
     }
