@@ -23,10 +23,14 @@ public class UniqueValidator  implements ConstraintValidator<Unique, Object> {
 
     String attr;
 
+    String pk;
+
     @Override
     public void initialize(final Unique unique) {
 
         attr = unique.value();
+
+        pk = unique.pk();
 
     }
 
@@ -39,7 +43,7 @@ public class UniqueValidator  implements ConstraintValidator<Unique, Object> {
 
             Object propValue = BeanUtils.getProperty(object, attr);
 
-            String id = BeanUtils.getProperty(object, "id");
+            String id = BeanUtils.getProperty(object, pk);
 
             CriteriaBuilder builder = em.getCriteriaBuilder();
 
@@ -53,7 +57,7 @@ public class UniqueValidator  implements ConstraintValidator<Unique, Object> {
 
             if(id != null) {
 
-                predicates.add(builder.notEqual(root.get("id"), id));
+                predicates.add(builder.notEqual(root.get(pk), id));
 
             }
 
@@ -69,7 +73,7 @@ public class UniqueValidator  implements ConstraintValidator<Unique, Object> {
 
         } catch (Exception e) {
 
-
+            e.printStackTrace();
 
         }
 

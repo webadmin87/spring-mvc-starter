@@ -24,6 +24,8 @@ public @interface Unique {
 
     String message() default "{constraints.unique}";
 
+    String pk() default "id";
+
     Class<?>[] groups() default { };
 
     Class<? extends Payload>[] payload() default { };
