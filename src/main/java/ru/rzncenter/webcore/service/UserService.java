@@ -12,6 +12,8 @@ public interface UserService extends CrudService<User> {
 
     public User findByUsername(String username);
 
+    public User findByToken(String token);
+
     public Page<User> findAll(UserFilter filter, Integer page, Integer pageSize, Sort sort);
 
 }

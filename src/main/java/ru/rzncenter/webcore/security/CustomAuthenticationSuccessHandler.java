@@ -7,6 +7,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import ru.rzncenter.webcore.dao.UserDao;
 import ru.rzncenter.webcore.domains.User;
+import ru.rzncenter.webcore.service.UserService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -19,14 +20,14 @@ import java.io.IOException;
 public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
     @Autowired
-    UserDao userDao;
+    UserService userService;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
 
         String username = authentication.getName();
 
-        User user = userDao.findByUsername(username);
+        User user = userService.findByUsername(username);
 
         if(user != null) {
 
@@ -34,7 +35,7 @@ public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthent
 
             this.clearAuthenticationAttributes(httpServletRequest);
 
-            httpServletResponse.setHeader("X-AUTH-TOKEN", token);
+            httpServletResponse.setHeader(CustomTokenAuthenticationFilter.HEADER_SECURITY_TOKEN, token);
 
             ObjectMapper mapper = new ObjectMapper();
 

@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Валидатор проверяющий уникальность поля
  */
-public class UniqueValidator  implements ConstraintValidator<Unique, Object> {
+public class UniqueValidator implements ConstraintValidator<Unique, Object> {
 
 
     @PersistenceContext
@@ -47,7 +47,7 @@ public class UniqueValidator  implements ConstraintValidator<Unique, Object> {
 
             CriteriaBuilder builder = em.getCriteriaBuilder();
 
-            CriteriaQuery criteria = builder.createQuery(cls);
+            CriteriaQuery<Long> criteria = builder.createQuery(Long.class);
 
             Root root = criteria.from(cls);
 
@@ -61,26 +61,22 @@ public class UniqueValidator  implements ConstraintValidator<Unique, Object> {
 
             }
 
-            criteria.where(predicates.toArray(new Predicate[predicates.size()]));
+            criteria.select(builder.count(root)).where(predicates.toArray(new Predicate[predicates.size()]));
 
-            Query query = em.createQuery(criteria);
+            Long result = em.createQuery(criteria).getSingleResult();
 
-            List<Object> res = query.getResultList();
+            return result == 0;
 
-            boolean result = res.size()==0;
+        } catch (NoResultException e) {
 
-            return result;
+            return true;
 
         } catch (Exception e) {
 
-            e.printStackTrace();
+            return false;
 
         }
 
-        return true;
-
     }
-
-
 
 }

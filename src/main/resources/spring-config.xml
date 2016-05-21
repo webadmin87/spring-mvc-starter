@@ -34,6 +34,7 @@
                             <prop key="hibernate.query.plan_cache_max_strong_references">64</prop>
                             <prop key="hibernate.query.plan_cache_max_soft_references">1024</prop>
                             <prop key="hibernate.cache.default_cache_concurrency_strategy">read-write</prop>
+                            <prop key="javax.persistence.validation.mode">NONE</prop>
                             <!--<prop key="hibernate.generate_statistics">true</prop>-->
                      </props>
               </property>

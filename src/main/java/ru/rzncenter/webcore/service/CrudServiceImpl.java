@@ -32,21 +32,25 @@ public abstract class CrudServiceImpl<T extends Domain> implements CrudService<T
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<T> findAll() {
         return getRepository().findAll();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Page<T> findAll(Integer page, Integer pageSize) {
         return getRepository().findAll(new PageRequest(page-1, pageSize));
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Page<T> findAll(Integer page, Integer pageSize, Sort sort) {
         return getRepository().findAll(new PageRequest(page-1, pageSize, sort));
     }
 
     @Override
+    @Transactional(readOnly = true)
     public T findOne(Long id) {
         return getRepository().findOne(id);
     }

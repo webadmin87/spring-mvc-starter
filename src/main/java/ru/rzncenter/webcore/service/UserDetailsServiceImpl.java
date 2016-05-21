@@ -1,6 +1,5 @@
 package ru.rzncenter.webcore.service;
 
-import ru.rzncenter.webcore.dao.UserDao;
 import ru.rzncenter.webcore.domains.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -22,12 +21,12 @@ import java.util.Set;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
-    UserDao dao;
+    UserService userService;
     
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         
-        User u = dao.findByUsername(s);
+        User u = userService.findByUsername(s);
         
         if(u == null || u.getActive() == false)
             throw new UsernameNotFoundException("User with name "+s+" not found");

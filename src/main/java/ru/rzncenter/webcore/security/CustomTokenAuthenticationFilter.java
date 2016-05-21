@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import ru.rzncenter.webcore.dao.UserDao;
 import ru.rzncenter.webcore.domains.User;
+import ru.rzncenter.webcore.service.UserService;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -25,7 +26,7 @@ public class CustomTokenAuthenticationFilter extends AbstractAuthenticationProce
     public static final String HEADER_SECURITY_TOKEN = "X-AUTH-TOKEN";
 
     @Autowired
-    UserDao userDao;
+    UserService userService;
 
     public CustomTokenAuthenticationFilter(String defaultFilterProcessesUrl) {
         super(defaultFilterProcessesUrl);
@@ -36,7 +37,7 @@ public class CustomTokenAuthenticationFilter extends AbstractAuthenticationProce
 
         String token = httpServletRequest.getHeader(HEADER_SECURITY_TOKEN);
 
-        User user = userDao.findByToken(token);
+        User user = userService.findByToken(token);
 
         if(user != null) {
 

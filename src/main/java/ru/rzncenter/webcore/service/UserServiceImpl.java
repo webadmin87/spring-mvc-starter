@@ -31,8 +31,15 @@ public class UserServiceImpl extends CrudServiceImpl<User> implements UserServic
     }
 
     @Override
+    @Transactional(readOnly = true)
     public User findByUsername(String username) {
         return getRepository().findByUsername(username);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public User findByToken(String token) {
+        return getRepository().findByToken(token);
     }
 
     @Override
@@ -76,6 +83,7 @@ public class UserServiceImpl extends CrudServiceImpl<User> implements UserServic
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Page<User> findAll(UserFilter filter, Integer page, Integer pageSize, Sort sort) {
         return getRepository().findAll(Specifications.where(UserSpec.filter(filter)), new PageRequest(page-1, pageSize, sort));
     }
