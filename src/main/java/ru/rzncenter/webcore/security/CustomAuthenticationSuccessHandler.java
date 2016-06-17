@@ -35,7 +35,7 @@ public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthent
 
             this.clearAuthenticationAttributes(httpServletRequest);
 
-            httpServletResponse.setHeader(CustomTokenAuthenticationFilter.HEADER_SECURITY_TOKEN, token);
+            httpServletResponse.setHeader(TokenPreAuthenticationFilter.TOKEN_HEADER, token);
 
             ObjectMapper mapper = new ObjectMapper();
 

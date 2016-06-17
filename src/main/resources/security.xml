@@ -19,16 +19,16 @@
 
     <beans:bean id="authenticationFailureHandler" class="ru.rzncenter.webcore.security.CustomAuthenticationFailureHandler" />
 
-    <!-- Правило для фильтра осуществляющего аутентификацию по токену -->
+    <!-- Провайдер пре аутентификации -->
 
-    <beans:bean id="tokenRequestMatcher" class="ru.rzncenter.webcore.security.TokenRequestMatcher"></beans:bean>
+    <beans:bean id="preAuthenticationProvider" class="org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider">
+        <beans:property name="preAuthenticatedUserDetailsService" ref="userDetailsTokenService" />
+    </beans:bean>
 
-    <!-- Фильтр для аутентификации по токену -->
+    <!-- Фильтр пре аутентифкации по токену -->
 
-    <beans:bean id="customTokenAuthenticationFilter" class="ru.rzncenter.webcore.security.CustomTokenAuthenticationFilter">
-        <beans:constructor-arg type="java.lang.String" value="/**"></beans:constructor-arg>
+    <beans:bean id="tokenPreAuthenticationFilter" class="ru.rzncenter.webcore.security.TokenPreAuthenticationFilter">
         <beans:property name="authenticationManager" ref="authenticationManager"></beans:property>
-        <beans:property name="requiresAuthenticationRequestMatcher" ref="tokenRequestMatcher"></beans:property>
     </beans:bean>
 
     <!-- Enable Security in child threads -->
@@ -42,7 +42,7 @@
     <http pattern="/resources/vendors/angular-ui-tree/dist" security="none"/>
 
     <http entry-point-ref="restAuthenticationEntryPoint" use-expressions="true" create-session="stateless" authentication-manager-ref="authenticationManager">
-        <custom-filter position="PRE_AUTH_FILTER" ref="customTokenAuthenticationFilter"></custom-filter>
+        <custom-filter position="PRE_AUTH_FILTER" ref="tokenPreAuthenticationFilter"></custom-filter>
         <intercept-url pattern="/admin/**" access="isAuthenticated()"/>
         <form-login authentication-success-handler-ref="authenticationSuccessHandler" authentication-failure-handler-ref="authenticationFailureHandler" />
         <logout logout-url="/logout" logout-success-url="/"/>
@@ -57,7 +57,7 @@
             <password-encoder hash="md5" />
         </authentication-provider>
         <!-- Аутентификация по токену -->
-        <authentication-provider user-service-ref="userDetailsTokenService" />
+        <authentication-provider ref="preAuthenticationProvider" />
     </authentication-manager>
 
     <!-- Регистрируем свой обработчик hasPermission -->
