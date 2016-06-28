@@ -45,7 +45,7 @@ public class WebPagination implements Pagination {
 
     public Integer getTotalPages() {
 
-        Double pages = Math.ceil(Double.valueOf(totalCount)/Double.valueOf(pageSize));
+        Double pages = Math.ceil(totalCount*1.0/pageSize);
 
         return pages.intValue();
     }

@@ -23,7 +23,7 @@
 
    function FileUpload(FileUploader, $http, userService) {
 
-       var templateUrl = '/resources/build/templates/fileUploadDirective.html';
+       var templateUrl = 'resources/build/templates/fileUploadDirective.html';
 
        return {
 

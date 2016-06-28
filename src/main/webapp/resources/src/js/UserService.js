@@ -19,7 +19,7 @@
 
             var deferred = $q.defer();
 
-            $http.post('/login', model, {transformRequest: transformRequest, headers: {
+            $http.post('login', model, {transformRequest: transformRequest, headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }})
                 .success(loginSuccess)
@@ -75,8 +75,8 @@
 
             if(resource == null) {
 
-                resource = $resource('/admin/user/:id/', {id:'@id'}, {
-                    roles: {url: '/admin/user/roles/', method:'GET', isArray: true}
+                resource = $resource('admin/user/:id/', {id:'@id'}, {
+                    roles: {url: 'admin/user/roles/', method:'GET', isArray: true}
                 });
 
             }

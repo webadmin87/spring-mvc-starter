@@ -25,7 +25,7 @@ public class UserfilesController {
     @RequestMapping(value = "/userfiles/**" , method = RequestMethod.GET)
     public ResponseEntity<FileSystemResource> getFile(HttpServletRequest req) {
         
-        String uri = req.getRequestURI();
+        String uri = req.getRequestURI().substring(req.getContextPath().length());
 
         String filePath = fileUtils.webToServerPath(uri);
 

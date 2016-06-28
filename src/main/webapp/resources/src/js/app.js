@@ -25,13 +25,13 @@
 
         .constant('uploaderParams', {
 
-            url:  "/admin/upload/"
+            url:  "admin/upload/"
 
         })
 
         .constant('urlUploaderParams', {
 
-            url:  "/admin/upload-by-url/"
+            url:  "admin/upload-by-url/"
 
         })
 

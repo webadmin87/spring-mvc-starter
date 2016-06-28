@@ -25,13 +25,13 @@
 
         .constant('uploaderParams', {
 
-            url:  "/admin/upload/"
+            url:  "admin/upload/"
 
         })
 
         .constant('urlUploaderParams', {
 
-            url:  "/admin/upload-by-url/"
+            url:  "admin/upload-by-url/"
 
         })
 
@@ -410,7 +410,7 @@
 
             var deferred = $q.defer();
 
-            $http.post('/login', model, {transformRequest: transformRequest, headers: {
+            $http.post('login', model, {transformRequest: transformRequest, headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }})
                 .success(loginSuccess)
@@ -466,8 +466,8 @@
 
             if(resource == null) {
 
-                resource = $resource('/admin/user/:id/', {id:'@id'}, {
-                    roles: {url: '/admin/user/roles/', method:'GET', isArray: true}
+                resource = $resource('admin/user/:id/', {id:'@id'}, {
+                    roles: {url: 'admin/user/roles/', method:'GET', isArray: true}
                 });
 
             }
@@ -804,7 +804,7 @@
 
    function FileUpload(FileUploader, $http, userService) {
 
-       var templateUrl = '/resources/build/templates/fileUploadDirective.html';
+       var templateUrl = 'resources/build/templates/fileUploadDirective.html';
 
        return {
 

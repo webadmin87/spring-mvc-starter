@@ -1,7 +1,10 @@
 package ru.rzncenter.webcore.utils;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Возвращает информацию об окружении 
@@ -21,6 +24,9 @@ public class EnvironmetInfoImpl implements EnvironmentInfo {
     @Value("${app.contextPath}")
     String contextPath;
 
+    @Autowired
+    HttpServletRequest request;
+
     @Override
     public String getApplicationName() {
         return applicationName;
@@ -37,7 +43,5 @@ public class EnvironmetInfoImpl implements EnvironmentInfo {
     }
 
     @Override
-    public String getContextPath() {
-        return contextPath==null?"":contextPath;
-    }
+    public String getContextPath() { return request!=null?request.getContextPath():contextPath; }
 }

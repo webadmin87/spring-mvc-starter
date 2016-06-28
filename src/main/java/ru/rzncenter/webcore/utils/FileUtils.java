@@ -34,9 +34,7 @@ public class FileUtils {
      */
     public String getWebPath() {
 
-        String contextPath = info.getContextPath();
-
-        return  contextPath + "/" + info.getUserfilesDirName();
+        return  info.getUserfilesDirName();
         
     }
 
@@ -45,19 +43,8 @@ public class FileUtils {
      * @return
      */
     public String getServerPath() {
-        
-        String webPath = getWebPath();
 
-        String contextPath = info.getContextPath();
-
-        String path;
-
-        if(contextPath.equals("")) {
-            path = System.getenv(info.getUserfilesEnvVariable()) + "/" + info.getApplicationName() + webPath;
-        } else {
-
-            path = System.getenv(info.getUserfilesEnvVariable()) + webPath;
-        }
+        String path = System.getenv(info.getUserfilesEnvVariable()) + "/" + info.getApplicationName() + "/" + info.getUserfilesDirName();
 
         File dir = new File(path);
         
