@@ -7,6 +7,6 @@ import org.springframework.security.core.Authentication;
  */
 public interface Rule {
     
-    public boolean execute(Authentication auth, UserDomain user, Object domain);
+    boolean execute(Authentication auth, UserDomain user, Object domain);
     
 }

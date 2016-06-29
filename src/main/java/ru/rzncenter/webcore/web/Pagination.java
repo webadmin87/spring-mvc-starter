@@ -9,24 +9,24 @@ import javax.persistence.Query;
  */
 public interface Pagination {
 
-    public Long getTotalCount();
+    Long getTotalCount();
 
-    public void setTotalCount(Long totalCount);
+    void setTotalCount(Long totalCount);
 
-    public Integer getPageSize();
+    Integer getPageSize();
 
-    public void setPageSize(Integer pageSize);
+    void setPageSize(Integer pageSize);
 
-    public Integer getTotalPages();
+    Integer getTotalPages();
 
-    public Integer getPage();
+    Integer getPage();
 
-    public void setPage(Integer page);
+    void setPage(Integer page);
 
-    public Integer getOffset();
+    Integer getOffset();
 
-    public void applyLimits(Query q);
+    void applyLimits(Query q);
 
-    public void applyHeaders(HttpHeaders headers);
+    void applyHeaders(HttpHeaders headers);
 
 }

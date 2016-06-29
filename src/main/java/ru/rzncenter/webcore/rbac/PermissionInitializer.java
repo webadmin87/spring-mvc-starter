@@ -5,6 +5,6 @@ package ru.rzncenter.webcore.rbac;
  */
 public interface PermissionInitializer {
     
-    public void initialize(PermissionManager manager);
+    void initialize(PermissionManager manager);
     
 }

@@ -18,24 +18,15 @@ public class RemoveQueueProcessor {
     @Autowired
     FilesRemover filesRemover;
 
-
     @Scheduled(fixedDelay = 1000)
     public void process() {
-
         Queue<String> queue = RemoveFilesQueueHolder.getInstance();
-
         List<String> files = new ArrayList<>();
-
         String name;
-
         while ((name = queue.poll()) != null) {
-
             files.add(name);
-
         }
-
         filesRemover.removeFiles(files);
-
     }
 
 }

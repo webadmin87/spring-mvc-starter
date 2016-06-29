@@ -90,30 +90,17 @@ public class CyrTranslation implements Translation {
      * @return
      */
     public String execute(String input) {
-
         char[] chars = input.toCharArray();
-
         StringBuilder buffer = new StringBuilder();
-
         for(Character ch  : chars) {
-
             String fromMap = map.get(ch);
-
             if(fromMap != null) {
-
                 buffer.append(fromMap);
-
             } else {
-
                 buffer.append(ch);
-
             }
-
         }
-
         return buffer.toString();
-
     }
-
 
 }

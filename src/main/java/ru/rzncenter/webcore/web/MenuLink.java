@@ -15,11 +15,8 @@ public class MenuLink {
     List<MenuLink> children =  new ArrayList<>();
 
     public MenuLink(String title, String link) {
-
         this.title = title;
-
         this.link = link;
-
     }
 
     public String getTitle() {
@@ -47,10 +44,7 @@ public class MenuLink {
     }
 
     public MenuLink addChild(MenuLink link) {
-
         children.add(link);
-
         return this;
-
     }
 }

@@ -6,6 +6,6 @@ package ru.rzncenter.webcore.utils;
  */
 public interface Configurator<T> {
 
-    public void configure(T object);
+    void configure(T object);
 
 }

@@ -14,17 +14,11 @@ public class WebFilesRemover implements FilesRemover {
     FileUtils fileUtils;
 
     public void removeFiles(List<String> files) {
-
         if(files != null) {
-
             for (String name : files) {
-
                 fileUtils.deleteFileByWebPath(name);
-
             }
-
         }
-
     }
 
 }

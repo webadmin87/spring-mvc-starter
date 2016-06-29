@@ -7,22 +7,22 @@ import java.util.Set;
  */
 public interface Permission {
     
-    public String getName();
+    String getName();
     
-    public void setName(String name);
+    void setName(String name);
 
-    public Rule getRule();
+    Rule getRule();
 
-    public void setRule(Rule rule);
+    void setRule(Rule rule);
     
-    public void addChild(Permission permission);
+    void addChild(Permission permission);
     
-    public void setParent(Permission permission);
+    void setParent(Permission permission);
     
-    public Permission getParent();
+    Permission getParent();
     
-    public Set<Permission> getChildren();
+    Set<Permission> getChildren();
 
-    public boolean hasRule();
+    boolean hasRule();
     
 }

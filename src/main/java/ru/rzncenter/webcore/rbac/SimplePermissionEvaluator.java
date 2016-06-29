@@ -12,16 +12,12 @@ public class SimplePermissionEvaluator implements PermissionEvaluator {
     PermissionManager permissionManager;
 
     public boolean hasPermission(Authentication authentication, Object target, Object permission) {
-
         String name = permission.toString();
-
         return permissionManager.hasPermission(name, authentication, target);
-
     }
 
     public boolean hasPermission(Authentication authentication, Serializable targetId, String targetType, Object permission) {
         throw new UnsupportedOperationException();
     }
-
 
 }

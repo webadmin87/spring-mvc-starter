@@ -10,12 +10,12 @@ import java.util.List;
  */
 public interface Resizer {
 
-    public String resize(File file, int width, int height);
+    String resize(File file, int width, int height);
 
-    public String resize(File file, int width);
+    String resize(File file, int width);
 
-    public void resize(Previews model);
+    void resize(Previews model);
 
-    public void resize(List models);
+    void resize(List models);
 
 }

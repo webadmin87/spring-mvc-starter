@@ -17,16 +17,12 @@ public class AppController {
 
     @RequestMapping("")
     public String run(Model model) {
-
         String[] profiles = env.getActiveProfiles();
-
-        if(profiles.length == 0)
+        if(profiles.length == 0) {
             profiles = env.getDefaultProfiles();
-
+        }
         model.addAttribute("profiles", profiles);
-
         return "index";
-
     }
 
 }

@@ -13,6 +13,7 @@
     <spring.version>4.2.4.RELEASE</spring.version>
     <spring.security.version>4.0.3.RELEASE</spring.security.version>
     <hibernate.version>5.0.2.Final</hibernate.version>
+    <application.context>/springMvcStarter</application.context>
   </properties>
 
   <dependencyManagement>
@@ -279,7 +280,7 @@
         <version>9.3.6.v20151106</version>
         <configuration>
           <webApp>
-            <contextPath>/springMvcStarter</contextPath>
+            <contextPath>${application.context}</contextPath>
           </webApp>
         </configuration>
       </plugin>

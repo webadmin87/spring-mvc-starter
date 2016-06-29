@@ -47,59 +47,42 @@ public class UserController {
             @RequestParam(defaultValue = "DESC", required = false) Sort.Direction sortDirection,
             @RequestParam(required = false) String filter
     ) {
-
         UserFilter userFilter = jsonUtils.jsonToObject(filter, new TypeReference<UserFilter>() {});
-
         Page<User> userPage;
-
-        if(userFilter == null)
+        if(userFilter == null) {
             userPage = userService.findAll(page, pageSize, new Sort(sortDirection, sortField));
-        else
+        } else {
             userPage = userService.findAll(userFilter, page, pageSize, new Sort(sortDirection, sortField));
-
+        }
         resizer.resize(userPage.getContent());
-
         HttpHeaders headers = new HttpHeaders();
-
         pageUtils.pageToHeareds(headers, userPage);
-
         return new ResponseEntity<>(userPage.getContent(), headers, HttpStatus.OK);
-
     }
 
     @RequestMapping(value = "{id}/", method = RequestMethod.GET)
     public User one(@PathVariable Long id) {
-
         return userService.findOne(id);
-
     }
 
     @RequestMapping(value = "{id}/", method = RequestMethod.DELETE)
     public void delete(@PathVariable Long id) {
-
         userService.delete(userService.findOne(id));
-
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)
     public User insert(@RequestBody @Valid User user) {
-
         return userService.save(user);
-
     }
 
     @RequestMapping(value = "{id}/", method = RequestMethod.POST)
     public User update(@PathVariable Long id, @RequestBody @Valid User user) {
-
         return userService.save(user);
-
     }
 
     @RequestMapping(value = "roles/", method = RequestMethod.GET)
     public User.Role[] roles() {
-
         return User.Role.values();
-
     }
 
 }

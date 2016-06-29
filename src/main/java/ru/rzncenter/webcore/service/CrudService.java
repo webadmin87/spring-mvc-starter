@@ -11,18 +11,18 @@ import java.util.List;
  */
 public interface CrudService<T> {
 
-    public List<T> findAll();
+    List<T> findAll();
 
-    public Page<T> findAll(Integer page, Integer pageSize);
+    Page<T> findAll(Integer page, Integer pageSize);
 
-    public Page<T> findAll(Integer page, Integer pageSize, Sort sort);
+    Page<T> findAll(Integer page, Integer pageSize, Sort sort);
 
-    public T findOne(Long id);
+    T findOne(Long id);
 
-    public T save(T domain);
+    T save(T domain);
 
-    public void delete(T domain);
+    void delete(T domain);
 
-    public JpaRepository<T, Long> getRepository();
+    JpaRepository<T, Long> getRepository();
 
 }

@@ -10,24 +10,24 @@ import java.util.Set;
  */
 public interface PermissionManager {
     
-    public void addPermission(Permission permission);
+    void addPermission(Permission permission);
     
-    public Permission getPermissonByName(String name);
+    Permission getPermissonByName(String name);
     
-    public void reset();
+    void reset();
     
-    public void linkToRole(String role, Permission permission);
+    void linkToRole(String role, Permission permission);
     
-    public void linkToRole(String roleTo, String roleFrom);
+    void linkToRole(String roleTo, String roleFrom);
     
-    public boolean isLinkedToRole(String role, Permission permission);
+    boolean isLinkedToRole(String role, Permission permission);
 
-    public Set<String> getRoles();
+    Set<String> getRoles();
     
-    public boolean hasPermission(String name, Authentication auth, Object domain);
+    boolean hasPermission(String name, Authentication auth, Object domain);
 
-    public boolean hasPermission(String name, Authentication auth);
+    boolean hasPermission(String name, Authentication auth);
 
-    public UserDomain getUserDomain(Authentication auth);
+    UserDomain getUserDomain(Authentication auth);
 
 }

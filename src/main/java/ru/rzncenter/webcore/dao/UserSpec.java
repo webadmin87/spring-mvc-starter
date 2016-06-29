@@ -21,18 +21,16 @@ public final class UserSpec {
 
             @Override
             public Predicate toPredicate(Root<User> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
-
                 List<Predicate> predicateList = new ArrayList<>();
-
-                if(filter.getId() != null)
+                if(filter.getId() != null) {
                     predicateList.add(criteriaBuilder.equal(root.get("id"), filter.getId()));
-
-                if(filter.getUsername() != null)
-                    predicateList.add(criteriaBuilder.like(root.<String>get("username"), "%"+filter.getUsername()+"%"));
-
-                if(filter.getEmail() != null)
-                    predicateList.add(criteriaBuilder.like(root.<String>get("email"), "%"+filter.getEmail()+"%"));
-
+                }
+                if(filter.getUsername() != null) {
+                    predicateList.add(criteriaBuilder.like(root.<String>get("username"), "%" + filter.getUsername() + "%"));
+                }
+                if(filter.getEmail() != null) {
+                    predicateList.add(criteriaBuilder.like(root.<String>get("email"), "%" + filter.getEmail() + "%"));
+                }
                 return criteriaBuilder.and(predicateList.toArray(new Predicate[predicateList.size()]));
             }
         };

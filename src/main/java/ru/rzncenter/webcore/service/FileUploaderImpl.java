@@ -3,6 +3,8 @@ package ru.rzncenter.webcore.service;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.tika.mime.MimeType;
 import org.apache.tika.mime.MimeTypes;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,6 +23,7 @@ import java.net.URL;
 @Service
 public class FileUploaderImpl implements FileUploader {
 
+    private static final Logger logger = LoggerFactory.getLogger(FileUploaderImpl.class);
 
     @Autowired
     FileUtils fileUtils;
@@ -32,43 +35,32 @@ public class FileUploaderImpl implements FileUploader {
      */
     @Override
     public String handleFileUpload(MultipartFile file) {
-
        BufferedOutputStream stream = null;
-
        try {
-
            if (!file.isEmpty()) {
-
                byte[] bytes = file.getBytes();
-
                String name = file.getOriginalFilename();
-
                String folder = fileUtils.getSaveServerPath();
                String nameForSave = fileUtils.getNameForeSave(folder, name);
                String path = folder + "/" + nameForSave;
-
                stream = new BufferedOutputStream(new FileOutputStream(new File(path)));
-
                stream.write(bytes);
-
                return fileUtils.serverToWebPath(path);
-
            } else {
-
                return null;
-
            }
 
        } catch (IOException e) {
-
-           e.printStackTrace();
+           logger.error("File upload error", e);
            return null;
-
        } finally {
-
-           if(stream != null)
-               try { stream.close(); } catch (IOException e) {}
-
+           if(stream != null) {
+               try {
+                   stream.close();
+               } catch (IOException e) {
+                   logger.error("Stream close error", e);
+               }
+           }
        }
 
     }
@@ -80,55 +72,34 @@ public class FileUploaderImpl implements FileUploader {
      */
     @Override
     public String handleFileUploadFromUrl(String u) {
-
         HttpURLConnection connection = null;
-
         try {
-
             URL url = new URL(u);
-
             connection = (HttpURLConnection) url.openConnection();
-
             connection.setRequestMethod("GET");
-
             int response = connection.getResponseCode();
-
             if(response == 200) {
-
                 String contentType = connection.getHeaderField("Content-type");
-
                 MimeTypes allTypes = MimeTypes.getDefaultMimeTypes();
-
                 MimeType fileType = allTypes.forName(contentType);
-
                 String ext = fileType.getExtension();
-
                 String name = DigestUtils.md2Hex(u);
-
                 String folder = fileUtils.getSaveServerPath();
-
                 String nameForSave = fileUtils.getNameForeSave(folder, name + ext);
-
                 String path = folder + "/" + nameForSave;
-
                 org.apache.commons.io.FileUtils.copyInputStreamToFile(connection.getInputStream(), new File(path));
-
                 return fileUtils.serverToWebPath(path);
-
             } else {
-
                 return null;
-
             }
 
         } catch (Exception e) {
-
-            e.printStackTrace();
+            logger.error("File upload by url error", e);
             return null;
-
         } finally {
-            if(connection != null)
+            if(connection != null) {
                 connection.disconnect();
+            }
         }
 
     }

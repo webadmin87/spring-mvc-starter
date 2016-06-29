@@ -9,7 +9,6 @@ import java.util.Set;
  */
 public class SimplePermission implements Permission {
 
-
     String name;
 
     Rule rule;
@@ -19,16 +18,12 @@ public class SimplePermission implements Permission {
     Permission parent;
 
     public SimplePermission(String name) {
-
         this.name = name;
-
     }
 
     public SimplePermission(String name, Rule rule) {
-
         this.name = name;
         this.rule = rule;
-
     }
 
     @Override

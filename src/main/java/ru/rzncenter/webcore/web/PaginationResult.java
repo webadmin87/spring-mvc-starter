@@ -16,11 +16,8 @@ public class PaginationResult<T> {
     Pagination pager;
 
     public PaginationResult(List<T> inpResult, Pagination inpPager) {
-
         result = inpResult;
-
         pager = inpPager;
-
     }
 
     public List<T> getResult() {

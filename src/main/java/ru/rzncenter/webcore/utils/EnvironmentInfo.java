@@ -5,12 +5,12 @@ package ru.rzncenter.webcore.utils;
  */
 public interface EnvironmentInfo {
     
-    public String getApplicationName();
+    String getApplicationName();
     
-    public String getUserfilesEnvVariable();
+    String getUserfilesEnvVariable();
     
-    public String getUserfilesDirName();
+    String getUserfilesDirName();
 
-    public String getContextPath();
+    String getContextPath();
 
 }

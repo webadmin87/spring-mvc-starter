@@ -7,6 +7,6 @@ import java.util.List;
  */
 public interface FilesRemover {
     
-    public void removeFiles(List<String> files);
+    void removeFiles(List<String> files);
     
 }

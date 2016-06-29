@@ -8,6 +8,6 @@ import org.springframework.http.HttpHeaders;
  */
 public interface PageUtils {
 
-    public <T> void pageToHeareds(HttpHeaders httpHeaders, Page<T> page);
+    <T> void pageToHeareds(HttpHeaders httpHeaders, Page<T> page);
 
 }

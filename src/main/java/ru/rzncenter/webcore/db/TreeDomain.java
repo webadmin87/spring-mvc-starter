@@ -7,12 +7,12 @@ import java.util.List;
  */
 public interface TreeDomain {
 
-    public TreeDomain getParent();
+    TreeDomain getParent();
 
-    public List<? extends TreeDomain> getChildren();
+    List<? extends TreeDomain> getChildren();
 
-    public String getTitle();
+    String getTitle();
 
-    public Long getId();
+    Long getId();
 
 }

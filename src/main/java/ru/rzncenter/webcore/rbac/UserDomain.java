@@ -5,6 +5,6 @@ package ru.rzncenter.webcore.rbac;
  */
 public interface UserDomain {
 
-    public Long getId();
+    Long getId();
 
 }

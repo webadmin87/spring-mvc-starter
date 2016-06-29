@@ -45,24 +45,14 @@ public class UserServiceImpl extends CrudServiceImpl<User> implements UserServic
     @Override
     @Transactional
     public User save(User domain) {
-
         if(domain.getFilesToRemove().size()>0) {
-
             Queue<String> queue = RemoveFilesQueueHolder.getInstance();
-
             queue.addAll(domain.getFilesToRemove());
-
             domain.setFilesToRemove(new ArrayList<String>());
-
         }
-
-
         if(domain.getInputPassword() != null && domain.getInputPassword().length()>0) {
-
             domain.setPassword(DigestUtils.md5Hex(domain.getInputPassword()));
-
         }
-
         domain.setToken(DigestUtils.md5Hex(domain.getUsername() + domain.getPassword() + domain.getRole()));
         return super.save(domain);
     }
@@ -70,15 +60,10 @@ public class UserServiceImpl extends CrudServiceImpl<User> implements UserServic
     @Override
     @Transactional
     public void delete(User domain) {
-
         if(domain.getFilePaths() != null && domain.getFilePaths().size() > 0) {
-
             Queue<String> queue = RemoveFilesQueueHolder.getInstance();
-
             queue.addAll(domain.getFilePaths().values());
-
         }
-
         super.delete(domain);
     }
 

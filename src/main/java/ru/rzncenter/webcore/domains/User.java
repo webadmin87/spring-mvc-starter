@@ -34,9 +34,7 @@ public class User extends Domain implements Previews, UserDomain {
      * Роли пользователя
      */
     public static enum Role {
-
         ROLE_ADMIN
-
     }
 
     /**
@@ -146,10 +144,7 @@ public class User extends Domain implements Previews, UserDomain {
     }
 
     public void setInputPassword(String inputPassword) {
-
         this.inputPassword = inputPassword;
-
-
     }
 
     public String getPassword() {
@@ -220,13 +215,9 @@ public class User extends Domain implements Previews, UserDomain {
 
     @Override
     public SortedMap<Integer, String> getPreviews() {
-
         if(previews == null) {
-
             previews = new TreeMap<>(getFilePaths());
-
         }
-
         return previews;
     }
 
@@ -254,11 +245,8 @@ public class User extends Domain implements Previews, UserDomain {
     public List<String> rolesList()
     {
         ArrayList<String> l = new ArrayList<>();
-
         l.add(getRole().toString());
-
         return l;
-
     }
 
     public String getToken() {

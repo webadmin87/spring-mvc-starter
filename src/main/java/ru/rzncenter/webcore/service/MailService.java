@@ -7,6 +7,6 @@ import java.util.Map;
  */
 public interface MailService {
 
-    public boolean sendMail(String to, String subject, String tpl, Map<String, Object> params);
+    boolean sendMail(String to, String subject, String tpl, Map<String, Object> params);
 
 }

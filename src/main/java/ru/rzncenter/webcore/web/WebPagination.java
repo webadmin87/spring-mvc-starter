@@ -20,11 +20,8 @@ public class WebPagination implements Pagination {
     Integer pageSize = 10;
 
     public WebPagination(Long inpTotalCount, Integer inpPage) {
-
         totalCount = inpTotalCount;
-
         page = inpPage;
-
     }
 
     public Long getTotalCount() {
@@ -44,9 +41,7 @@ public class WebPagination implements Pagination {
     }
 
     public Integer getTotalPages() {
-
         Double pages = Math.ceil(totalCount*1.0/pageSize);
-
         return pages.intValue();
     }
 
@@ -59,24 +54,18 @@ public class WebPagination implements Pagination {
     }
 
     public Integer getOffset() {
-
         return (page-1)*pageSize;
-
     }
 
     public void applyLimits(Query q) {
-
         q.setFirstResult(getOffset());
         q.setMaxResults(getPageSize());
-
     }
 
     public void applyHeaders(HttpHeaders headers) {
-
         headers.add("x-pagination-total-count", getTotalCount().toString());
         headers.add("x-pagination-page-count", getTotalPages().toString());
         headers.add("x-pagination-per-page", getPageSize().toString());
-
     }
 
 }

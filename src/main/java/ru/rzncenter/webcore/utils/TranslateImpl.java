@@ -21,16 +21,12 @@ public class TranslateImpl implements Translate {
 
     @Override
     public String t(String word) {
-
         return msg.getMessage(word, new Object[0], new Locale(locale));
-
     }
 
     @Override
     public String t(String word, Object[] params) {
-
         return msg.getMessage(word, params, new Locale(locale));
-
     }
 
 }

@@ -84,10 +84,8 @@ public class Domain {
 
     @PrePersist
     void prePersist() {
-
         createdAt = new Date();
         updatedAt = new Date();
-
     }
 
     @PreUpdate

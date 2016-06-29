@@ -28,15 +28,10 @@ public class EntityValidator<T> {
      * @return
      */
     public Set<ConstraintViolation<T>> validate(T entity) {
-
-
         ValidatorFactory vf = Validation.buildDefaultValidatorFactory();
         Validator validator = vf.getValidator();
-
         Set<ConstraintViolation<T>> constraintViolations = validator.validate(entity);
-
         return constraintViolations;
-
     }
 
 }

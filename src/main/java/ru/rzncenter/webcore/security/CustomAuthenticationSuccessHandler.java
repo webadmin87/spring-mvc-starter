@@ -24,31 +24,19 @@ public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthent
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
-
         String username = authentication.getName();
-
         User user = userService.findByUsername(username);
-
         if(user != null) {
-
             String token = user.getToken();
-
             this.clearAuthenticationAttributes(httpServletRequest);
-
             httpServletResponse.setHeader(TokenPreAuthenticationFilter.TOKEN_HEADER, token);
-
             ObjectMapper mapper = new ObjectMapper();
-
             String json = mapper.writeValueAsString(user);
-
             httpServletResponse.getWriter().write(json);
-
             httpServletResponse.getWriter().close();
 
         } else {
             super.onAuthenticationSuccess(httpServletRequest, httpServletResponse, authentication);
         }
-
-
     }
 }

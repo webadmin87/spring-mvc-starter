@@ -5,8 +5,8 @@ package ru.rzncenter.webcore.utils;
  */
 public interface Translate {
 
-    public String t(String word);
+    String t(String word);
 
-    public String t(String word, Object[] params);
+    String t(String word, Object[] params);
 
 }

@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 public class SimplePermissionInitializer implements PermissionInitializer {
 
     @Override
-    public void initialize(PermissionManager manager) {
+    public void initialize(PermissionManager manager) {}
 
-    }
 }

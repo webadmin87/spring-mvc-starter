@@ -24,11 +24,8 @@ public abstract class CrudServiceImpl<T extends Domain> implements CrudService<T
     UserDao userDao;
 
     protected Class<T> getGenericSuperClass() {
-
         ParameterizedType genericSuperclass = (ParameterizedType) getClass().getGenericSuperclass();
-
         return  (Class<T>) genericSuperclass.getActualTypeArguments()[0];
-
     }
 
     @Override
@@ -80,15 +77,10 @@ public abstract class CrudServiceImpl<T extends Domain> implements CrudService<T
     }
 
     protected void applyAuthor(T domain) {
-
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
         if(domain.getAuthor() == null && authentication.isAuthenticated()) {
-
             domain.setAuthor(userDao.findByUsername(authentication.getName()));
-
         }
-
     }
 
 }

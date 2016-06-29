@@ -21,42 +21,27 @@ public class StartEventHandler implements ApplicationListener{
 
     @Transactional
     public void onApplicationEvent(ApplicationEvent event) {
-
         if (event instanceof ContextRefreshedEvent) {
             initAdminUser();
         }
-
     }
 
     /**
      * Добавляем в БД администратора, если он еще не задан
      */
     private void initAdminUser() {
-        
         User u = userService.findByUsername("admin");
-        
         if(u == null) {
-
             u = new User();
-
             u.setUsername("admin");
-
             u.setName("admin");
-
             u.setEmail("webadmin87@gmail.com");
-
             u.setPhone("79999999999");
-
             u.setInputPassword("password");
             u.setConfirmInputPassword("password");
-
             u.setRole(User.Role.ROLE_ADMIN);
-
             userService.save(u);
-
         }
-        
-        
     }
     
 }

@@ -24,18 +24,14 @@ public class UserfilesController {
 
     @RequestMapping(value = "/userfiles/**" , method = RequestMethod.GET)
     public ResponseEntity<FileSystemResource> getFile(HttpServletRequest req) {
-        
         String uri = req.getRequestURI().substring(req.getContextPath().length());
-
         String filePath = fileUtils.webToServerPath(uri);
-
         FileSystemResource res = new FileSystemResource(filePath);
-
-        if(res.exists())
+        if(res.exists()) {
             return new ResponseEntity<>(res, new HttpHeaders(), HttpStatus.OK);
-        else
+        } else {
             return new ResponseEntity<>(null, new HttpHeaders(), HttpStatus.NOT_FOUND);
+        }
     }
-    
-    
+
 }

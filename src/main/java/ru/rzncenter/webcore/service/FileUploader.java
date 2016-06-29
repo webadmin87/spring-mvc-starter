@@ -7,7 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
  */
 public interface FileUploader {
 
-    public String handleFileUpload(MultipartFile file);
+    String handleFileUpload(MultipartFile file);
 
-    public String handleFileUploadFromUrl(String url);
+    String handleFileUploadFromUrl(String url);
 }
