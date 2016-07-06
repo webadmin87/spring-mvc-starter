@@ -1,5 +1,6 @@
-/lib
 /target
 **/*.iml
 /.idea
 /ddl_*.sql
+**/npm-debug.log
+**/.sass-cache

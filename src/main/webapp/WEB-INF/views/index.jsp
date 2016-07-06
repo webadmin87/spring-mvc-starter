@@ -3,43 +3,36 @@
 <!DOCTYPE html>
 <html ng-app="springMvcStarter" lang="ru">
 <head>
-    <script type="text/javascript" src="resources/vendors/jquery/dist/jquery.min.js"></script>
-    <script type="text/javascript" src="resources/vendors/underscore/underscore-min.js"></script>
-    <script type="text/javascript" src="resources/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="resources/vendors/angular/angular.min.js"></script>
-    <script type="text/javascript" src="resources/vendors/angular-resource/angular-resource.min.js"></script>
-    <script type="text/javascript" src="resources/vendors/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
-    <script type="text/javascript" src="resources/vendors/angular-bootstrap/ui-bootstrap.min.js"></script>
-    <script type="text/javascript" src="resources/vendors/angular-file-upload/dist/angular-file-upload.min.js"></script>
-    <script type="text/javascript" src="resources/vendors/angular-i18n/angular-locale_ru.js"></script>
-    <script type="text/javascript" src="resources/vendors/angular-ui-router/release/angular-ui-router.min.js"></script>
-    <script type="text/javascript" src="resources/vendors/angular-ui-grid/ui-grid.min.js"></script>
-    <script type="text/javascript" src="resources/vendors/angular-messages/angular-messages.min.js"></script>
-    <script type="text/javascript" src="resources/vendors/textAngular/dist/textAngular-rangy.min.js"></script>
-    <script type="text/javascript" src="resources/vendors/textAngular/dist/textAngular-sanitize.min.js"></script>
-    <script type="text/javascript" src="resources/vendors/textAngular/dist/textAngular.min.js"></script>
-    <script type="text/javascript" src="resources/vendors/angular-translate/angular-translate.min.js"></script>
+    <script type="text/javascript" src="resources/node_modules/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="resources/node_modules/underscore/underscore-min.js"></script>
+    <script type="text/javascript" src="resources/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="resources/node_modules/angular/angular.min.js"></script>
+    <script type="text/javascript" src="resources/node_modules/angular-resource/angular-resource.min.js"></script>
+    <script type="text/javascript" src="resources/node_modules/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+    <script type="text/javascript" src="resources/node_modules/angular-bootstrap/ui-bootstrap.min.js"></script>
+    <script type="text/javascript" src="resources/node_modules/angular-file-upload/dist/angular-file-upload.min.js"></script>
+    <script type="text/javascript" src="resources/node_modules/angular-i18n/angular-locale_ru.js"></script>
+    <script type="text/javascript" src="resources/node_modules/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script type="text/javascript" src="resources/node_modules/angular-ui-grid/ui-grid.min.js"></script>
+    <script type="text/javascript" src="resources/node_modules/angular-messages/angular-messages.min.js"></script>
+    <script type="text/javascript" src="resources/node_modules/textangular/dist/textAngular-rangy.min.js"></script>
+    <script type="text/javascript" src="resources/node_modules/textangular/dist/textAngular-sanitize.min.js"></script>
+    <script type="text/javascript" src="resources/node_modules/textangular/dist/textAngular.min.js"></script>
+    <script type="text/javascript" src="resources/node_modules/angular-translate/dist/angular-translate.min.js"></script>
 
     <c:choose>
-
         <c:when test="${profiles[0] == 'prod'}">
-
             <script type="text/javascript" src="resources/build/js/packed.min.js"></script>
-
         </c:when>
-
         <c:otherwise>
-
             <script type="text/javascript" src="resources/build/js/packed.js"></script>
-
         </c:otherwise>
-
     </c:choose>
 
-    <link rel="stylesheet" href="resources/vendors/angular-ui-grid/ui-grid.min.css"/>
-    <link rel="stylesheet" href="resources/vendors/bootstrap/dist/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="resources/vendors/font-awesome/css/font-awesome.min.css"/>
-    <link rel="stylesheet" href="resources/vendors/textAngular/dist/textAngular.css"/>
+    <link rel="stylesheet" href="resources/node_modules/angular-ui-grid/ui-grid.min.css"/>
+    <link rel="stylesheet" href="resources/node_modules/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="resources/node_modules/font-awesome/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="resources/node_modules/textangular/dist/textAngular.css"/>
 
     <link rel="stylesheet" href="resources/build/css/styles.css"/>
 </head>
