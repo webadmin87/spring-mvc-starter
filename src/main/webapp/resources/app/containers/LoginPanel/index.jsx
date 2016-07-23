@@ -9,6 +9,7 @@ class LoginPanel extends React.Component {
 
     __logout() {
         store.dispatch(logoutAction())
+        this.context.router.push("/login")
     }
 
     render() {
@@ -22,12 +23,14 @@ class LoginPanel extends React.Component {
 
 }
 
-const mapStateToProps = function(store) {
+LoginPanel.contextTypes = {
+    router: React.PropTypes.object.isRequired
+}
 
+const mapStateToProps = function(store) {
     return {
         authentication: store.authenticationState.authentication
     }
-
 }
 
 export default connect(mapStateToProps)(LoginPanel)

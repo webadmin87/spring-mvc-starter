@@ -8,6 +8,9 @@ import store from "store"
 
 class Login extends React.Component {
 
+    componentWillMount() {
+        this.__isRedirect(this.props)
+    }
 
     componentWillReceiveProps(newProps) {
         this.__isRedirect(newProps)
@@ -15,7 +18,7 @@ class Login extends React.Component {
 
     __isRedirect(props) {
         if(props.authentication) {
-            this.props.history.push('/')
+            this.context.router.push('/')
         }
     }
 
@@ -43,6 +46,10 @@ class Login extends React.Component {
         return <LoginForm login={ this.__login.bind(this) }  />
     }
 
+}
+
+Login.contextTypes = {
+    router: React.PropTypes.object.isRequired
 }
 
 const mapStateToProps = function(store) {

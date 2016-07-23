@@ -1,7 +1,23 @@
 import React from 'react'
 import LoginPanel from 'containers/LoginPanel'
+import { connect } from "react-redux"
+
 
 export default class App extends React.Component {
+
+    componentWillMount() {
+        this.__isRedirect(this.props)
+    }
+
+    componentWillReceiveProps() {
+        this.__isRedirect(this.props)
+    }
+
+    __isRedirect(props) {
+        if(!props.authentication && this.props.location.pathname != '/login') {
+            this.context.router.push("/login")
+        }
+    }
 
     render() {
         return <div>
@@ -31,3 +47,15 @@ export default class App extends React.Component {
     }
 
 }
+
+App.contextTypes = {
+    router: React.PropTypes.object.isRequired
+}
+
+const mapStateToProps = function(store) {
+    return {
+        authentication: store.authenticationState.authentication
+    }
+}
+
+export default connect(mapStateToProps)(App)
