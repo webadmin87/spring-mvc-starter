@@ -8,6 +8,9 @@ export default class LoginForm extends React.Component {
 
     render() {
         return <div className="login-form">
+
+            { this.props.error?<div className="alert alert-danger">{ this.props.error }</div>:null }
+
             <form>
                 <div className="form-group">
                     <label htmlFor="username">Username</label>

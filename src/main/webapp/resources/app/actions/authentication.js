@@ -1,6 +1,7 @@
-export function authenticationAction(data) {
+export function authenticationAction(data, error) {
     return {
         data,
+        error,
         type: 'authentication'
     }
 }

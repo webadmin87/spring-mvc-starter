@@ -37,13 +37,13 @@ class Login extends React.Component {
 
             })
             .catch(function (error) {
-                store.dispatch(authenticationAction(null))
+                store.dispatch(authenticationAction(null, 'Ошибка аутентификации'))
             });
 
     }
 
     render() {
-        return <LoginForm login={ this.__login.bind(this) }  />
+        return <LoginForm login={ this.__login.bind(this) } error={ this.props.error } />
     }
 
 }
@@ -55,7 +55,8 @@ Login.contextTypes = {
 const mapStateToProps = function(store) {
 
     return {
-        authentication: store.authenticationState.authentication
+        authentication: store.authenticationState.authentication,
+        error: store.authenticationState.error
     }
 
 }
