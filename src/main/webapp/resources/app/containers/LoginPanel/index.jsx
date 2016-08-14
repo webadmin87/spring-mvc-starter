@@ -3,6 +3,7 @@ import { connect } from "react-redux"
 import { Link } from "react-router"
 import store from "store"
 import { logoutAction } from "actions/authentication"
+import i18next from 'i18next'
 
 class LoginPanel extends React.Component {
 
@@ -15,8 +16,8 @@ class LoginPanel extends React.Component {
     render() {
         let isAuth = this.props.authentication
         return <ul className="navbar-nav navbar-right nav">
-            { !isAuth?<li><Link to="/login">Вход</Link></li>:null }
-            { isAuth?<li><a onClick={ this.__logout.bind(this) }>Выход ({ this.props.authentication.username})</a></li>:null }
+            { !isAuth?<li><Link to="/login">{ i18next.t('app_login_panel_enter') }</Link></li>:null }
+            { isAuth?<li><a onClick={ this.__logout.bind(this) }>{ i18next.t('app_login_panel_exit') } ({ this.props.authentication.username})</a></li>:null }
         </ul>;
     }
 

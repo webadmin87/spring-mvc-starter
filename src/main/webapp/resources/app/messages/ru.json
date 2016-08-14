@@ -1,0 +1,12 @@
+{
+  "ru": {
+    "translation": {
+      "app_authentication_error": "Ошибка аутентификации!",
+      "app_login_form_username": "Имя пользователя",
+      "app_login_form_password": "Пароль",
+      "app_login_form_enter": "Вход",
+      "app_login_panel_enter": "Вход",
+      "app_login_panel_exit": "Выход"
+    }
+  }
+}

@@ -5,6 +5,7 @@ import LoginForm from "components/LoginForm"
 import { authenticationAction } from "actions/authentication"
 import {encode} from "querystring"
 import store from "store"
+import i18next from 'i18next'
 
 class Login extends React.Component {
 
@@ -37,7 +38,7 @@ class Login extends React.Component {
 
             })
             .catch(function (error) {
-                store.dispatch(authenticationAction(null, 'Ошибка аутентификации'))
+                store.dispatch(authenticationAction(null, i18next.t('app_authentication_error')))
             });
 
     }

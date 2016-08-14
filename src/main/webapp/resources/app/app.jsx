@@ -1,12 +1,22 @@
 import React from 'react'
 import LoginPanel from 'containers/LoginPanel'
 import { connect } from "react-redux"
-
+import axios from "axios"
+import i18next from 'i18next'
+import SETTINGS from 'settings'
 
 export default class App extends React.Component {
 
+    constructor(props) {
+        super(props)
+        this.isReady = false
+    }
+
     componentWillMount() {
-        this.__isRedirect(this.props)
+        axios.get(`resources/app/messages/${SETTINGS.LANGUAGE}.json`).then(r=>{
+            this.__initLanguage(SETTINGS.LANGUAGE, r.data)
+            this.__isRedirect(this.props)
+        })
     }
 
     componentWillReceiveProps() {
@@ -19,7 +29,22 @@ export default class App extends React.Component {
         }
     }
 
+    __initLanguage(lng, data) {
+        i18next.init({
+            lng: lng,
+            resources: data
+        }, (err, t) => {
+            this.isReady = true
+            this.forceUpdate()
+        })
+    }
+
     render() {
+
+        if(!this.isReady) {
+            return null
+        }
+
         return <div>
             <nav className="navbar-inverse navbar" role="navigation">
                 <div className="container">
