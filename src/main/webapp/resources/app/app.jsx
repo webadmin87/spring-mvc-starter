@@ -4,12 +4,14 @@ import { connect } from "react-redux"
 import axios from "axios"
 import i18next from 'i18next'
 import SETTINGS from 'settings'
+import { getAuthentication } from "services/auth"
 
 export default class App extends React.Component {
 
     constructor(props) {
         super(props)
         this.isReady = false
+        this.__configureAxios()
     }
 
     componentWillMount() {
@@ -21,6 +23,29 @@ export default class App extends React.Component {
 
     componentWillReceiveProps() {
         this.__isRedirect(this.props)
+    }
+
+    __configureAxios() {
+
+        axios.interceptors.request.use(function (config) {
+            let auth = getAuthentication()
+            if(auth) {
+                config.headers['X-AUTH-TOKEN'] = auth.token
+            }
+            return config;
+        }, function (error) {
+            return Promise.reject(error);
+        });
+
+        axios.interceptors.response.use(function (response) {
+            return response;
+        }, function (error) {
+            if(error.status == 401 && this.props.location.pathname != '/login') {
+                this.context.router.push("/login")
+            }
+            return Promise.reject(error);
+        });
+
     }
 
     __isRedirect(props) {

@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import { Router, Route, hashHistory, IndexRoute } from 'react-router'
 import StartContainer from 'containers/Start'
 import LoginContainer from 'containers/Login'
+import UserListContainer from 'containers/UserList'
 import App from './app.jsx'
 import { Provider } from "react-redux"
 import store from "store"
@@ -16,6 +17,7 @@ class AppRouter extends React.Component {
                             <Route path="/" component={App}>
                                 <IndexRoute component={StartContainer} />
                                 <Route path="/login" component={LoginContainer}/>
+                                <Route path="/users" component={UserListContainer}/>
                             </Route>
                     </Router>
             </Provider>
