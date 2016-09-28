@@ -8,12 +8,12 @@ export function authenticationReducer(state, action) {
         }
     }
     let newState = Object.assign({}, state)
-    if(action.type=='authentication') {
+    if(action.type=='authentication.login') {
         newState.authentication = action.data
         newState.error=action.error
         setAuthentication(action.data)
         return newState
-    } else if(action.type=='logout') {
+    } else if(action.type=='authentication.logout') {
         newState.authentication = null
         reset()
         return newState

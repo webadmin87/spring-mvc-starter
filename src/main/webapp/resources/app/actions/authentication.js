@@ -2,12 +2,12 @@ export function authenticationAction(data, error) {
     return {
         data,
         error,
-        type: 'authentication'
+        type: 'authentication.login'
     }
 }
 
 export function logoutAction() {
     return {
-        type: 'logout'
+        type: 'authentication.logout'
     }
 }
