@@ -7,6 +7,7 @@ import org.hibernate.annotations.Cache;
 import ru.rzncenter.webcore.constraints.FieldMatch;
 import javax.persistence.*;
 import javax.persistence.Entity;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.validation.constraints.*;
 import org.hibernate.validator.constraints.*;
@@ -17,6 +18,7 @@ import java.util.*;
 
 /**
  * Пользователь
+ * FIXME допилить изображения !!!
  */
 @Entity
 @Table(name="users")
@@ -100,6 +102,10 @@ public class User extends Domain implements Previews, UserDomain {
      */
     @Transient
     SortedMap<Integer, String> previews;
+
+    @OneToMany(mappedBy = "user", orphanRemoval = true, fetch = FetchType.EAGER)
+    @OrderBy("sort ASC")
+    SortedSet<UserFile> images;
 
     /**
      * Изображения для удаления
@@ -240,6 +246,14 @@ public class User extends Domain implements Previews, UserDomain {
     @JsonIgnore
     public User getAuthor() {
         return super.getAuthor();
+    }
+
+    public SortedSet<UserFile> getImages() {
+        return images;
+    }
+
+    public void setImages(SortedSet<UserFile> images) {
+        this.images = images;
     }
 
     public List<String> rolesList()

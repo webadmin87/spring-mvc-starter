@@ -6,7 +6,22 @@
       "app_login_form_password": "Пароль",
       "app_login_form_enter": "Вход",
       "app_login_panel_enter": "Вход",
-      "app_login_panel_exit": "Выход"
+      "app_login_panel_exit": "Выход",
+      "app_entity_add": "Добавить",
+      "app_entity_save": "Сохранить",
+      "app_user_name": "ФИО",
+      "app_user_username": "Имя пользователя",
+      "app_user_password": "Пароль",
+      "app_user_confirm_password": "Подтверждение пароля",
+      "app_user_role": "Роль",
+      "app_user_image": "Изображение",
+      "app_user_email": "Email",
+      "app_user_phone": "Телефон",
+      "app_validator_not_empty": "Поле обязательно к заполению",
+      "app_validator_password": "Пароль некорректен",
+      "app_validator_confirm_password": "Подтверждение пароля не верно",
+      "app_validator_email": "Email зажан некорректно"
+
     }
   }
 }

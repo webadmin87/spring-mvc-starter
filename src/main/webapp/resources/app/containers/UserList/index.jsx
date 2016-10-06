@@ -6,6 +6,7 @@ import {encode} from "querystring"
 import store from "store"
 import i18next from 'i18next'
 import { GridBase, getMapToStateFunction } from 'core/GridBase'
+import { Link } from "react-router"
 
 class UserList extends GridBase {
 
@@ -23,6 +24,15 @@ class UserList extends GridBase {
 
     __getStore() {
         return store
+    }
+
+    render() {
+        let grid = super.render();
+        return <div>
+            <Link to="/userAdd" className="btn btn-primary">{ i18next.t('app_entity_add') }</Link>
+            <hr />
+            { grid }
+        </div>
     }
 
 }
