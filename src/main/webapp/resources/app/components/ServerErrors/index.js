@@ -1,5 +1,4 @@
 import React from 'react'
-import i18next from 'i18next'
 
 export default class Errors extends React.Component {
 
@@ -11,7 +10,7 @@ export default class Errors extends React.Component {
 
         return <div className="alert alert-danger">
             {this.props.errors.map( (item, key) => {
-                return <p key={ key }> { i18next.t(item) } </p>
+                return <p key={ key }> { item.defaultMessage } </p>
             })}
         </div>
 

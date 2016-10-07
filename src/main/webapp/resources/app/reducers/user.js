@@ -18,6 +18,9 @@ export function userReducer(state, action) {
     } else if (action.type=='user.error') {
         newState.errors = action.data
         return newState
+    } else if(action.type=='user.server.error') {
+        newState.serverErrors = action.data
+        return newState
     }
     return state
 }

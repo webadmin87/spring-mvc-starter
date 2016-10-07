@@ -18,3 +18,10 @@ export function userErrorAction(data) {
         type: 'user.error'
     }
 }
+
+export function userServerErrorAction(data) {
+    return {
+        data,
+        type: 'user.server.error'
+    }
+}

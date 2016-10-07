@@ -20,7 +20,9 @@
       "app_validator_not_empty": "Поле обязательно к заполению",
       "app_validator_password": "Пароль некорректен",
       "app_validator_confirm_password": "Подтверждение пароля не верно",
-      "app_validator_email": "Email зажан некорректно"
+      "app_validator_email": "Email задан некорректно",
+      "app_validator_username": "Имя пользователя не корректно",
+      "app_validator_phone": "Телефон не корректен"
 
     }
   }

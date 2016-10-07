@@ -1,7 +1,7 @@
 import React from 'react'
 import { userAddAction, userErrorAction } from 'actions/user'
 import store from "store"
-import { notEmpty, email, password, confirmPassword} from "core/validators"
+import { notEmpty, email, password, confirmPassword, username, phone} from "core/validators"
 import FormBase from "core/FormBase"
 import i18next from 'i18next'
 import Errors from 'components/Errors'
@@ -12,11 +12,12 @@ export default class UserForm extends FormBase {
 
         return {
             'name': [notEmpty],
-            'username': [notEmpty],
+            'username': [notEmpty, username],
             'email': [notEmpty, email],
             'inputPassword': [notEmpty, password],
             'confirmInputPassword': [notEmpty, confirmPassword],
             'role': [notEmpty],
+            'phone': [phone]
         }
 
     }
@@ -53,13 +54,13 @@ export default class UserForm extends FormBase {
 
             <div className="form-group">
                 <label htmlFor="user-password">{ i18next.t('app_user_password') }</label>
-                <input type="password" className="form-control" id="user-password" onChange={this.getHandleChange('password')} />
+                <input type="password" className="form-control" id="user-password" onChange={this.getHandleChange('inputPassword')} />
                 <Errors errors={ this.props.errors.inputPassword } />
             </div>
 
             <div className="form-group">
                 <label htmlFor="user-confirm-password">{ i18next.t('app_user_confirm_password') }</label>
-                <input type="password" className="form-control" id="user-name" onChange={this.getHandleChange('confirmPassword')} />
+                <input type="password" className="form-control" id="user-name" onChange={this.getHandleChange('confirmInputPassword')} />
                 <Errors errors={ this.props.errors.confirmInputPassword } />
             </div>
 

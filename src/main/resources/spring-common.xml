@@ -98,6 +98,12 @@
         </property>
     </bean>
 
+    <!-- Валидация -->
+
+ <!--   <bean id="Validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+        <property name="validationMessageSource" ref="messageSource" />
+    </bean>-->
+
     <!-- AOP (конфигурируем через аннотации)-->
 
     <aop:aspectj-autoproxy />
