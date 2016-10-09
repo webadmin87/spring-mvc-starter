@@ -49,9 +49,10 @@ export default class FormBase extends React.Component {
         }
     }
 
-    handleSubmit() {
+    handleSubmit(e) {
+        e.preventDefault()
         if(this.validate()) {
-            this.props.handleSubmit()
+            this.props.handleSubmit(e)
         }
     }
 

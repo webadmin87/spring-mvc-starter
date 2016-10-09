@@ -8,7 +8,7 @@ import ServerErrors from "components/ServerErrors"
 
 class UserAdd extends React.Component {
 
-    handleSubmit() {
+    handleSubmit(e) {
         axios.post('admin/user/', this.props.data).then(r => {
 
         }).catch(e => {

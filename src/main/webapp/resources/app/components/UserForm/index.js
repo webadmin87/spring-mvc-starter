@@ -38,7 +38,7 @@ export default class UserForm extends FormBase {
 
         console.log(this.props.errors)
 
-        return <form>
+        return <form onSubmit={ this.handleSubmit.bind(this) }>
 
             <div className="form-group">
                 <label htmlFor="user-name">{ i18next.t('app_user_name') }</label>
@@ -82,7 +82,7 @@ export default class UserForm extends FormBase {
                 <Errors errors={ this.props.errors.role } />
             </div>
 
-            <button className="btn btn-primary" onClick={ this.handleSubmit.bind(this) }>{ i18next.t('app_entity_save') }</button>
+            <input type="submit" className="btn btn-primary" value={ i18next.t('app_entity_save') } />
 
         </form>
 
