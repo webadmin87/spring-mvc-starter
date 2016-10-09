@@ -100,9 +100,9 @@
 
     <!-- Валидация -->
 
- <!--   <bean id="Validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+    <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
         <property name="validationMessageSource" ref="messageSource" />
-    </bean>-->
+    </bean>
 
     <!-- AOP (конфигурируем через аннотации)-->
 
