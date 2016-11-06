@@ -1,16 +1,15 @@
 package ru.rzncenter.webcore.domains;
 
-import java.util.Map;
-import java.util.SortedMap;
+import java.util.SortedSet;
 
 /**
  * Интерфейс для объектов предоставляющих предпросмотр изображений
  */
 public interface Previews {
 
-    Map<Integer, String> getPreviews();
+    SortedSet<? extends FileDomain> getPreviews();
 
-    void setPreviews(SortedMap<Integer, String> previews);
+    void setPreviews(SortedSet<? extends FileDomain> previews);
 
     int previewWidth();
 

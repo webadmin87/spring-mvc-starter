@@ -24,8 +24,8 @@ function password(value) {
 
 password.message = 'app_validator_password'
 
-function confirmPassword(value, attr, data) {
-    return value == data[attr]
+function confirmPassword(relatedAttr, value, attr, data) {
+    return value == data[relatedAttr]
 }
 
 confirmPassword.message = 'app_validator_confirm_password'

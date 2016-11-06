@@ -89,10 +89,18 @@ public class User extends Domain implements Previews, UserDomain {
     @Column(unique = true)
     String phone;
 
-
+    /**
+     * Изображения
+     */
     @OneToMany(mappedBy = "user", orphanRemoval = true, fetch = FetchType.EAGER)
     @OrderBy("sort ASC")
     SortedSet<UserFile> images;
+
+    /**
+     * Превью изображений
+     */
+    @Transient
+    SortedSet<? extends FileDomain> previews;
 
     /**
      * Описание
@@ -182,7 +190,6 @@ public class User extends Domain implements Previews, UserDomain {
         this.confirmInputPassword = confirmInputPassword;
     }
 
-
     @Override
     @JsonIgnore
     public User getAuthor() {
@@ -211,22 +218,25 @@ public class User extends Domain implements Previews, UserDomain {
     }
 
     @Override
-    public Map<Integer, String> getPreviews() {
-        return null;
+    public SortedSet<? extends FileDomain> getPreviews() {
+        if(previews == null && images != null) {
+            previews = new TreeSet<FileDomain>(images);
+        }
+        return previews;
     }
 
     @Override
-    public void setPreviews(SortedMap<Integer, String> previews) {
-
+    public void setPreviews(SortedSet<? extends FileDomain> previews) {
+        this.previews = previews;
     }
 
     @Override
     public int previewWidth() {
-        return 0;
+        return 50;
     }
 
     @Override
     public int previewHeight() {
-        return 0;
+        return 50;
     }
 }

@@ -11,15 +11,21 @@ export default class UserForm extends FormBase {
 
     validators() {
 
-        return {
+        let validators = {
             'name': [notEmpty],
             'username': [notEmpty, username],
             'email': [notEmpty, email],
-            'inputPassword': [notEmpty, password],
-            'confirmInputPassword': [notEmpty, confirmPassword],
             'role': [notEmpty],
             'phone': [phone]
         }
+        let confirmPasswordBinded =  confirmPassword.bind({}, "inputPassword")
+        confirmPasswordBinded.message = confirmPassword.message
+        if(!this.props.isUpdate) {
+            validators.inputPassword = [notEmpty, password]
+            validators.confirmInputPassword = [notEmpty, confirmPasswordBinded]
+        }
+
+        return validators
 
     }
 
@@ -91,4 +97,9 @@ export default class UserForm extends FormBase {
 
     }
 
+}
+
+
+UserForm.defaultProps = {
+    isUpdate: false
 }

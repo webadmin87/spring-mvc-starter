@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.apache.commons.codec.digest.DigestUtils;
+import ru.rzncenter.webcore.domains.FileDomain;
 import ru.rzncenter.webcore.domains.Previews;
 import ru.rzncenter.webcore.utils.FileUtils;
 import org.imgscalr.Scalr.*;
@@ -14,10 +15,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.util.*;
 
 
 /**
@@ -162,15 +160,19 @@ public class ResizerImpl implements Resizer {
 
     @Override
     public void resize(Previews model) {
-        Map<Integer, String> previews = model.getPreviews();
+        SortedSet<? extends FileDomain> previews = model.getPreviews();
         if(previews == null) {
             return;
         }
-        SortedMap<Integer, String> resized = new TreeMap<>();
-        for(Map.Entry<Integer, String> entry : previews.entrySet()) {
-            String resizedPath = resize(new File(fileUtils.webToServerPath(entry.getValue())), model.previewWidth(), model.previewHeight());
+        SortedSet<FileDomain> resized = new TreeSet<>();
+        for(FileDomain domain: previews) {
+            String resizedPath = resize(new File(fileUtils.webToServerPath(domain.getPath())), model.previewWidth(), model.previewHeight());
             if(resizedPath != null && resizedPath.length()>0) {
-                resized.put(entry.getKey(), resizedPath);
+                FileDomain resizedDomain = new FileDomain();
+                resizedDomain.setPath(resizedPath);
+                resizedDomain.setTitle(domain.getTitle());
+                resizedDomain.setSort(domain.getSort());
+                resized.add(resizedDomain);
             }
         }
         model.setPreviews(resized);

@@ -1,11 +1,13 @@
 package ru.rzncenter.webcore.domains;
 
+import ru.rzncenter.webcore.service.RemoveFilesQueueHolder;
+
+import javax.annotation.PreDestroy;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotNull;
-
 
 /**
  * Базовый класс для сущностей файлов
@@ -59,4 +61,10 @@ public class FileDomain {
     public void setSort(int sort) {
         this.sort = sort;
     }
+
+    @PreDestroy
+    public void preDestroy() {
+        RemoveFilesQueueHolder.getInstance().add(getPath());
+    }
+
 }
