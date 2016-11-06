@@ -49,6 +49,16 @@ export default class FormBase extends React.Component {
         }
     }
 
+    getHandleSelectChange(attr) {
+        return val => {
+            let data = {}
+            data[attr] = val.value
+            this.getStore().dispatch(this.getAddAction()(
+                data
+            ))
+        }
+    }
+
     handleSubmit(e) {
         e.preventDefault()
         if(this.validate()) {

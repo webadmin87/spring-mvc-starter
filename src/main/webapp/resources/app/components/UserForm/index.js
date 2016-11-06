@@ -5,6 +5,7 @@ import { notEmpty, email, password, confirmPassword, username, phone} from "core
 import FormBase from "core/FormBase"
 import i18next from 'i18next'
 import Errors from 'components/Errors'
+import Select from 'react-select'
 
 export default class UserForm extends FormBase {
 
@@ -35,8 +36,6 @@ export default class UserForm extends FormBase {
     }
 
     render() {
-
-        console.log(this.props.errors)
 
         return <form onSubmit={ this.handleSubmit.bind(this) }>
 
@@ -78,7 +77,11 @@ export default class UserForm extends FormBase {
 
             <div className="form-group">
                 <label htmlFor="user-role">{ i18next.t('app_user_role') }</label>
-                <input type="text" className="form-control" id="user-role" onChange={this.getHandleChange('role')} />
+                <Select
+                    value={this.props.data.role}
+                    options={this.props.roles}
+                    onChange={this.getHandleSelectChange('role')}
+                    />
                 <Errors errors={ this.props.errors.role } />
             </div>
 

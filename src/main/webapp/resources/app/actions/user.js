@@ -25,3 +25,10 @@ export function userServerErrorAction(data) {
         type: 'user.server.error'
     }
 }
+
+export function userRolesLoadedAction(data) {
+    return {
+        data,
+        type: 'user.roles.loaded'
+    }
+}

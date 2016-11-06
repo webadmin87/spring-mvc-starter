@@ -35,7 +35,7 @@ public class User extends Domain implements Previews, UserDomain {
     /**
      * Роли пользователя
      */
-    public static enum Role {
+    public enum Role {
         ROLE_ADMIN
     }
 
@@ -89,29 +89,10 @@ public class User extends Domain implements Previews, UserDomain {
     @Column(unique = true)
     String phone;
 
-    /**
-     * Изображения
-     */
-    @ElementCollection(fetch = FetchType.LAZY)
-    @SortNatural
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    SortedMap<Integer, String> filePaths;
-
-    /**
-     * Превью изображений
-     */
-    @Transient
-    SortedMap<Integer, String> previews;
 
     @OneToMany(mappedBy = "user", orphanRemoval = true, fetch = FetchType.EAGER)
     @OrderBy("sort ASC")
     SortedSet<UserFile> images;
-
-    /**
-     * Изображения для удаления
-     */
-    @Transient
-    List<String> filesToRemove = new ArrayList<String>();
 
     /**
      * Описание
@@ -201,46 +182,6 @@ public class User extends Domain implements Previews, UserDomain {
         this.confirmInputPassword = confirmInputPassword;
     }
 
-    public SortedMap<Integer, String> getFilePaths() {
-        return filePaths;
-    }
-
-    public void setFilePaths(SortedMap<Integer, String> filePaths) {
-        this.previews = null;
-        this.filePaths = filePaths;
-    }
-
-    public List<String> getFilesToRemove() {
-        return filesToRemove;
-    }
-
-    public void setFilesToRemove(List<String> filesToRemove) {
-        this.filesToRemove = filesToRemove;
-    }
-
-
-    @Override
-    public SortedMap<Integer, String> getPreviews() {
-        if(previews == null) {
-            previews = new TreeMap<>(getFilePaths());
-        }
-        return previews;
-    }
-
-    @Override
-    public void setPreviews(SortedMap<Integer, String> previews) {
-        this.previews = previews;
-    }
-
-    @Override
-    public int previewWidth() {
-        return 100;
-    }
-
-    @Override
-    public int previewHeight() {
-        return 100;
-    }
 
     @Override
     @JsonIgnore
@@ -258,9 +199,7 @@ public class User extends Domain implements Previews, UserDomain {
 
     public List<String> rolesList()
     {
-        ArrayList<String> l = new ArrayList<>();
-        l.add(getRole().toString());
-        return l;
+        return Collections.singletonList(getRole().name());
     }
 
     public String getToken() {
@@ -269,5 +208,25 @@ public class User extends Domain implements Previews, UserDomain {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    @Override
+    public Map<Integer, String> getPreviews() {
+        return null;
+    }
+
+    @Override
+    public void setPreviews(SortedMap<Integer, String> previews) {
+
+    }
+
+    @Override
+    public int previewWidth() {
+        return 0;
+    }
+
+    @Override
+    public int previewHeight() {
+        return 0;
     }
 }
