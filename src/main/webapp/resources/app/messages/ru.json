@@ -9,6 +9,7 @@
       "app_login_panel_exit": "Выход",
       "app_entity_add": "Добавить",
       "app_entity_save": "Сохранить",
+      "app_entity_cancel": "Отменить",
       "app_user_name": "ФИО",
       "app_user_username": "Имя пользователя",
       "app_user_password": "Пароль",

@@ -80,7 +80,7 @@ export default class App extends React.Component {
                             <span className="icon-bar"></span>
                             <span className="icon-bar"></span>
                         </button>
-                        <a className="navbar-brand">Spring mvc starter</a></div>
+                        <a href="" className="navbar-brand">Spring mvc starter</a></div>
                     <div id="w0-collapse" className="collapse navbar-collapse">
                         <LoginPanel />
                     </div>

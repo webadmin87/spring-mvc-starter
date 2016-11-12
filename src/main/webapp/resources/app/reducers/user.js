@@ -1,12 +1,17 @@
 import { getDefaultGridState, addActionColumn } from 'core/GridBase'
 
+function getInitialEntity() {
+   return {
+       images: []
+   }
+}
+
 export function userReducer(state, action) {
     if(!state) {
         state = getDefaultGridState()
-        state.entity = {
-            images: []
-        }
+        state.entity = getInitialEntity()
         state.errors = {}
+        state.serverErrors = []
         state.roles = []
     }
     let newState = Object.assign({}, state)
@@ -33,6 +38,15 @@ export function userReducer(state, action) {
             )
         })
         newState.roles = roles
+        return newState
+    } else if (action.type=='user.entity.load') {
+        newState.entity = Object.assign({}, action.data)
+        return newState
+    } else if (action.type=='user.entity.reset') {
+        newState.entity = getInitialEntity()
+        newState.errors = {}
+        newState.serverErrors = []
+        newState.loadData = true
         return newState
     }
     return state

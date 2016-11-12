@@ -32,3 +32,17 @@ export function userRolesLoadedAction(data) {
         type: 'user.roles.loaded'
     }
 }
+
+export function userEntityLoad(data) {
+    return {
+        data,
+        type: 'user.entity.load'
+    }
+}
+
+export function userEntityReset(data) {
+    return {
+        data,
+        type: 'user.entity.reset'
+    }
+}

@@ -1,5 +1,5 @@
 import React from 'react'
-import { userAddAction, userErrorAction } from 'actions/user'
+import { userAddAction, userErrorAction, userEntityReset } from 'actions/user'
 import store from "store"
 import { notEmpty, email, password, confirmPassword, username, phone} from "core/validators"
 import FormBase from "core/FormBase"
@@ -41,43 +41,48 @@ export default class UserForm extends FormBase {
         return userErrorAction
     }
 
+    onCancel() {
+        store.dispatch(userEntityReset())
+        this.context.router.goBack()
+    }
+
     render() {
 
         return <form onSubmit={ this.handleSubmit.bind(this) }>
 
             <div className="form-group">
                 <label htmlFor="user-name">{ i18next.t('app_user_name') }</label>
-                <input type="text" className="form-control" id="user-name" onChange={this.getHandleChange('name')} />
+                <input type="text" className="form-control" id="user-name"  value={ this.props.data.name || '' } onChange={this.getHandleChange('name')} />
                 <Errors errors={ this.props.errors.name } />
             </div>
 
             <div className="form-group">
                 <label htmlFor="user-username">{ i18next.t('app_user_username') }</label>
-                <input type="text" className="form-control" id="user-username" onChange={this.getHandleChange('username')} />
+                <input type="text" className="form-control" id="user-username"  value={ this.props.data.username || '' } onChange={this.getHandleChange('username')} />
                 <Errors errors={ this.props.errors.username } />
             </div>
 
             <div className="form-group">
                 <label htmlFor="user-password">{ i18next.t('app_user_password') }</label>
-                <input type="password" className="form-control" id="user-password" onChange={this.getHandleChange('inputPassword')} />
+                <input type="password" className="form-control" id="user-password" value={ this.props.data.inputPassword || '' } onChange={this.getHandleChange('inputPassword')} />
                 <Errors errors={ this.props.errors.inputPassword } />
             </div>
 
             <div className="form-group">
                 <label htmlFor="user-confirm-password">{ i18next.t('app_user_confirm_password') }</label>
-                <input type="password" className="form-control" id="user-name" onChange={this.getHandleChange('confirmInputPassword')} />
+                <input type="password" className="form-control" id="user-name" value={ this.props.data.confirmInputPassword || '' } onChange={this.getHandleChange('confirmInputPassword')} />
                 <Errors errors={ this.props.errors.confirmInputPassword } />
             </div>
 
             <div className="form-group">
                 <label htmlFor="user-email">{ i18next.t('app_user_email') }</label>
-                <input type="text" className="form-control" id="user-email" onChange={this.getHandleChange('email')} />
+                <input type="text" className="form-control" id="user-email" value={ this.props.data.email || '' } onChange={this.getHandleChange('email')} />
                 <Errors errors={ this.props.errors.email } />
             </div>
 
             <div className="form-group">
                 <label htmlFor="user-phone">{ i18next.t('app_user_phone') }</label>
-                <input type="text" className="form-control" id="user-phone" onChange={this.getHandleChange('phone')} />
+                <input type="text" className="form-control" id="user-phone" value={ this.props.data.phone || '' } onChange={this.getHandleChange('phone')} />
                 <Errors errors={ this.props.errors.phone } />
             </div>
 
@@ -93,12 +98,17 @@ export default class UserForm extends FormBase {
 
             <input type="submit" className="btn btn-primary" value={ i18next.t('app_entity_save') } />
 
+            <input type="button" className="btn btn-default" onClick={ this.onCancel.bind(this) } value={ i18next.t('app_entity_cancel') } />
+
         </form>
 
     }
 
 }
 
+UserForm.contextTypes = {
+    router: React.PropTypes.object.isRequired
+}
 
 UserForm.defaultProps = {
     isUpdate: false

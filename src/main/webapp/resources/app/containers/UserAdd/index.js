@@ -1,22 +1,24 @@
 import React from 'react'
 import axios from 'axios'
 import { connect } from "react-redux"
-import { userRolesLoadedAction, userAddAction, userServerErrorAction } from "actions/user"
+import { userRolesLoadedAction, userAddAction, userServerErrorAction, userEntityReset } from "actions/user"
 import store from "store"
 import UserForm from 'components/UserForm'
 import ServerErrors from "components/ServerErrors"
+import Settings from "settings"
 
 class UserAdd extends React.Component {
 
     componentDidMount() {
-        axios.get('admin/user/roles/').then(r => {
+        axios.get(Settings.USERS_URL + 'roles/').then(r => {
             store.dispatch((userRolesLoadedAction(r.data)))
         })
     }
 
     handleSubmit(e) {
-        axios.post('admin/user/', this.props.data).then(r => {
-            this.context.router.push('/users');
+        axios.post(Settings.USERS_URL, this.props.data).then(r => {
+            store.dispatch(userEntityReset())
+            this.context.router.push('/users')
         }).catch(e => {
             store.dispatch((userServerErrorAction(e.data)))
         })

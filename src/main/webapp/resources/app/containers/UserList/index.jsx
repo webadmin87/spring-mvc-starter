@@ -67,9 +67,14 @@ class UserActionColumn extends ActionColumn {
     }
 
     onEdit(e) {
-        throw  new Error('Method not implemented');
+        e.preventDefault()
+        this.context.router.push('/userEdit/' + this.props.rowData.id + '/');
     }
 
+}
+
+UserActionColumn.contextTypes = {
+    router: React.PropTypes.object.isRequired
 }
 
 UserList.contextTypes = {

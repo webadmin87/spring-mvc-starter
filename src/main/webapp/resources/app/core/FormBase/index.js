@@ -42,7 +42,7 @@ export default class FormBase extends React.Component {
     getHandleChange(attr) {
         return e => {
             let data = {}
-            data[attr] = e.target.value
+            data[attr] = e.target.value || null
             this.getStore().dispatch(this.getAddAction()(
                 data
             ))
