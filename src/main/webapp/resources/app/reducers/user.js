@@ -1,4 +1,4 @@
-import { getDefaultGridState } from 'core/GridBase'
+import { getDefaultGridState, addActionColumn } from 'core/GridBase'
 
 export function userReducer(state, action) {
     if(!state) {
@@ -11,6 +11,7 @@ export function userReducer(state, action) {
     }
     let newState = Object.assign({}, state)
     if(action.type=='user.list') {
+        addActionColumn(action.data.results)
         Object.assign(newState, action.data)
         return newState
     } else if (action.type=='user.add') {

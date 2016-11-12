@@ -5,17 +5,18 @@ import { userListAction } from "actions/user"
 import {encode} from "querystring"
 import store from "store"
 import i18next from 'i18next'
-import { GridBase, getMapToStateFunction } from 'core/GridBase'
+import { GridBase, getMapToStateFunction, ActionColumn } from 'core/GridBase'
 import { Link } from "react-router"
+import Settings from "settings"
 
 class UserList extends GridBase {
 
     __getUrl() {
-        return 'admin/user/'
+        return Settings.USERS_URL
     }
 
     __getColumns() {
-        return  ["id", "name", "username", "email", "role"]
+        return  ["id", "name", "username", "email", "role", "action"]
     }
 
     __getAction() {
@@ -26,6 +27,19 @@ class UserList extends GridBase {
         return store
     }
 
+    __getColumnMeta() {
+        return [
+            {
+                "columnName": "action",
+                "customComponent": UserActionColumn,
+                "visible": true,
+                "locked": false,
+                "sortable": false
+            }
+
+        ]
+    }
+
     render() {
         let grid = super.render();
         return <div>
@@ -33,6 +47,27 @@ class UserList extends GridBase {
             <hr />
             { grid }
         </div>
+    }
+
+}
+
+class UserActionColumn extends ActionColumn {
+
+    onDelete(e) {
+        e.preventDefault();
+        if(confirm('Delete record?')) {
+            axios.delete(Settings.USERS_URL + this.props.rowData.id + '/')
+                .then(r => {
+                    store.dispatch(userListAction({loadData: true}))
+                })
+                .catch(r => {
+                    alert(r.data || 'Delete error')
+                })
+        }
+    }
+
+    onEdit(e) {
+        throw  new Error('Method not implemented');
     }
 
 }

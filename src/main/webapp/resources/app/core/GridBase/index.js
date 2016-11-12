@@ -19,6 +19,11 @@ export class GridBase extends React.Component {
     __getStore() {
         throw  new Error('Method not implemented');
     }
+
+    __getColumnMeta() {
+        return []
+    }
+
     __getData() {
 
         let params = {
@@ -39,7 +44,15 @@ export class GridBase extends React.Component {
         }
 
         axios.get(this.__getUrl(), {params}).then(r => {
-            this.__getStore().dispatch(this.__getAction()({results: r.data, maxPages: r.headers['x-pagination-total-pages'], loadData: false}))
+            if(r.data.length == 0 && this.props.currentPage > 0) {
+                this.setPage(this.props.currentPage-1)
+            } else {
+                this.__getStore().dispatch(this.__getAction()({
+                    results: r.data,
+                    maxPages: r.headers['x-pagination-total-pages'],
+                    loadData: false
+                }))
+            }
         })
     }
 
@@ -74,7 +87,7 @@ export class GridBase extends React.Component {
             this.__getData()
         }
 
-        return <Griddle useExternal={true} externalSetPage={this.setPage.bind(this)}
+        return <Griddle columnMetadata={this.__getColumnMeta()} useExternal={true} externalSetPage={this.setPage.bind(this)}
                         externalChangeSort={this.changeSort.bind(this)} externalSetFilter={this.setFilter.bind(this)}
                         externalSetPageSize={this.setPageSize.bind(this)} externalMaxPage={this.props.maxPages}
                         externalCurrentPage={this.props.currentPage} results={this.props.results}
@@ -111,4 +124,34 @@ export function getDefaultGridState() {
         externalSortAscending: true,
         loadData: true
     }
+}
+
+export function addActionColumn(results) {
+    if(results) {
+        results.forEach(item => {
+            item.action = true
+        })
+    }
+}
+
+export class ActionColumn extends React.Component {
+
+    onDelete(e) {
+        throw  new Error('Method not implemented');
+    }
+
+    onEdit(e) {
+        throw  new Error('Method not implemented');
+    }
+
+    render() {
+        return (
+            <div>
+                <a href="" onClick={ this.onEdit.bind(this) }><i className="glyphicon glyphicon-pencil"></i></a>
+                <a href="" onClick={ this.onDelete.bind(this) }><i className="glyphicon glyphicon-trash"></i></a>
+            </div>
+        )
+
+    }
+
 }

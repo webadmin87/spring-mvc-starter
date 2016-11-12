@@ -1,5 +1,6 @@
 export default {
 
-    LANGUAGE: 'ru'
+    LANGUAGE: 'ru',
+    USERS_URL: 'admin/user/'
 
 }
