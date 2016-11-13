@@ -7,13 +7,14 @@ var gulp = require('gulp'), // Gulp JS
     babelify = require('babelify'),
     source = require('vinyl-source-stream');
 
-var srcDir = './app';
+var srcDir = './';
+var appDir = './app';
 var buildDir = './dist';
 
 gulp.task('build', function () {
     return browserify(
         {
-            entries: srcDir+'/router.jsx', extensions: ['.js', '.jsx'],
+            entries: appDir+'/router.jsx', extensions: ['.js', '.jsx'],
             paths: ["./node_modules", "./app"], debug: true
         })
         .transform('babelify', {presets: ['es2015', 'react']})
@@ -23,42 +24,21 @@ gulp.task('build', function () {
 });
 
 
-/*gulp.task('jsConcat', function() {
-
-    var src = [srcDir+'/js/app.js', srcDir+'/js/!*Service.js', srcDir+'/js/!*.js'];
-
-    gulp.src(src)
-        .pipe(concat('packed.js'))
-        .pipe(gulp.dest(jsBuildDir))
-
-    gulp.src(src)
-        .pipe(concat('packed.min.js'))
-        .pipe(uglify({ mangle: false }))
-        .pipe(gulp.dest(jsBuildDir))
-
-});*/
-/*
-gulp.task('jsTemplates', function() {
-    gulp.src([srcDir+'/templates/!**'])
-        .pipe(gulp.dest(templatesBuildDir))
-});*/
-
 gulp.task('images', function() {
     gulp.src([srcDir+'/images/**'])
         .pipe(gulp.dest(buildDir+"/images/"))
 });
 
-/*
-gulp.task('cssMinify', function() {
-    gulp.src([srcDir+'/css/!*.css'])
+
+gulp.task('css', function() {
+    gulp.src([srcDir+'/css/*.css'])
         .pipe(csso())
-        .pipe(gulp.dest(cssBuildDir))
+        .pipe(gulp.dest(buildDir+"/css/"))
 });
-*/
+
 
 /*
-var compassProject = srcDir+'/themes/demo';
-
+var compassProject = srcDir+'/path/to/project';
 gulp.task('compass', function() {
     gulp.src(compassProject+'/sass/screen.sass')
         .pipe(compass({
@@ -71,12 +51,11 @@ gulp.task('compass', function() {
 });
 */
 
-gulp.task('default', ['build', 'images']);
+gulp.task('default', ['build', 'images', 'css']);
 
 gulp.task('watch', function() {
-    gulp.watch(srcDir+'/**', ['build']);
-    //gulp.watch(srcDir+'/templates/**', ['jsTemplates']);
+    gulp.watch(appDir+'/**', ['build']);;
     gulp.watch(srcDir+'/images/**', ['images']);
-    //gulp.watch(srcDir+'/css/*.css', ['cssMinify']);
+    gulp.watch(srcDir+'/css/*.css', ['css']);
     //gulp.watch([compassProject+'/sass/*.sass', compassProject+'/sass/*.scss'], ['compass']);
 });

@@ -94,7 +94,7 @@ export class GridBase extends React.Component {
                         resultsPerPage={this.props.externalResultsPerPage}
                         externalSortColumn={this.props.externalSortColumn}
                         externalSortAscending={this.props.externalSortAscending}
-                        showFilter={true} showSettings={true} columns={this.__getColumns()} />
+                        showFilter={false} showSettings={false} columns={this.__getColumns()} />
     }
 
 }
