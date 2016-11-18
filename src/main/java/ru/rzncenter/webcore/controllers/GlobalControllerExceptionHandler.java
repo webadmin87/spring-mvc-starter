@@ -21,7 +21,7 @@ import java.util.List;
 @RestController
 public class GlobalControllerExceptionHandler {
 
-    private static final Logger logger = LoggerFactory.getLogger(GlobalControllerExceptionHandler.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(GlobalControllerExceptionHandler.class);
 
     /**
      * Обработка ошибок ограничений целостности
@@ -30,7 +30,7 @@ public class GlobalControllerExceptionHandler {
     @ResponseStatus(HttpStatus.CONFLICT)  // 409
     @ExceptionHandler(DataIntegrityViolationException.class)
     public void handleConflict(DataIntegrityViolationException e) {
-        logger.warn("Constraint violation: " + e.getLocalizedMessage());
+        LOGGER.warn("Constraint violation: " + e.getLocalizedMessage());
     }
 
     /**
@@ -40,7 +40,7 @@ public class GlobalControllerExceptionHandler {
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<List<ObjectError>> handleValidationException(MethodArgumentNotValidException e) {
-        logger.warn("Validation error: " + e.getLocalizedMessage());
+        LOGGER.debug("Validation error: " + e.getLocalizedMessage());
         return new ResponseEntity<>(e.getBindingResult().getAllErrors(), HttpStatus.BAD_REQUEST); // 400
     }
 

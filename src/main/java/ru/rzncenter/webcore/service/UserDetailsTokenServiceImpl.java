@@ -16,7 +16,7 @@ import ru.rzncenter.webcore.security.TokenPreAuthenticationFilter;
 public class UserDetailsTokenServiceImpl extends AbstractUserDetails implements AuthenticationUserDetailsService<Authentication> {
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @Override
     public UserDetails loadUserDetails(Authentication authentication) throws UsernameNotFoundException {

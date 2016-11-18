@@ -16,7 +16,7 @@ import java.util.List;
 public class TreeListProviderImpl implements TreeListProvider {
 
     @Autowired
-    Translate translate;
+    private Translate translate;
 
     /**
      * Формирует карту для заполнения выпадающего списка

@@ -9,13 +9,13 @@ import java.util.Set;
  */
 public class SimplePermission implements Permission {
 
-    String name;
+    private String name;
 
-    Rule rule;
+    private Rule rule;
 
-    Set<Permission> children = new HashSet<>();
+    private Set<Permission> children = new HashSet<>();
 
-    Permission parent;
+    private Permission parent;
 
     public SimplePermission(String name) {
         this.name = name;

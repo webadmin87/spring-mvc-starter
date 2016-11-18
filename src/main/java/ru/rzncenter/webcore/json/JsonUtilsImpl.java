@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class JsonUtilsImpl implements JsonUtils {
 
-    private static final Logger logger = LoggerFactory.getLogger(JsonUtilsImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(JsonUtilsImpl.class);
 
     @Override
     public <T> T jsonToObject(String json, TypeReference<T> ref) {
@@ -24,7 +24,7 @@ public class JsonUtilsImpl implements JsonUtils {
             T value = mapper.readValue(json, ref);
             return value;
         } catch (Exception e) {
-            logger.error("Json read error", e);
+            LOGGER.error("Json read error", e);
             return null;
         }
     }

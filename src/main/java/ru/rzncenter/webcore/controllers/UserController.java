@@ -7,13 +7,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import ru.rzncenter.webcore.domains.User;
 import ru.rzncenter.webcore.domains.UserFilter;
 import ru.rzncenter.webcore.json.JsonUtils;
-import ru.rzncenter.webcore.service.PageUtils;
+import ru.rzncenter.webcore.utils.PageUtils;
 import ru.rzncenter.webcore.service.UserService;
 import ru.rzncenter.webcore.web.Resizer;
 
@@ -28,16 +26,16 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-    Resizer resizer;
+    private Resizer resizer;
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @Autowired
-    PageUtils pageUtils;
+    private PageUtils pageUtils;
 
     @Autowired
-    JsonUtils jsonUtils;
+    private JsonUtils jsonUtils;
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public ResponseEntity<List<User>> list(
@@ -56,7 +54,7 @@ public class UserController {
         }
         resizer.resize(userPage.getContent());
         HttpHeaders headers = new HttpHeaders();
-        pageUtils.pageToHeareds(headers, userPage);
+        pageUtils.pageToHeaders(headers, userPage);
         return new ResponseEntity<>(userPage.getContent(), headers, HttpStatus.OK);
     }
 

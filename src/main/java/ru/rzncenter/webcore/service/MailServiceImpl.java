@@ -18,16 +18,16 @@ import java.util.Map;
 @Service
 public class MailServiceImpl implements MailService {
 
-    private static final Logger logger = LoggerFactory.getLogger(MailServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MailServiceImpl.class);
 
     @Autowired
-    JavaMailSender mailSender;
+    private JavaMailSender mailSender;
 
     @Value("${mailserver.email}")
-    String mailFrom;
+    private String mailFrom;
 
     @Autowired
-    VelocityEngine velocityEngine;
+    private VelocityEngine velocityEngine;
 
     @Override
     public boolean sendMail(String to, String subject, String tpl, Map<String, Object> params) {
@@ -42,7 +42,7 @@ public class MailServiceImpl implements MailService {
             mailSender.send(message);
             return true;
         } catch (Exception e) {
-            logger.error("Send mail error", e);
+            LOGGER.error("Send mail error", e);
             return false;
         }
     }

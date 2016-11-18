@@ -18,7 +18,6 @@ public final class UserSpec {
 
     public static Specification<User> filter(final UserFilter filter) {
         return new Specification<User>() {
-
             @Override
             public Predicate toPredicate(Root<User> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 List<Predicate> predicateList = new ArrayList<>();

@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 public class UserDetailsServiceImpl extends AbstractUserDetails implements UserDetailsService {
 
     @Autowired
-    UserService userService;
+    private UserService userService;
     
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {

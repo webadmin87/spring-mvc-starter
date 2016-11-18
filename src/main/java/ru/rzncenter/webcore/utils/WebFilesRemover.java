@@ -11,7 +11,7 @@ import java.util.List;
 public class WebFilesRemover implements FilesRemover {
 
     @Autowired
-    FileUtils fileUtils;
+    private FileUtils fileUtils;
 
     public void removeFiles(List<String> files) {
         if(files != null) {

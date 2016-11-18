@@ -14,7 +14,6 @@ import org.imgscalr.Scalr.*;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import java.util.*;
 
 
@@ -24,12 +23,12 @@ import java.util.*;
 @Component
 public class ResizerImpl implements Resizer {
 
-    private static final Logger logger = LoggerFactory.getLogger(ResizerImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ResizerImpl.class);
 
     @Autowired
-    FileUtils fileUtils;
+    private FileUtils fileUtils;
 
-    String dirName = "thumbs";
+    private String dirName = "thumbs";
 
     /**
      * Возвращает имя уменьшенного изображения
@@ -86,7 +85,7 @@ public class ResizerImpl implements Resizer {
             }
             return fileUtils.serverToWebPath(thumbPath);
         } catch (Exception e) {
-            logger.error("Resize error", e);
+            LOGGER.error("Resize error", e);
             return "";
         }
     }
@@ -137,7 +136,7 @@ public class ResizerImpl implements Resizer {
             ImageIO.write(out, ext, new File(savePath));
             return true;
         } catch (Exception e) {
-            logger.error("Internal resize error", e);
+            LOGGER.error("Internal resize error", e);
             return false;
         }
     }

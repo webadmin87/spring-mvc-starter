@@ -43,7 +43,7 @@ public class User extends Domain implements Previews, UserDomain {
      * ФИО пользователя
      */
     @NotBlank
-    String name;
+    private String name;
 
     /**
      * Логин
@@ -52,25 +52,25 @@ public class User extends Domain implements Previews, UserDomain {
     @Size(min=3, max = 50)
     @Pattern(regexp = "^[A-z0-9_-]+$")
     @Column(unique = true)
-    String username;
+    private String username;
 
     /**
      * Пароль введенный пользователем
      */
     @Transient
     @Size(min=6)
-    String inputPassword;
+    private String inputPassword;
 
     /**
      * Подтверждение пароля введенного пользователем
      */
     @Transient
-    String confirmInputPassword;
+    private String confirmInputPassword;
 
     /**
      * Пароль в зашифрованном виде
      */
-    String password;
+    private String password;
 
     /**
      * Email
@@ -78,7 +78,7 @@ public class User extends Domain implements Previews, UserDomain {
     @NotBlank
     @Email
     @Column(unique = true)
-    String email;
+    private String email;
 
     /**
      * Телефон
@@ -87,36 +87,39 @@ public class User extends Domain implements Previews, UserDomain {
     @Pattern(regexp = "^7[0-9]+$")
     @Size(min=11, max = 11)
     @Column(unique = true)
-    String phone;
+    private String phone;
 
     /**
      * Изображения
      */
     @OneToMany(mappedBy = "user", orphanRemoval = true, fetch = FetchType.EAGER)
     @OrderBy("sort ASC")
-    SortedSet<UserFile> images;
+    private SortedSet<UserFile> images;
 
     /**
      * Превью изображений
      */
     @Transient
-    SortedSet<? extends FileDomain> previews;
+    private SortedSet<? extends FileDomain> previews;
 
     /**
      * Описание
      */
     @Column(columnDefinition = "text")
-    String text;
+    private String text;
 
     /**
      * Роль пользователя
      */
     @Enumerated(EnumType.STRING)
     @NotNull
-    Role role = Role.ROLE_ADMIN;
+    private Role role = Role.ROLE_ADMIN;
 
+    /**
+     * Токен аутентификации
+     */
     @Column(unique = true)
-    String token;
+    private String token;
 
     public String getName() {
         return name;

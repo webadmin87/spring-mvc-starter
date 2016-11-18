@@ -14,10 +14,10 @@ import java.util.Locale;
 public class TranslateImpl implements Translate {
 
     @Autowired
-    MessageSource msg;
+    private MessageSource msg;
 
     @Value("${app.locale}")
-    String locale;
+    private String locale;
 
     @Override
     public String t(String word) {

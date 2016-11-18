@@ -11,9 +11,9 @@ import java.util.List;
 @Scope("prototype")
 public class PaginationResult<T> {
 
-    List result;
+    private List result;
 
-    Pagination pager;
+    private Pagination pager;
 
     public PaginationResult(List<T> inpResult, Pagination inpPager) {
         result = inpResult;

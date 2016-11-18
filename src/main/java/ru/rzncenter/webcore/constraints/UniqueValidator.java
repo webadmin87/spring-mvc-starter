@@ -1,6 +1,8 @@
 package ru.rzncenter.webcore.constraints;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -17,21 +19,21 @@ import java.util.List;
  */
 public class UniqueValidator implements ConstraintValidator<Unique, Object> {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(UniqueValidator.class);
+
     @PersistenceContext
-    public EntityManager em;
-
-    String attr;
-
-    String pk;
+    private EntityManager em;
+    private String attr;
+    private String pk;
 
     @Override
-    public void initialize(final Unique unique) {
+    public void initialize(Unique unique) {
         attr = unique.value();
         pk = unique.pk();
     }
 
     @Override
-    public boolean isValid(final Object object, final ConstraintValidatorContext constraintValidatorContext) {
+    public boolean isValid(Object object, ConstraintValidatorContext constraintValidatorContext) {
         try {
             Class cls = object.getClass();
             Object propValue = BeanUtils.getProperty(object, attr);
@@ -47,10 +49,11 @@ public class UniqueValidator implements ConstraintValidator<Unique, Object> {
             criteria.select(builder.count(root)).where(predicates.toArray(new Predicate[predicates.size()]));
             Long result = em.createQuery(criteria).getSingleResult();
             return result == 0;
-
         } catch (NoResultException e) {
+            LOGGER.debug(e.getMessage(), e);
             return true;
         } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
             return false;
         }
     }

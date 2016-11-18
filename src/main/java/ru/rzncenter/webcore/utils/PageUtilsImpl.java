@@ -1,4 +1,4 @@
-package ru.rzncenter.webcore.service;
+package ru.rzncenter.webcore.utils;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 public class PageUtilsImpl implements PageUtils {
 
     @Override
-    public <T> void pageToHeareds(HttpHeaders httpHeaders, Page<T> page) {
+    public <T> void pageToHeaders(HttpHeaders httpHeaders, Page<T> page) {
 
         httpHeaders.add("X-pagination-first", String.valueOf(page.isFirst()));
         httpHeaders.add("X-pagination-last", String.valueOf(page.isLast()));

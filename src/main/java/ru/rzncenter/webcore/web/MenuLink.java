@@ -8,11 +8,11 @@ import java.util.List;
  */
 public class MenuLink {
 
-    String title;
+    private String title;
 
-    String link;
+    private String link;
 
-    List<MenuLink> children =  new ArrayList<>();
+    private List<MenuLink> children =  new ArrayList<>();
 
     public MenuLink(String title, String link) {
         this.title = title;

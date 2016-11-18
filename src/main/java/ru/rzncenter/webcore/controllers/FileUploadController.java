@@ -19,13 +19,13 @@ import javax.servlet.ServletContext;
 public class FileUploadController {
 
     @Autowired
-    ServletContext context;
+    private ServletContext context;
 
     @Autowired
-    FileUtils fileUtils;
+    private FileUtils fileUtils;
 
     @Autowired
-    FileUploader fileUploader;
+    private FileUploader fileUploader;
 
     @RequestMapping(value="/upload/", method= RequestMethod.GET)
     public String provideUploadInfo() {

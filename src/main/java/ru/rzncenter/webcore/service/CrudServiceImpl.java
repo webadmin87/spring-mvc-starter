@@ -21,7 +21,7 @@ import java.util.List;
 public abstract class CrudServiceImpl<T extends Domain> implements CrudService<T> {
 
     @Autowired
-    UserDao userDao;
+    private UserDao userDao;
 
     protected Class<T> getGenericSuperClass() {
         ParameterizedType genericSuperclass = (ParameterizedType) getClass().getGenericSuperclass();

@@ -13,11 +13,11 @@ import javax.persistence.Query;
 @Scope("prototype")
 public class WebPagination implements Pagination {
 
-    Long totalCount;
+    private Long totalCount;
 
-    Integer page = 1;
+    private Integer page = 1;
 
-    Integer pageSize = 10;
+    private Integer pageSize = 10;
 
     public WebPagination(Long inpTotalCount, Integer inpPage) {
         totalCount = inpTotalCount;

@@ -20,14 +20,23 @@ public class FileDomain {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
+    /**
+     * Название
+     */
     @NotNull
     private String title;
 
+    /**
+     * Путь к файлу
+     */
     @NotNull
     private String path;
 
+    /**
+     * Сортировка
+     */
     private int sort = 500;
 
     public Long getId() {

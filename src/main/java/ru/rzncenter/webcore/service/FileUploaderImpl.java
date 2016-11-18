@@ -23,10 +23,10 @@ import java.net.URL;
 @Service
 public class FileUploaderImpl implements FileUploader {
 
-    private static final Logger logger = LoggerFactory.getLogger(FileUploaderImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(FileUploaderImpl.class);
 
     @Autowired
-    FileUtils fileUtils;
+    private FileUtils fileUtils;
 
     /**
      * Загрузка файла из формы
@@ -51,14 +51,14 @@ public class FileUploaderImpl implements FileUploader {
            }
 
        } catch (IOException e) {
-           logger.error("File upload error", e);
+           LOGGER.error("File upload error", e);
            return null;
        } finally {
            if(stream != null) {
                try {
                    stream.close();
                } catch (IOException e) {
-                   logger.error("Stream close error", e);
+                   LOGGER.error("Stream close error", e);
                }
            }
        }
@@ -94,7 +94,7 @@ public class FileUploaderImpl implements FileUploader {
             }
 
         } catch (Exception e) {
-            logger.error("File upload by url error", e);
+            LOGGER.error("File upload by url error", e);
             return null;
         } finally {
             if(connection != null) {

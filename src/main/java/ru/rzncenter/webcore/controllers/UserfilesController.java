@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 public class UserfilesController {
 
     @Autowired
-    FileUtils fileUtils;
+    private FileUtils fileUtils;
 
     @RequestMapping(value = "/userfiles/**" , method = RequestMethod.GET)
     public ResponseEntity<FileSystemResource> getFile(HttpServletRequest req) {

@@ -1,4 +1,4 @@
-package ru.rzncenter.webcore.service;
+package ru.rzncenter.webcore.utils;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
@@ -8,6 +8,6 @@ import org.springframework.http.HttpHeaders;
  */
 public interface PageUtils {
 
-    <T> void pageToHeareds(HttpHeaders httpHeaders, Page<T> page);
+    <T> void pageToHeaders(HttpHeaders httpHeaders, Page<T> page);
 
 }

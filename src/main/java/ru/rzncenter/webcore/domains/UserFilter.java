@@ -5,11 +5,11 @@ package ru.rzncenter.webcore.domains;
  */
 public class UserFilter {
 
-    Long id;
+    private Long id;
 
-    String username;
+    private String username;
 
-    String email;
+    private String email;
 
     public Long getId() {
         return id;

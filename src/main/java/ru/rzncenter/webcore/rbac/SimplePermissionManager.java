@@ -15,18 +15,18 @@ import java.util.*;
 @Component
 public class SimplePermissionManager implements PermissionManager {
 
-    Set<Permission> permissions = new HashSet<>();
+    private Set<Permission> permissions = new HashSet<>();
 
-    Map<String, Set<Permission>> links = new HashMap<>();
-
-    @Autowired
-    PermissionInitializer initializer;
+    private Map<String, Set<Permission>> links = new HashMap<>();
 
     @Autowired
-    UserDao userDomainDao;
+    private PermissionInitializer initializer;
+
+    @Autowired
+    private UserDao userDomainDao;
 
     @PostConstruct
-    void init() {
+    public void init() {
         initializer.initialize(this);
     }
 

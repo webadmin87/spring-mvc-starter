@@ -19,16 +19,16 @@ import java.util.*;
 @Component
 public class UserFilesUtils implements FileUtils {
 
-    private static final Logger logger = LoggerFactory.getLogger(UserFilesUtils.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserFilesUtils.class);
 
     @Autowired
-    EnvironmentInfo info;
+    private EnvironmentInfo info;
 
     @Autowired
-    CollectionUtils collectionUtils;
+    private CollectionUtils collectionUtils;
 
     @Autowired
-    Translation translation;
+    private Translation translation;
 
     /**
      * Возвращает путь к паке относительно веб сервера хранящей пользовательские файла
@@ -131,7 +131,7 @@ public class UserFilesUtils implements FileUtils {
             file.delete();
             return true;
         } catch (Exception e) {
-            logger.error("Error delete file", e);
+            LOGGER.error("Error delete file", e);
             return false;
         }
     }
@@ -164,7 +164,7 @@ public class UserFilesUtils implements FileUtils {
             String type = mimetype.split("/")[0];
             return type.equals("image");
         } catch (Exception e) {
-            logger.error("Error probe content type", e);
+            LOGGER.error("Error probe content type", e);
             return false;
         }
     }
@@ -183,7 +183,7 @@ public class UserFilesUtils implements FileUtils {
         try {
             org.apache.commons.io.FileUtils.copyFile(new File(fullPath), new File(pathForSave));
         } catch (IOException e) {
-            logger.error("Copy error", e);
+            LOGGER.error("Copy error", e);
             return null;
         }
         return pathForSave;

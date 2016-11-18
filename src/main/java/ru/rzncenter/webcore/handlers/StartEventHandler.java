@@ -17,7 +17,7 @@ import ru.rzncenter.webcore.service.UserService;
 public class StartEventHandler implements ApplicationListener{
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @Transactional
     public void onApplicationEvent(ApplicationEvent event) {

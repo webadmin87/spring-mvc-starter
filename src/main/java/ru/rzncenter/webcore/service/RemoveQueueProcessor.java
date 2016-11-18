@@ -16,7 +16,7 @@ import java.util.Queue;
 public class RemoveQueueProcessor {
 
     @Autowired
-    FilesRemover filesRemover;
+    private FilesRemover filesRemover;
 
     @Scheduled(fixedDelay = 1000)
     public void process() {
