@@ -9,6 +9,7 @@ import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
+import javax.validation.Valid;
 import javax.validation.constraints.*;
 import org.hibernate.validator.constraints.*;
 import ru.rzncenter.webcore.constraints.Unique;
@@ -43,6 +44,7 @@ public class User extends Domain implements Previews, UserDomain {
      * ФИО пользователя
      */
     @NotBlank
+    @Column(name = "name", nullable = false)
     private String name;
 
     /**
@@ -51,7 +53,7 @@ public class User extends Domain implements Previews, UserDomain {
     @NotBlank
     @Size(min=3, max = 50)
     @Pattern(regexp = "^[A-z0-9_-]+$")
-    @Column(unique = true)
+    @Column(name = "username", nullable = false, unique = true)
     private String username;
 
     /**
@@ -70,6 +72,7 @@ public class User extends Domain implements Previews, UserDomain {
     /**
      * Пароль в зашифрованном виде
      */
+    @Column(name = "password", nullable = false)
     private String password;
 
     /**
@@ -77,7 +80,7 @@ public class User extends Domain implements Previews, UserDomain {
      */
     @NotBlank
     @Email
-    @Column(unique = true)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
     /**
@@ -86,7 +89,7 @@ public class User extends Domain implements Previews, UserDomain {
     @NotBlank
     @Pattern(regexp = "^7[0-9]+$")
     @Size(min=11, max = 11)
-    @Column(unique = true)
+    @Column(name="phone", nullable = false, unique = true)
     private String phone;
 
     /**
@@ -94,6 +97,7 @@ public class User extends Domain implements Previews, UserDomain {
      */
     @OneToMany(mappedBy = "user", orphanRemoval = true, fetch = FetchType.EAGER)
     @OrderBy("sort ASC")
+    @Valid
     private SortedSet<UserFile> images;
 
     /**
@@ -105,7 +109,7 @@ public class User extends Domain implements Previews, UserDomain {
     /**
      * Описание
      */
-    @Column(columnDefinition = "text")
+    @Column(name = "text", columnDefinition = "text")
     private String text;
 
     /**
@@ -113,12 +117,13 @@ public class User extends Domain implements Previews, UserDomain {
      */
     @Enumerated(EnumType.STRING)
     @NotNull
+    @Column(name = "role", nullable = false)
     private Role role = Role.ROLE_ADMIN;
 
     /**
      * Токен аутентификации
      */
-    @Column(unique = true)
+    @Column(name = "token", nullable = false, unique = true)
     private String token;
 
     public String getName() {

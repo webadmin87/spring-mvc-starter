@@ -1,13 +1,10 @@
 package ru.rzncenter.webcore.domains;
 
+import org.hibernate.validator.constraints.NotBlank;
 import ru.rzncenter.webcore.service.RemoveFilesQueueHolder;
 
 import javax.annotation.PreDestroy;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
-import javax.validation.constraints.NotNull;
+import javax.persistence.*;
 
 /**
  * Базовый класс для сущностей файлов
@@ -20,23 +17,27 @@ public class FileDomain {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
     /**
      * Название
      */
-    @NotNull
+    @NotBlank
+    @Column(name = "title")
     private String title;
 
     /**
      * Путь к файлу
      */
-    @NotNull
+    @NotBlank
+    @Column(name = "path", nullable = false)
     private String path;
 
     /**
      * Сортировка
      */
+    @Column(name="sort", nullable = false)
     private int sort = 500;
 
     public Long getId() {

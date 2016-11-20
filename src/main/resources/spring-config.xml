@@ -5,15 +5,8 @@
        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
        ">
 
-       <!-- Миграции -->
-
-       <!--<bean id="flyway" class="org.flywaydb.core.Flyway" init-method="migrate">
-              <property name="dataSource" ref="dbDataSource"/>
-       </bean>-->
-
        <!-- JPA -->
 
-       <!--<bean id="myEmf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean" depends-on="flyway">-->
        <bean id="myEmf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
               <property name="sharedCacheMode" value="ALL" />
               <property name="dataSource" ref="dbDataSource" />
@@ -25,7 +18,7 @@
               <property name="jpaProperties">
                      <props>
                             <prop key="hibernate.show_sql">true</prop>
-                            <prop key="hibernate.hbm2ddl.auto">update</prop>
+                            <prop key="hibernate.hbm2ddl.auto">validate</prop>
                             <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQL9Dialect</prop>
                             <prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory</prop>
                             <prop key="net.sf.ehcache.configurationResourceName">/ehcache.xml</prop>

@@ -15,31 +15,35 @@ public class Domain {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
     /**
      * Автор
      */
     @ManyToOne
-    @JoinColumn(name="author_id", referencedColumnName = "id")
+    @JoinColumn(name="author_id")
     private User author;
 
     /**
      * Активность
      */
     @NotNull
+    @Column(name = "active", nullable = false)
     private Boolean active = true;
 
     /**
      * Дата создания
      */
     @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "createdat", nullable = false)
     private Date createdAt;
 
     /**
      * Дата изменения
      */
     @Temporal(TemporalType.TIMESTAMP)
+    @Column(name="updatedat", nullable = false)
     private Date updatedAt;
 
     public Long getId() {

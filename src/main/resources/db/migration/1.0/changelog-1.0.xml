@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+
+    <changeSet id="v1.0-1" author="churkin-as">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT count(*) FROM "information_schema"."sequences"  WHERE "sequence_schema"='public' AND "sequence_name"='users_id_seq';</sqlCheck>
+        </preConditions>
+        <sql>
+            CREATE SEQUENCE "public"."users_id_seq" INCREMENT 1 MINVALUE 100 START 100;
+        </sql>
+        <rollback>DROP SEQUENCE "public"."users_id_seq";</rollback>
+    </changeSet>
+
+    <changeSet id="v1.0-2" author="churkin-as">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT count(*) FROM information_schema.tables WHERE  table_schema = 'public' AND table_name = 'users';</sqlCheck>
+        </preConditions>
+        <sql>
+            CREATE TABLE "public"."users" (
+            "id" int8 DEFAULT nextval('users_id_seq'::regclass) NOT NULL,
+            "active" bool NOT NULL,
+            "createdat" timestamp(6) NOT NULL,
+            "updatedat" timestamp(6) NOT NULL,
+            "email" varchar(255) NOT NULL,
+            "name" varchar(255) NOT NULL,
+            "password" varchar(255) NOT NULL,
+            "phone" varchar(11) NOT NULL,
+            "role" varchar(32) NOT NULL,
+            "text" text,
+            "token" varchar(255) NOT NULL,
+            "username" varchar(50) NOT NULL,
+            "author_id" int8,
+            CONSTRAINT "users_pkey" PRIMARY KEY ("id"),
+            CONSTRAINT "users_author_id_fk" FOREIGN KEY ("author_id") REFERENCES "public"."users" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION,
+            CONSTRAINT "users_email_uq" UNIQUE ("email"),
+            CONSTRAINT "users_phone_uq" UNIQUE ("phone"),
+            CONSTRAINT "users_token_uq" UNIQUE ("token"),
+            CONSTRAINT "users_username_uq" UNIQUE ("username")
+            );
+        </sql>
+        <rollback>
+            DROP TABLE "public"."users";
+        </rollback>
+    </changeSet>
+
+    <changeSet id="v1.0-3" author="churkin-as">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT count(*) FROM "information_schema"."sequences"  WHERE "sequence_schema"='public' AND "sequence_name"='userfiles_id_seq';</sqlCheck>
+        </preConditions>
+        <sql>
+            CREATE SEQUENCE "public"."userfiles_id_seq" INCREMENT 1 MINVALUE 100 START 100;
+        </sql>
+        <rollback>
+            DROP SEQUENCE "public"."userfiles_id_seq";
+        </rollback>
+    </changeSet>
+
+    <changeSet id="v1.0-4" author="churkin-as">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT count(*) FROM information_schema.tables WHERE  table_schema = 'public' AND table_name = 'userfiles';</sqlCheck>
+        </preConditions>
+        <sql>
+            CREATE TABLE "public"."userfiles" (
+            "id" int8 DEFAULT nextval('userfiles_id_seq'::regclass) NOT NULL,
+            "path" varchar(255) NOT NULL,
+            "sort" int4 NOT NULL,
+            "title" varchar(255) NOT NULL,
+            "user_id" int8 NOT NULL,
+            CONSTRAINT "userfiles_pkey" PRIMARY KEY ("id"),
+            CONSTRAINT "userfiles_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."users" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION
+            );
+        </sql>
+        <rollback>
+            DROP TABLE "public"."userfiles";
+        </rollback>
+    </changeSet>
+
+    <changeSet author="churkin-as" id="1.0.1-tag">
+        <tagDatabase tag="1.0.1"/>
+    </changeSet>
+
+</databaseChangeLog>

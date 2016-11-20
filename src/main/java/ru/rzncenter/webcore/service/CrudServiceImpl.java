@@ -78,7 +78,7 @@ public abstract class CrudServiceImpl<T extends Domain> implements CrudService<T
 
     protected void applyAuthor(T domain) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(domain.getAuthor() == null && authentication.isAuthenticated()) {
+        if(domain.getAuthor() == null && authentication != null && authentication.isAuthenticated()) {
             domain.setAuthor(userDao.findByUsername(authentication.getName()));
         }
     }
