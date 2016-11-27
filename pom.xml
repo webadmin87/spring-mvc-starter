@@ -34,17 +34,6 @@
 
   <dependencies>
 
-    <!-- Test -->
-
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
-    </dependency>
-
-    <!-- /Test -->
-
     <!-- Logs -->
 
     <dependency>
@@ -130,6 +119,29 @@
       <artifactId>aspectjweaver</artifactId>
       <version>1.8.5</version>
     </dependency>
+
+    <!-- Test -->
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-test</artifactId>
+      <version>${spring.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.12</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>com.h2database</groupId>
+      <artifactId>h2</artifactId>
+      <version>1.4.193</version>
+    </dependency>
+
 
     <!-- Hibernate -->
 

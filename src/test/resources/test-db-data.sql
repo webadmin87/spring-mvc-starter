@@ -1,0 +1,1 @@
+INSERT INTO public.users (id, active, createdat, updatedat, email, name, password, phone, role, text, token, username, author_id) VALUES (1, 't', '2016-11-20 20:00:36.605', '2016-11-20 20:12:53.397', 'webadmin87@gmail.com', 'admin777', '5f4dcc3b5aa765d61d8327deb882cf99', '79999999999', 'ROLE_ADMIN', NULL, '1add7f0edab995c4624805797133dacd', 'admin', null);

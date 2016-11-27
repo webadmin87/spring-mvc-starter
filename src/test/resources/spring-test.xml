@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+       http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.0.xsd
+       ">
+
+    <!-- JPA -->
+
+    <bean id="myEmf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="sharedCacheMode" value="ALL" />
+        <property name="dataSource" ref="dbDataSource" />
+        <property name="packagesToScan" value="ru.rzncenter.webcore.domains" />
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
+        </property>
+        <property name="jpaProperties">
+            <props>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.hbm2ddl.auto">validate</prop>
+                <prop key="hibernate.dialect">org.hibernate.dialect.H2Dialect</prop>
+                <prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory</prop>
+                <prop key="net.sf.ehcache.configurationResourceName">/ehcache.xml</prop>
+                <prop key="hibernate.cache.use_second_level_cache">true</prop>
+                <prop key="hibernate.cache.use_query_cache">false</prop>
+                <prop key="hibernate.query.plan_cache_max_strong_references">64</prop>
+                <prop key="hibernate.query.plan_cache_max_soft_references">1024</prop>
+                <prop key="hibernate.cache.default_cache_concurrency_strategy">read-write</prop>
+                <prop key="javax.persistence.validation.mode">NONE</prop>
+                <prop key="hibernate.default_schema">public</prop>
+            </props>
+        </property>
+    </bean>
+
+    <import resource="spring-common.xml" />
+
+    <jdbc:embedded-database id="dbDataSource" type="H2">
+        <jdbc:script location="classpath:test-db-ddl.sql" />
+        <jdbc:script location="classpath:test-db-data.sql" />
+    </jdbc:embedded-database>
+
+</beans>

@@ -24,7 +24,7 @@ public class EnvironmetInfoImpl implements EnvironmentInfo {
     @Value("${app.contextPath}")
     private String contextPath;
 
-    @Autowired
+    @Autowired(required = false)
     private HttpServletRequest request;
 
     @Override
