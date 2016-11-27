@@ -13,6 +13,7 @@ public class WebFilesRemover implements FilesRemover {
     @Autowired
     private FileUtils fileUtils;
 
+    @Override
     public void removeFiles(List<String> files) {
         if(files != null) {
             for (String name : files) {

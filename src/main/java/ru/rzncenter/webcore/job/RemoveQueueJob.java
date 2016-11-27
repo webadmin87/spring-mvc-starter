@@ -1,8 +1,9 @@
-package ru.rzncenter.webcore.service;
+package ru.rzncenter.webcore.job;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import ru.rzncenter.webcore.service.RemoveFilesQueueHolder;
 import ru.rzncenter.webcore.utils.FilesRemover;
 
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ import java.util.Queue;
  * Удаляет файлы поставленные в очередь на удаление
  */
 @Service
-public class RemoveQueueProcessor {
+public class RemoveQueueJob {
 
     @Autowired
     private FilesRemover filesRemover;

@@ -25,9 +25,6 @@ public class UserFilesUtils implements FileUtils {
     private EnvironmentInfo info;
 
     @Autowired
-    private CollectionUtils collectionUtils;
-
-    @Autowired
     private Translation translation;
 
     /**
@@ -107,7 +104,7 @@ public class UserFilesUtils implements FileUtils {
             ext =parts.get(size - 1);
             parts.remove(size-1);
         }
-        String nameWithoutExt = collectionUtils.join(parts, ".");
+        String nameWithoutExt = String.join(".", parts);
         Integer i = 1;
         while(new File(folder + "/" + name).exists()) {
             name = nameWithoutExt + "(" + i.toString() + ")";

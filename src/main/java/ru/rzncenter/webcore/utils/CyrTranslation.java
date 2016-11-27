@@ -89,6 +89,7 @@ public class CyrTranslation implements Translation {
      * @param input входная кирилическая строка
      * @return
      */
+    @Override
     public String execute(String input) {
         char[] chars = input.toCharArray();
         StringBuilder buffer = new StringBuilder();
