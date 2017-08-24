@@ -48,6 +48,14 @@ export function userReducer(state, action) {
         newState.serverErrors = []
         newState.loadData = true
         return newState
+    } else if (action.type=='user.entity.imagesadd') {
+        newState.entity = Object.assign({}, newState.entity);
+        newState.entity.images = [...newState.entity.images, ...action.data];
+        return newState;
+    } else if (action.type=='user.entity.imagesupdate') {
+        newState.entity = Object.assign({}, newState.entity);
+        newState.entity.images[action.data.i] = action.data.model;
+        return newState;
     }
     return state
 }

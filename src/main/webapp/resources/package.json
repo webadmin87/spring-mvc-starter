@@ -20,7 +20,8 @@
     "querystring": "0.2.0",
     "i18next": "3.4.1",
     "griddle-react": "0.6.1",
-    "react-select": "1.0.0-rc.1"
+    "react-select": "1.0.0-rc.1",
+    "react-dropzone": "4.1.0"
   },
   "devDependencies": {
     "gulp": "*",

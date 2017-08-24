@@ -10,7 +10,7 @@ import javax.persistence.*;
  * Базовый класс для сущностей файлов
  */
 @MappedSuperclass
-public class FileDomain {
+public class FileDomain implements Comparable<FileDomain> {
 
     /**
      * Идентификатор
@@ -23,7 +23,6 @@ public class FileDomain {
     /**
      * Название
      */
-    @NotBlank
     @Column(name = "title")
     private String title;
 
@@ -77,4 +76,8 @@ public class FileDomain {
         RemoveFilesQueueHolder.getInstance().add(getPath());
     }
 
+    @Override
+    public int compareTo(FileDomain o) {
+        return Integer.compare(sort, o.getSort());
+    }
 }

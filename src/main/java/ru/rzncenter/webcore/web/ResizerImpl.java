@@ -159,7 +159,7 @@ public class ResizerImpl implements Resizer {
 
     @Override
     public void resize(Previews model) {
-        SortedSet<? extends FileDomain> previews = model.getPreviews();
+        Set<? extends FileDomain> previews = model.getPreviews();
         if(previews == null) {
             return;
         }

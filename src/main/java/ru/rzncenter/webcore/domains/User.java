@@ -2,10 +2,12 @@ package ru.rzncenter.webcore.domains;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.*;
 import org.hibernate.annotations.Cache;
 import ru.rzncenter.webcore.constraints.FieldMatch;
 import javax.persistence.*;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
@@ -19,7 +21,6 @@ import java.util.*;
 
 /**
  * Пользователь
- * FIXME допилить изображения !!!
  */
 @Entity
 @Table(name="users")
@@ -95,16 +96,17 @@ public class User extends Domain implements Previews, UserDomain {
     /**
      * Изображения
      */
-    @OneToMany(mappedBy = "user", orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user", orphanRemoval = true, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @OrderBy("sort ASC")
     @Valid
-    private SortedSet<UserFile> images;
+    @JsonManagedReference
+    private Set<UserFile> images;
 
     /**
      * Превью изображений
      */
     @Transient
-    private SortedSet<? extends FileDomain> previews;
+    private Set<? extends FileDomain> previews;
 
     /**
      * Описание
@@ -204,11 +206,11 @@ public class User extends Domain implements Previews, UserDomain {
         return super.getAuthor();
     }
 
-    public SortedSet<UserFile> getImages() {
+    public Set<UserFile> getImages() {
         return images;
     }
 
-    public void setImages(SortedSet<UserFile> images) {
+    public void setImages(Set<UserFile> images) {
         this.images = images;
     }
 
@@ -226,7 +228,7 @@ public class User extends Domain implements Previews, UserDomain {
     }
 
     @Override
-    public SortedSet<? extends FileDomain> getPreviews() {
+    public Set<? extends FileDomain> getPreviews() {
         if(previews == null && images != null) {
             previews = new TreeSet<FileDomain>(images);
         }
@@ -234,7 +236,7 @@ public class User extends Domain implements Previews, UserDomain {
     }
 
     @Override
-    public void setPreviews(SortedSet<? extends FileDomain> previews) {
+    public void setPreviews(Set<? extends FileDomain> previews) {
         this.previews = previews;
     }
 

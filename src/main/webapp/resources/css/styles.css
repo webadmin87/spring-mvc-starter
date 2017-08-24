@@ -21,3 +21,12 @@
 .errors {
     color: #a70000;
 }
+
+.dropzone {
+    margin-bottom: 10px;
+}
+
+.dropzone__info {
+    text-align: center;
+    margin: 40px auto;
+}

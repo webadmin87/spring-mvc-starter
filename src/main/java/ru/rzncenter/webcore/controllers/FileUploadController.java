@@ -1,5 +1,6 @@
 package ru.rzncenter.webcore.controllers;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import ru.rzncenter.webcore.service.FileUploader;
 import ru.rzncenter.webcore.utils.FileUtils;
@@ -9,6 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.ServletContext;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 
 /**
@@ -34,21 +38,25 @@ public class FileUploadController {
 
     /**
      * Загрузка файла 
-     * @param file
+     * @param files
      * @return
      */
     @RequestMapping(value="/upload/", method=RequestMethod.POST)
-    public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file){
+    public ResponseEntity<List<String>> handleFileUpload(@RequestParam("file") MultipartFile[] files) {
         HttpHeaders headers = new HttpHeaders();
-        if (!file.isEmpty()) {
-            String path = fileUploader.handleFileUpload(file);
-            if(path != null) {
-                return new ResponseEntity<>(path, headers, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>("You failed to upload file", headers, HttpStatus.INTERNAL_SERVER_ERROR);
+        List<String> result = new ArrayList<>();
+        for (MultipartFile file : files) {
+            if(!file.isEmpty()) {
+                String path = fileUploader.handleFileUpload(file);
+                if (StringUtils.isNotBlank(path)) {
+                    result.add(path);
+                }
             }
+        }
+        if(!result.isEmpty()) {
+            return new ResponseEntity<>(result, headers, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>("You failed to upload file because the file was empty.", headers, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Collections.<String>emptyList(), headers, HttpStatus.BAD_REQUEST);
         }
     }
 

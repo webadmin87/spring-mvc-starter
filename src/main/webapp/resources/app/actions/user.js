@@ -46,3 +46,17 @@ export function userEntityReset(data) {
         type: 'user.entity.reset'
     }
 }
+
+export function userImagesAdd(data) {
+    return {
+        data,
+        type: 'user.entity.imagesadd'
+    }
+}
+
+export function userImagesUpdate(data) {
+    return {
+        data,
+        type: 'user.entity.imagesupdate'
+    }
+}

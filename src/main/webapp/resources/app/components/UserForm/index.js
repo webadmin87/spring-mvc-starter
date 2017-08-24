@@ -1,11 +1,12 @@
 import React from 'react'
-import { userAddAction, userErrorAction, userEntityReset } from 'actions/user'
+import { userAddAction, userErrorAction, userEntityReset, userImagesAdd, userImagesUpdate } from 'actions/user'
 import store from "store"
 import { notEmpty, email, password, confirmPassword, username, phone} from "core/validators"
 import FormBase from "core/FormBase"
 import i18next from 'i18next'
 import Errors from 'components/Errors'
 import Select from 'react-select'
+import FileUploader from 'components/FileUploader'
 
 export default class UserForm extends FormBase {
 
@@ -72,6 +73,11 @@ export default class UserForm extends FormBase {
                 <label htmlFor="user-confirm-password">{ i18next.t('app_user_confirm_password') }</label>
                 <input type="password" className="form-control" id="user-name" value={ this.props.data.confirmInputPassword || '' } onChange={this.getHandleChange('confirmInputPassword')} />
                 <Errors errors={ this.props.errors.confirmInputPassword } />
+            </div>
+
+            <div className="form-group">
+                <label>{ i18next.t('app_user_images') }</label>
+                <FileUploader actionAdd={ userImagesAdd } actionUpdate={ userImagesUpdate } files={ this.props.data.images } store={ store } />
             </div>
 
             <div className="form-group">
