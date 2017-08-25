@@ -1,6 +1,6 @@
 package ru.rzncenter.webcore.utils;
 
-import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.nio.file.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -42,12 +41,9 @@ public class UserFilesUtils implements FileUtils {
      */
     @Override
     public String getServerPath() {
-        String path = System.getenv(info.getUserfilesEnvVariable()) + "/" + info.getApplicationName() + "/" + info.getUserfilesDirName();
-        File dir = new File(path);
-        if(!dir.exists()) {
-            dir.mkdirs();
-        }
-        return path;
+        Path path = Paths.get(System.getenv(info.getUserfilesEnvVariable()), info.getApplicationName(), info.getUserfilesDirName());
+        createIfNotExist(path);
+        return path.toString();
     }
 
     /**
@@ -76,38 +72,36 @@ public class UserFilesUtils implements FileUtils {
      */
     @Override
     public String getSaveServerPath() {
-        String userfiles = getServerPath();
         String dateFolder = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-        String path = userfiles + "/" + dateFolder;
-        File dir = new File(path);
-        if(!dir.exists()) {
-            dir.mkdirs();
-        }
-        return path;
+        Path path = Paths.get(getServerPath(), dateFolder);
+        createIfNotExist(path);
+        return path.toString();
     }
 
     /**
      * Вохвращает свободное имя файла в папке
      * @param folder путь к папке
-     * @param name желаемое имя файла
+     * @param inpName желаемое имя файла
      * @return
      */
     @Override
-    public String getNameForeSave(String folder, String name) {
-        name = translation.execute(name);
-        String[] arr = name.split("\\.");
-        ArrayList<String> parts = new ArrayList<>(Arrays.asList(arr)) ;
-        Integer size = parts.size();
-        Boolean hasExt = size>1;
+    public String getNameForeSave(String folder, String inpName) {
+        String name = translation.execute(inpName);
+        if(Files.notExists(Paths.get(folder, name))) {
+            return name;
+        }
+        List<String> parts = new ArrayList<>(Arrays.asList(name.split("\\.")));
+        int size = parts.size();
+        boolean hasExt = size > 1;
         String ext = null;
         if(hasExt) {
             ext =parts.get(size - 1);
             parts.remove(size-1);
         }
         String nameWithoutExt = String.join(".", parts);
-        Integer i = 1;
-        while(new File(folder + "/" + name).exists()) {
-            name = nameWithoutExt + "(" + i.toString() + ")";
+        int i = 1;
+        while (Files.exists(Paths.get(folder, name))) {
+            name = nameWithoutExt + "(" + i + ")";
             if(hasExt) {
                 name += "." + ext;
             }
@@ -124,8 +118,7 @@ public class UserFilesUtils implements FileUtils {
     @Override
     public boolean deleteFileByWebPath(String path) {
         try {
-            File file = new File(webToServerPath(path));
-            file.delete();
+            Files.deleteIfExists(Paths.get(webToServerPath(path)));
             return true;
         } catch (Exception e) {
             LOGGER.error("Error delete file", e);
@@ -140,9 +133,9 @@ public class UserFilesUtils implements FileUtils {
      */
     @Override
     public String getExtension(String path) {
-        String ext = "";
+        String ext = StringUtils.EMPTY;
         int i = path.lastIndexOf(".");
-        if(i>-1) {
+        if(i > -1) {
             ext = path.substring(i+1);
         }
         return ext;
@@ -156,55 +149,28 @@ public class UserFilesUtils implements FileUtils {
     @Override
     public boolean isImage(File file) {
         try {
-            Path path = file.toPath();
-            String mimetype = Files.probeContentType(path);
-            String type = mimetype.split("/")[0];
-            return type.equals("image");
+            return isImage(Files.probeContentType(file.toPath()));
+
         } catch (Exception e) {
             LOGGER.error("Error probe content type", e);
             return false;
         }
     }
 
-    /**
-     * Крпирует файл
-     * @param fullPath
-     * @return возвращает путь к новому файлу
-     */
     @Override
-    public String copy(String fullPath) {
-        String path  = FilenameUtils.getFullPathNoEndSeparator(fullPath);
-        String name = FilenameUtils.getName(fullPath);
-        String nameForSave  = getNameForeSave(path, name);
-        String pathForSave = path + "/" + nameForSave;
-        try {
-            org.apache.commons.io.FileUtils.copyFile(new File(fullPath), new File(pathForSave));
-        } catch (IOException e) {
-            LOGGER.error("Copy error", e);
-            return null;
-        }
-        return pathForSave;
+    public boolean isImage(String mimeType) {
+        String type = mimeType.split("/")[0];
+        return type.equalsIgnoreCase("image");
     }
 
-    /**
-     * Копирует файлы
-     * @param files
-     * @return
-     */
-    @Override
-    public SortedMap<Integer, String> copyFiles(Map<Integer, String> files) {
-        if(files == null) {
-            return null;
-        }
-        TreeMap<Integer, String> res = new TreeMap<>();
-        for(Map.Entry<Integer, String> entry : files.entrySet()) {
-            String serverPath = webToServerPath(entry.getValue());
-            if(new File(serverPath).exists()) {
-                String newServerPath = copy(serverPath);
-                res.put(entry.getKey(), serverToWebPath(newServerPath));
+    private void createIfNotExist(Path path) {
+        if(Files.notExists(path)) {
+            try {
+                Files.createDirectories(path);
+            } catch (IOException e) {
+                LOGGER.error(e.getMessage(), e);
             }
         }
-        return res;
     }
 
 }

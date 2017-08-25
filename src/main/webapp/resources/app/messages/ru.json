@@ -25,7 +25,8 @@
       "app_validator_email": "Email задан некорректно",
       "app_validator_username": "Имя пользователя не корректно",
       "app_validator_phone": "Телефон не корректен",
-      "app_file_uploader_info": "Перетащите файлы для загрузки"
+      "app_file_uploader_info": "Перетащите файлы для загрузки",
+      "app_file_uploader_error": "Некорректные файлы"
 
     }
   }

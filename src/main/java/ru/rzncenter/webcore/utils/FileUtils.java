@@ -1,7 +1,6 @@
 package ru.rzncenter.webcore.utils;
 
 import java.io.File;
-import java.util.*;
 
 
 public interface FileUtils {
@@ -24,8 +23,6 @@ public interface FileUtils {
 
     boolean isImage(File file);
 
-    String copy(String fullPath);
-
-    SortedMap<Integer, String> copyFiles(Map<Integer, String> files);
+    boolean isImage(String mimeType);
 
 }

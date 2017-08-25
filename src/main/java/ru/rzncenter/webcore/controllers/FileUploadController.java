@@ -9,9 +9,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
-import javax.servlet.ServletContext;
+import ru.rzncenter.webcore.web.response.FileUploadResponse;
+
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 
@@ -21,9 +21,6 @@ import java.util.List;
 @RestController
 @RequestMapping(value="/admin/")
 public class FileUploadController {
-
-    @Autowired
-    private ServletContext context;
 
     @Autowired
     private FileUtils fileUtils;
@@ -42,22 +39,19 @@ public class FileUploadController {
      * @return
      */
     @RequestMapping(value="/upload/", method=RequestMethod.POST)
-    public ResponseEntity<List<String>> handleFileUpload(@RequestParam("file") MultipartFile[] files) {
+    public ResponseEntity<FileUploadResponse> handleFileUpload(@RequestParam("file") MultipartFile[] files) {
         HttpHeaders headers = new HttpHeaders();
-        List<String> result = new ArrayList<>();
+        List<String> success = new ArrayList<>();
+        List<String> error = new ArrayList<>();
         for (MultipartFile file : files) {
-            if(!file.isEmpty()) {
-                String path = fileUploader.handleFileUpload(file);
-                if (StringUtils.isNotBlank(path)) {
-                    result.add(path);
-                }
+            String path = fileUploader.handleFileUpload(file);
+            if (StringUtils.isNotBlank(path)) {
+                success.add(path);
+            } else {
+                error.add(file.getOriginalFilename());
             }
         }
-        if(!result.isEmpty()) {
-            return new ResponseEntity<>(result, headers, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(Collections.<String>emptyList(), headers, HttpStatus.BAD_REQUEST);
-        }
+        return new ResponseEntity<>(new FileUploadResponse(success, error), headers, HttpStatus.OK);
     }
 
     /**
@@ -85,7 +79,7 @@ public class FileUploadController {
     public ResponseEntity<String> handleFileUploadFromUrl(@RequestParam String url) {
         HttpHeaders headers = new HttpHeaders();
         String path = fileUploader.handleFileUploadFromUrl(url);
-        if(path != null) {
+        if(StringUtils.isNotBlank(path)) {
             return new ResponseEntity<>(path, headers, HttpStatus.OK);
         } else {
             return new ResponseEntity<>("Bad request", headers, HttpStatus.BAD_REQUEST);

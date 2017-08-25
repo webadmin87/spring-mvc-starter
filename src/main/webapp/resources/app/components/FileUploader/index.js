@@ -13,13 +13,13 @@ export default class FileUploader extends React.Component {
         });
         axios.post(Settings.UPLOAD_URL, data).then(res => {
 
-            if(!res.data) {
+            if(!res.data || !res.data.success ) {
                 alert('Upload error!')
             }
 
             let models = [];
 
-            res.data.forEach(path => {
+            res.data.success.forEach(path => {
                models.push(
                    {
                        title: '',
@@ -32,6 +32,12 @@ export default class FileUploader extends React.Component {
             if(models.length) {
                 this.props.store.dispatch(this.props.actionAdd(models));
             }
+
+            if(res.data.error && res.data.error.length) {
+                let msg = i18next.t('app_file_uploader_error') + ' ' + res.data.error.join(",");
+                alert(msg);
+            }
+
         }).catch(err => {
             console.error(err);
         });
