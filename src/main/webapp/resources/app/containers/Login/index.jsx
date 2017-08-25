@@ -6,6 +6,7 @@ import { authenticationAction } from "actions/authentication"
 import {encode} from "querystring"
 import store from "store"
 import i18next from 'i18next'
+import { withRouter } from "react-router-dom"
 
 class Login extends React.Component {
 
@@ -19,7 +20,7 @@ class Login extends React.Component {
 
     __isRedirect(props) {
         if(props.authentication) {
-            this.context.router.push('/')
+            this.props.history.push('/')
         }
     }
 
@@ -49,10 +50,6 @@ class Login extends React.Component {
 
 }
 
-Login.contextTypes = {
-    router: React.PropTypes.object.isRequired
-}
-
 const mapStateToProps = function(store) {
 
     return {
@@ -62,4 +59,4 @@ const mapStateToProps = function(store) {
 
 }
 
-export default connect(mapStateToProps)(Login)
+export default withRouter(connect(mapStateToProps)(Login))

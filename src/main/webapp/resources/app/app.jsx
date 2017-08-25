@@ -5,8 +5,9 @@ import axios from "axios"
 import i18next from 'i18next'
 import SETTINGS from 'settings'
 import { getAuthentication } from "services/auth"
+import { withRouter } from "react-router-dom"
 
-export default class App extends React.Component {
+class App extends React.Component {
 
     constructor(props) {
         super(props)
@@ -27,21 +28,21 @@ export default class App extends React.Component {
 
     __configureAxios() {
 
-        axios.interceptors.request.use(function (config) {
+        axios.interceptors.request.use(config => {
             let auth = getAuthentication()
             if(auth) {
                 config.headers['X-AUTH-TOKEN'] = auth.token
             }
             return config;
-        }, function (error) {
+        }, error => {
             return Promise.reject(error);
         });
 
-        axios.interceptors.response.use(function (response) {
+        axios.interceptors.response.use(response => {
             return response;
-        }, function (error) {
+        }, error => {
             if(error.status == 401 && this.props.location.pathname != '/login') {
-                this.context.router.push("/login")
+                this.props.history.push("/login")
             }
             return Promise.reject(error);
         });
@@ -50,7 +51,7 @@ export default class App extends React.Component {
 
     __isRedirect(props) {
         if(!props.authentication && this.props.location.pathname != '/login') {
-            this.context.router.push("/login")
+            this.props.history.push("/login")
         }
     }
 
@@ -98,14 +99,10 @@ export default class App extends React.Component {
 
 }
 
-App.contextTypes = {
-    router: React.PropTypes.object.isRequired
-}
-
 const mapStateToProps = function(store) {
     return {
         authentication: store.authenticationState.authentication
     }
 }
 
-export default connect(mapStateToProps)(App)
+export default withRouter(connect(mapStateToProps)(App))

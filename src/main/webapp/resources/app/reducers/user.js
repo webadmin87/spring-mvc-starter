@@ -54,7 +54,15 @@ export function userReducer(state, action) {
         return newState;
     } else if (action.type=='user.entity.imagesupdate') {
         newState.entity = Object.assign({}, newState.entity);
-        newState.entity.images[action.data.i] = action.data.model;
+        if(newState.entity.images[action.data.i]) {
+            newState.entity.images[action.data.i] = action.data.model;
+        }
+        return newState;
+    } else if (action.type=='user.entity.imagesdelete') {
+        newState.entity = Object.assign({}, newState.entity);
+        if(newState.entity.images[action.data]) {
+            newState.entity.images.splice(action.data, 1);
+        }
         return newState;
     }
     return state

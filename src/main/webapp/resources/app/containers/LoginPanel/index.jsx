@@ -1,6 +1,6 @@
 import React from "react"
 import { connect } from "react-redux"
-import { Link } from "react-router"
+import { Link, withRouter } from "react-router-dom"
 import store from "store"
 import { logoutAction } from "actions/authentication"
 import i18next from 'i18next'
@@ -10,7 +10,7 @@ class LoginPanel extends React.Component {
 
     __logout() {
         store.dispatch(logoutAction())
-        this.context.router.push("/login")
+        this.props.history.push("/login")
     }
 
     render() {
@@ -24,14 +24,10 @@ class LoginPanel extends React.Component {
 
 }
 
-LoginPanel.contextTypes = {
-    router: React.PropTypes.object.isRequired
-}
-
 const mapStateToProps = function(store) {
     return {
         authentication: store.authenticationState.authentication
     }
 }
 
-export default connect(mapStateToProps)(LoginPanel)
+export default withRouter(connect(mapStateToProps)(LoginPanel))

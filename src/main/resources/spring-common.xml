@@ -27,6 +27,7 @@
     <context:component-scan base-package="ru.rzncenter.webcore.service" />
     <context:component-scan base-package="ru.rzncenter.webcore.handlers" />
     <context:component-scan base-package="ru.rzncenter.webcore.json" />
+    <context:component-scan base-package="ru.rzncenter.webcore.job" />
 
     <jpa:repositories base-package="ru.rzncenter.webcore.dao" transaction-manager-ref="transactionManager" entity-manager-factory-ref="myEmf" />
 

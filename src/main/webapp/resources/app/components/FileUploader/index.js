@@ -30,7 +30,7 @@ export default class FileUploader extends React.Component {
             });
 
             if(models.length) {
-                this.props.store.dispatch(this.props.actionAdd(models));
+                this.props.dispatch(this.props.actionAdd(models));
             }
 
             if(res.data.error && res.data.error.length) {
@@ -56,12 +56,19 @@ export default class FileUploader extends React.Component {
         return e => {
             let file = Object.assign({}, this.props.files[i]);
             file[name] = e.target.value || def;
-            this.props.store.dispatch(
+            this.props.dispatch(
                 this.props.actionUpdate({
                     i: i,
                     model: file
                 })
             );
+        };
+    }
+
+    getHandleDelete(i) {
+        return e => {
+            e.preventDefault();
+            this.props.dispatch(this.props.actionDelete(i));
         };
     }
 
@@ -83,7 +90,7 @@ export default class FileUploader extends React.Component {
                                         <td><input className="form-control input-sm" type="text" value={ f.title } onChange={ this.getHandleChange("title", i, "") } /></td>
                                         <td>{ f.path }</td>
                                         <td><input className="form-control input-sm" type="text" value={ f.sort } onChange={ this.getHandleChange("sort", i, 0) } /></td>
-                                        <td><a href="#" className="glyphicon glyphicon-remove"></a></td>
+                                        <td><a href="#" className="glyphicon glyphicon-remove" onClick={ this.getHandleDelete(i) }></a></td>
                                     </tr>)
                                 }
                             </tbody>

@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Router, Route, hashHistory, IndexRoute } from 'react-router'
+import { HashRouter, Route, Switch } from 'react-router-dom'
 import StartContainer from 'containers/Start'
 import LoginContainer from 'containers/Login'
 import UserListContainer from 'containers/UserList'
@@ -15,20 +15,21 @@ class AppRouter extends React.Component {
     render() {
         return (
             <Provider store={store}>
-                <Router history={hashHistory}>
-                            <Route path="/" component={App}>
-                                <IndexRoute component={StartContainer} />
-                                <Route path="/login" component={LoginContainer}/>
-                                <Route path="/users" component={UserListContainer}/>
-                                <Route path="/userAdd" component={UserAddContainer}/>
-                                <Route path="/userEdit/:userId" component={UserEditContainer}/>
-                            </Route>
-                    </Router>
+
+                <HashRouter>
+                    <App>
+                        <Switch>
+                            <Route exact path='/' component={StartContainer}/>
+                            <Route path="/login" component={LoginContainer}/>
+                            <Route path="/users" component={UserListContainer}/>
+                            <Route path="/userAdd" component={UserAddContainer}/>
+                            <Route path="/userEdit/:userId" component={UserEditContainer}/>
+                        </Switch>
+                    </App>
+                </HashRouter>
             </Provider>
-        )
-
+        );
     }
-
 }
 
 ReactDOM.render(

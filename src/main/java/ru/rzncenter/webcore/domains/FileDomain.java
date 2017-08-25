@@ -3,7 +3,6 @@ package ru.rzncenter.webcore.domains;
 import org.hibernate.validator.constraints.NotBlank;
 import ru.rzncenter.webcore.service.RemoveFilesQueueHolder;
 
-import javax.annotation.PreDestroy;
 import javax.persistence.*;
 
 /**
@@ -71,8 +70,8 @@ public class FileDomain implements Comparable<FileDomain> {
         this.sort = sort;
     }
 
-    @PreDestroy
-    public void preDestroy() {
+    @PreRemove
+    public void preRemove() {
         RemoveFilesQueueHolder.getInstance().add(getPath());
     }
 

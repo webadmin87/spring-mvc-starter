@@ -1,5 +1,5 @@
 import React from 'react'
-import { userAddAction, userErrorAction, userEntityReset, userImagesAdd, userImagesUpdate } from 'actions/user'
+import { userAddAction, userErrorAction, userEntityReset, userImagesAdd, userImagesUpdate, userImagesDelete } from 'actions/user'
 import store from "store"
 import { notEmpty, email, password, confirmPassword, username, phone} from "core/validators"
 import FormBase from "core/FormBase"
@@ -7,8 +7,9 @@ import i18next from 'i18next'
 import Errors from 'components/Errors'
 import Select from 'react-select'
 import FileUploader from 'components/FileUploader'
+import { withRouter } from "react-router-dom"
 
-export default class UserForm extends FormBase {
+class UserForm extends FormBase {
 
     validators() {
 
@@ -44,7 +45,7 @@ export default class UserForm extends FormBase {
 
     onCancel() {
         store.dispatch(userEntityReset())
-        this.context.router.goBack()
+        this.props.history.goBack()
     }
 
     render() {
@@ -77,7 +78,7 @@ export default class UserForm extends FormBase {
 
             <div className="form-group">
                 <label>{ i18next.t('app_user_images') }</label>
-                <FileUploader actionAdd={ userImagesAdd } actionUpdate={ userImagesUpdate } files={ this.props.data.images } store={ store } />
+                <FileUploader actionAdd={ userImagesAdd } actionUpdate={ userImagesUpdate } actionDelete={ userImagesDelete } files={ this.props.data.images } dispatch={ store.dispatch } />
             </div>
 
             <div className="form-group">
@@ -112,10 +113,8 @@ export default class UserForm extends FormBase {
 
 }
 
-UserForm.contextTypes = {
-    router: React.PropTypes.object.isRequired
-}
-
 UserForm.defaultProps = {
     isUpdate: false
 }
+
+export default withRouter(UserForm)

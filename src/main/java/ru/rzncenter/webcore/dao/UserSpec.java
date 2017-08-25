@@ -17,9 +17,7 @@ import java.util.List;
 public final class UserSpec {
 
     public static Specification<User> filter(final UserFilter filter) {
-        return new Specification<User>() {
-            @Override
-            public Predicate toPredicate(Root<User> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
+        return (Root<User> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) -> {
                 List<Predicate> predicateList = new ArrayList<>();
                 if(filter.getId() != null) {
                     predicateList.add(criteriaBuilder.equal(root.get("id"), filter.getId()));
@@ -31,7 +29,7 @@ public final class UserSpec {
                     predicateList.add(criteriaBuilder.like(root.<String>get("email"), "%" + filter.getEmail() + "%"));
                 }
                 return criteriaBuilder.and(predicateList.toArray(new Predicate[predicateList.size()]));
-            }
+
         };
     }
 

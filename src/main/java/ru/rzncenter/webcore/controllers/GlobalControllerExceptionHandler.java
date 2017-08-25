@@ -44,4 +44,14 @@ public class GlobalControllerExceptionHandler {
         return new ResponseEntity<>(e.getBindingResult().getAllErrors(), HttpStatus.BAD_REQUEST); // 400
     }
 
+    /**
+     * Обработчик остальных ошибок
+     * @param e
+     */
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)  // 500
+    @ExceptionHandler(Exception.class)
+    public void handleException(Exception e) {
+        LOGGER.error(e.getLocalizedMessage(), e);
+    }
+
 }

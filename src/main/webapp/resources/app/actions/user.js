@@ -60,3 +60,10 @@ export function userImagesUpdate(data) {
         type: 'user.entity.imagesupdate'
     }
 }
+
+export function userImagesDelete(data) {
+    return {
+        data,
+        type: 'user.entity.imagesdelete'
+    }
+}

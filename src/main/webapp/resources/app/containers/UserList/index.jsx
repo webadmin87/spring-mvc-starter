@@ -6,7 +6,7 @@ import {encode} from "querystring"
 import store from "store"
 import i18next from 'i18next'
 import { GridBase, getMapToStateFunction, ActionColumn } from 'core/GridBase'
-import { Link } from "react-router"
+import { Link, withRouter } from "react-router-dom"
 import Settings from "settings"
 
 class UserList extends GridBase {
@@ -31,7 +31,7 @@ class UserList extends GridBase {
         return [
             {
                 "columnName": "action",
-                "customComponent": UserActionColumn,
+                "customComponent": withRouter(UserActionColumn),
                 "visible": true,
                 "locked": false,
                 "sortable": false
@@ -68,19 +68,11 @@ class UserActionColumn extends ActionColumn {
 
     onEdit(e) {
         e.preventDefault()
-        this.context.router.push('/userEdit/' + this.props.rowData.id + '/');
+        this.props.history.push('/userEdit/' + this.props.rowData.id + '/');
     }
 
 }
 
-UserActionColumn.contextTypes = {
-    router: React.PropTypes.object.isRequired
-}
-
-UserList.contextTypes = {
-    router: React.PropTypes.object.isRequired
-}
-
 const mapStateToProps = getMapToStateFunction('userState')
 
-export default connect(mapStateToProps)(UserList)
+export default connect(mapStateToProps)(UserList);

@@ -6,6 +6,7 @@ import store from "store"
 import UserForm from 'components/UserForm'
 import ServerErrors from "components/ServerErrors"
 import Settings from "settings"
+import { withRouter } from "react-router-dom"
 
 class UserAdd extends React.Component {
 
@@ -18,7 +19,7 @@ class UserAdd extends React.Component {
     handleSubmit(e) {
         axios.post(Settings.USERS_URL, this.props.data).then(r => {
             store.dispatch(userEntityReset())
-            this.context.router.push('/users')
+            this.props.history.push('/users')
         }).catch(e => {
             store.dispatch((userServerErrorAction(e.data)))
         })
@@ -33,16 +34,11 @@ class UserAdd extends React.Component {
 
 }
 
-UserAdd.contextTypes = {
-    router: React.PropTypes.object.isRequired
-}
-
-
-export default connect(state => {
+export default withRouter(connect(state => {
     return {
         data: state.userState.entity,
         errors: state.userState.errors,
         roles: state.userState.roles,
         serverErrors: state.userState.serverErrors
     }
-})(UserAdd)
+})(UserAdd))
