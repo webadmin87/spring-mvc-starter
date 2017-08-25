@@ -1,5 +1,7 @@
 package ru.rzncenter.webcore.domains;
 
+import org.apache.commons.lang.BooleanUtils;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
@@ -79,7 +81,7 @@ public class Domain {
     }
 
     public Boolean getActive() {
-        return active != null && active;
+        return BooleanUtils.isTrue(active);
     }
 
     public void setActive(Boolean active) {

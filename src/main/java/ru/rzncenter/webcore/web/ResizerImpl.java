@@ -1,5 +1,6 @@
 package ru.rzncenter.webcore.web;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.imgscalr.Scalr;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +15,10 @@ import org.imgscalr.Scalr.*;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 
@@ -55,14 +60,16 @@ public class ResizerImpl implements Resizer {
      * @return
      */
     public String getThumbPath(File file, int width, int height) {
-        String dir = fileUtils.getServerPath() + "/" + dirName;
-        File dirFile = new File(dir);
-        if(!dirFile.exists()) {
-            dirFile.mkdirs();
+        Path dir = Paths.get(fileUtils.getServerPath(), dirName);
+        if(Files.notExists(dir)) {
+            try {
+                Files.createDirectories(dir);
+            } catch (IOException e) {
+                LOGGER.error(e.getMessage(), e);
+            }
         }
         String thumbName = getThumbName(file, width, height);
-        String thumbPath = dir + "/" + thumbName;
-        return thumbPath;
+        return dir.resolve(thumbName).toString();
     }
 
 
@@ -160,7 +167,7 @@ public class ResizerImpl implements Resizer {
     @Override
     public void resize(Previews model) {
         Set<? extends FileDomain> previews = model.getPreviews();
-        if(previews == null) {
+        if(CollectionUtils.isEmpty(previews)) {
             return;
         }
         SortedSet<FileDomain> resized = new TreeSet<>();

@@ -1,5 +1,6 @@
 package ru.rzncenter.webcore.utils;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import java.util.List;
@@ -15,10 +16,8 @@ public class WebFilesRemover implements FilesRemover {
 
     @Override
     public void removeFiles(List<String> files) {
-        if(files != null) {
-            for (String name : files) {
-                fileUtils.deleteFileByWebPath(name);
-            }
+        if(CollectionUtils.isNotEmpty(files)) {
+            files.forEach(name->fileUtils.deleteFileByWebPath(name));
         }
     }
 

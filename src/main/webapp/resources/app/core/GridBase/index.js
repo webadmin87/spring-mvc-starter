@@ -53,6 +53,8 @@ export class GridBase extends React.Component {
                     loadData: false
                 }))
             }
+        }).catch(err=>{
+            console.warn('Unable to load data')
         })
     }
 
