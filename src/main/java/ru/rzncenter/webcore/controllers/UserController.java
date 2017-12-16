@@ -25,17 +25,18 @@ import java.util.List;
 @RequestMapping("/admin/user/")
 public class UserController {
 
-    @Autowired
-    private Resizer resizer;
+    private final Resizer resizer;
+    private final UserService userService;
+    private final PageUtils pageUtils;
+    private final JsonUtils jsonUtils;
 
     @Autowired
-    private UserService userService;
-
-    @Autowired
-    private PageUtils pageUtils;
-
-    @Autowired
-    private JsonUtils jsonUtils;
+    public UserController(Resizer resizer, UserService userService, PageUtils pageUtils, JsonUtils jsonUtils) {
+        this.resizer = resizer;
+        this.userService = userService;
+        this.pageUtils = pageUtils;
+        this.jsonUtils = jsonUtils;
+    }
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public ResponseEntity<List<User>> list(

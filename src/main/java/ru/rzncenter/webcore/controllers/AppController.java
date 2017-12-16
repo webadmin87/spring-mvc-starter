@@ -12,8 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class AppController {
 
+    private final Environment env;
+
     @Autowired
-    private Environment env;
+    public AppController(Environment env) {
+        this.env = env;
+    }
 
     @RequestMapping("")
     public String run(Model model) {

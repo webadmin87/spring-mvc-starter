@@ -11,12 +11,11 @@ public class RemoveFilesQueueHolder {
     private RemoveFilesQueueHolder() {}
 
     private static class Holder {
-        private final static Queue<String> instance = new ConcurrentLinkedQueue<>();
+        private static final Queue<String> INSTANCE = new ConcurrentLinkedQueue<>();
     }
 
     public static Queue<String> getInstance() {
-        return Holder.instance;
+        return Holder.INSTANCE;
     }
-
 
 }

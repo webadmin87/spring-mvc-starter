@@ -10,11 +10,8 @@ import java.util.Set;
 public class SimplePermission implements Permission {
 
     private String name;
-
     private Rule rule;
-
     private Set<Permission> children = new HashSet<>();
-
     private Permission parent;
 
     public SimplePermission(String name) {

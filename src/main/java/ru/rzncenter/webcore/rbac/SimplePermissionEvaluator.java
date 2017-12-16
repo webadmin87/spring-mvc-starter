@@ -8,8 +8,12 @@ import java.io.Serializable;
 
 public class SimplePermissionEvaluator implements PermissionEvaluator {
 
+    private final PermissionManager permissionManager;
+
     @Autowired
-    private PermissionManager permissionManager;
+    public SimplePermissionEvaluator(PermissionManager permissionManager) {
+        this.permissionManager = permissionManager;
+    }
 
     public boolean hasPermission(Authentication authentication, Object target, Object permission) {
         String name = permission.toString();

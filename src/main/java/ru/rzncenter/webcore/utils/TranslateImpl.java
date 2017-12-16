@@ -1,5 +1,7 @@
 package ru.rzncenter.webcore.utils;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
@@ -13,20 +15,35 @@ import java.util.Locale;
 @Component
 public class TranslateImpl implements Translate {
 
-    @Autowired
-    private MessageSource msg;
+    private static final Logger LOGGER = LoggerFactory.getLogger(TranslateImpl.class);
 
-    @Value("${app.locale}")
-    private String locale;
+    private final MessageSource msg;
+    private final String locale;
+
+    @Autowired
+    public TranslateImpl(MessageSource msg, @Value("${app.locale}") String locale) {
+        this.msg = msg;
+        this.locale = locale;
+    }
 
     @Override
     public String t(String word) {
-        return msg.getMessage(word, new Object[0], new Locale(locale));
+        try {
+            return msg.getMessage(word, new Object[0], new Locale(locale));
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            return null;
+        }
     }
 
     @Override
     public String t(String word, Object[] params) {
-        return msg.getMessage(word, params, new Locale(locale));
+        try {
+            return msg.getMessage(word, params, new Locale(locale));
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            return null;
+        }
     }
 
 }

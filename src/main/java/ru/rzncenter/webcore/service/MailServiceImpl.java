@@ -20,14 +20,17 @@ public class MailServiceImpl implements MailService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MailServiceImpl.class);
 
-    @Autowired
-    private JavaMailSender mailSender;
-
-    @Value("${mailserver.email}")
-    private String mailFrom;
+    private final JavaMailSender mailSender;
+    private final String mailFrom;
+    private final VelocityEngine velocityEngine;
 
     @Autowired
-    private VelocityEngine velocityEngine;
+    public MailServiceImpl(JavaMailSender mailSender, @Value("${mailserver.email}") String mailFrom, VelocityEngine velocityEngine) {
+        this.mailSender = mailSender;
+        this.mailFrom = mailFrom;
+        this.velocityEngine = velocityEngine;
+    }
+
 
     @Override
     public boolean sendMail(String to, String subject, String tpl, Map<String, Object> params) {

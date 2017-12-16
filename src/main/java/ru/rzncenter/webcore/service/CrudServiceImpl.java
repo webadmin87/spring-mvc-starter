@@ -1,6 +1,5 @@
 package ru.rzncenter.webcore.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -20,12 +19,10 @@ import java.util.List;
  */
 public abstract class CrudServiceImpl<T extends Domain> implements CrudService<T> {
 
-    @Autowired
-    private UserDao userDao;
+    private final UserDao userDao;
 
-    protected Class<T> getGenericSuperClass() {
-        ParameterizedType genericSuperclass = (ParameterizedType) getClass().getGenericSuperclass();
-        return  (Class<T>) genericSuperclass.getActualTypeArguments()[0];
+    public CrudServiceImpl(UserDao userDao) {
+        this.userDao = userDao;
     }
 
     @Override
@@ -72,8 +69,9 @@ public abstract class CrudServiceImpl<T extends Domain> implements CrudService<T
         return userDao;
     }
 
-    public void setUserDao(UserDao userDao) {
-        this.userDao = userDao;
+    protected Class<T> getGenericSuperClass() {
+        ParameterizedType genericSuperclass = (ParameterizedType) getClass().getGenericSuperclass();
+        return  (Class<T>) genericSuperclass.getActualTypeArguments()[0];
     }
 
     protected void applyAuthor(T domain) {

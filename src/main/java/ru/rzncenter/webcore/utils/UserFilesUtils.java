@@ -20,11 +20,14 @@ public class UserFilesUtils implements FileUtils {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserFilesUtils.class);
 
-    @Autowired
-    private EnvironmentInfo info;
+    private final EnvironmentInfo info;
+    private final Translation translation;
 
     @Autowired
-    private Translation translation;
+    public UserFilesUtils(EnvironmentInfo info, Translation translation) {
+        this.info = info;
+        this.translation = translation;
+    }
 
     /**
      * Возвращает путь к паке относительно веб сервера хранящей пользовательские файла

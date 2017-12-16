@@ -9,9 +9,7 @@ import java.util.List;
 public class MenuLink {
 
     private String title;
-
     private String link;
-
     private List<MenuLink> children =  new ArrayList<>();
 
     public MenuLink(String title, String link) {

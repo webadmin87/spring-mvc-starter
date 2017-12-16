@@ -12,20 +12,25 @@ import javax.servlet.http.HttpServletRequest;
 @Component
 public class EnvironmetInfoImpl implements EnvironmentInfo {
 
-    @Value("${app.name}")
-    private String applicationName;
+    private final String applicationName;
+    private final String userfilesEnvVariable;
+    private final String userfilesDirName;
+    private final String contextPath;
+    private final HttpServletRequest request;
 
-    @Value("${app.userfilesEnvVariable}")
-    private String userfilesEnvVariable;
+    @Autowired
+    public EnvironmetInfoImpl(@Value("${app.name}") String applicationName,
+                              @Value("${app.userfilesEnvVariable}") String userfilesEnvVariable,
+                              @Value("${app.userfilesDirName}") String userfilesDirName,
+                              @Value("${app.contextPath}") String contextPath,
+                              HttpServletRequest request) {
+        this.applicationName = applicationName;
+        this.userfilesEnvVariable = userfilesEnvVariable;
+        this.userfilesDirName = userfilesDirName;
+        this.contextPath = contextPath;
+        this.request = request;
+    }
 
-    @Value("${app.userfilesDirName}")
-    private String userfilesDirName;
-
-    @Value("${app.contextPath}")
-    private String contextPath;
-
-    @Autowired(required = false)
-    private HttpServletRequest request;
 
     @Override
     public String getApplicationName() {

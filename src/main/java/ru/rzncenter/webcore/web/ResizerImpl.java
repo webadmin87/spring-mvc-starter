@@ -21,7 +21,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
-
 /**
  * Компонент ресайза изображений
  */
@@ -30,48 +29,13 @@ public class ResizerImpl implements Resizer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ResizerImpl.class);
 
+    private final String dirName = "thumbs";
+    private final FileUtils fileUtils;
+
     @Autowired
-    private FileUtils fileUtils;
-
-    private String dirName = "thumbs";
-
-    /**
-     * Возвращает имя уменьшенного изображения
-     * @param file
-     * @param width
-     * @param height
-     * @return
-     */
-    public String getThumbName(File file, int width, int height) {
-        String name = file.getAbsolutePath() + "_" + file.lastModified() + "_" + width + "_" + height;
-        String ext = fileUtils.getExtension(file.getAbsolutePath());
-        String md5Name = DigestUtils.md5Hex(name);
-        if(ext.length()>0) {
-            md5Name += "." + ext;
-        }
-        return md5Name;
+    public ResizerImpl(FileUtils fileUtils) {
+        this.fileUtils = fileUtils;
     }
-
-    /**
-     * Возвращает путь к уменьшенному изображению
-     * @param file
-     * @param width
-     * @param height
-     * @return
-     */
-    public String getThumbPath(File file, int width, int height) {
-        Path dir = Paths.get(fileUtils.getServerPath(), dirName);
-        if(Files.notExists(dir)) {
-            try {
-                Files.createDirectories(dir);
-            } catch (IOException e) {
-                LOGGER.error(e.getMessage(), e);
-            }
-        }
-        String thumbName = getThumbName(file, width, height);
-        return dir.resolve(thumbName).toString();
-    }
-
 
     /**
      * Уменьшет изображение
@@ -80,6 +44,7 @@ public class ResizerImpl implements Resizer {
      * @param height
      * @return путь к изображению относительно веб сервера
      */
+    @Override
     public String resize(File file, int width, int height) {
         if(!file.exists() || !fileUtils.isImage(file)) {
             return "";
@@ -97,8 +62,38 @@ public class ResizerImpl implements Resizer {
         }
     }
 
+    @Override
     public String resize(File file, int width) {
         return resize(file, width, 0);
+    }
+
+    @Override
+    public void resize(Previews model) {
+        Set<? extends FileDomain> previews = model.getPreviews();
+        if(CollectionUtils.isEmpty(previews)) {
+            return;
+        }
+        SortedSet<FileDomain> resized = new TreeSet<>();
+        for(FileDomain domain: previews) {
+            String resizedPath = resize(new File(fileUtils.webToServerPath(domain.getPath())), model.previewWidth(), model.previewHeight());
+            if(resizedPath != null && resizedPath.length()>0) {
+                FileDomain resizedDomain = new FileDomain();
+                resizedDomain.setPath(resizedPath);
+                resizedDomain.setTitle(domain.getTitle());
+                resizedDomain.setSort(domain.getSort());
+                resized.add(resizedDomain);
+            }
+        }
+        model.setPreviews(resized);
+    }
+
+    @Override
+    public void resize(List models) {
+        for(Object model : models) {
+            if(model instanceof Previews) {
+                resize((Previews) model);
+            }
+        }
     }
 
     /**
@@ -109,7 +104,7 @@ public class ResizerImpl implements Resizer {
      * @param height
      * @return
      */
-    protected boolean resizeInternal(File file, String savePath, int width, int height) {
+    private boolean resizeInternal(File file, String savePath, int width, int height) {
         if(width == 0 && height == 0) {
             return false;
         }
@@ -148,48 +143,41 @@ public class ResizerImpl implements Resizer {
         }
     }
 
-    public FileUtils getFileUtils() {
-        return fileUtils;
-    }
-
-    public void setFileUtils(FileUtils fileUtils) {
-        this.fileUtils = fileUtils;
-    }
-
-    public String getDirName() {
-        return dirName;
-    }
-
-    public void setDirName(String dirName) {
-        this.dirName = dirName;
-    }
-
-    @Override
-    public void resize(Previews model) {
-        Set<? extends FileDomain> previews = model.getPreviews();
-        if(CollectionUtils.isEmpty(previews)) {
-            return;
+    /**
+     * Возвращает имя уменьшенного изображения
+     * @param file
+     * @param width
+     * @param height
+     * @return
+     */
+    private String getThumbName(File file, int width, int height) {
+        String name = file.getAbsolutePath() + "_" + file.lastModified() + "_" + width + "_" + height;
+        String ext = fileUtils.getExtension(file.getAbsolutePath());
+        String md5Name = DigestUtils.md5Hex(name);
+        if(ext.length()>0) {
+            md5Name += "." + ext;
         }
-        SortedSet<FileDomain> resized = new TreeSet<>();
-        for(FileDomain domain: previews) {
-            String resizedPath = resize(new File(fileUtils.webToServerPath(domain.getPath())), model.previewWidth(), model.previewHeight());
-            if(resizedPath != null && resizedPath.length()>0) {
-                FileDomain resizedDomain = new FileDomain();
-                resizedDomain.setPath(resizedPath);
-                resizedDomain.setTitle(domain.getTitle());
-                resizedDomain.setSort(domain.getSort());
-                resized.add(resizedDomain);
+        return md5Name;
+    }
+
+    /**
+     * Возвращает путь к уменьшенному изображению
+     * @param file
+     * @param width
+     * @param height
+     * @return
+     */
+    private String getThumbPath(File file, int width, int height) {
+        Path dir = Paths.get(fileUtils.getServerPath(), dirName);
+        if(Files.notExists(dir)) {
+            try {
+                Files.createDirectories(dir);
+            } catch (IOException e) {
+                LOGGER.error(e.getMessage(), e);
             }
         }
-        model.setPreviews(resized);
+        String thumbName = getThumbName(file, width, height);
+        return dir.resolve(thumbName).toString();
     }
 
-    @Override
-    public void resize(List models) {
-        for(Object model : models) {
-            if(model instanceof Previews) {
-                resize((Previews) model);
-            }
-        }
-    }
 }

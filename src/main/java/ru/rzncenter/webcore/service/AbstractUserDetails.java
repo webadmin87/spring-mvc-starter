@@ -1,13 +1,12 @@
 package ru.rzncenter.webcore.service;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import ru.rzncenter.webcore.domains.User;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Родительский класс для UserDetailsService
@@ -15,12 +14,10 @@ import java.util.Set;
 public class AbstractUserDetails {
 
     public List<GrantedAuthority> buildUserAuthorites(User u) {
-        Set<GrantedAuthority> setAuths = new HashSet<>();
-        for (String userRole : u.rolesList()) {
-            setAuths.add(new SimpleGrantedAuthority(userRole));
+        if(CollectionUtils.isEmpty(u.rolesList())) {
+            return Collections.emptyList();
         }
-        List<GrantedAuthority> result = new ArrayList<>(setAuths);
-        return result;
+        return u.rolesList().stream().map(role->new SimpleGrantedAuthority(role)).collect(Collectors.toList());
     }
 
 }

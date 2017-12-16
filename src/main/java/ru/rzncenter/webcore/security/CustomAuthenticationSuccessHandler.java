@@ -34,7 +34,6 @@ public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthent
             String json = mapper.writeValueAsString(user);
             httpServletResponse.getWriter().write(json);
             httpServletResponse.getWriter().close();
-
         } else {
             super.onAuthenticationSuccess(httpServletRequest, httpServletResponse, authentication);
         }

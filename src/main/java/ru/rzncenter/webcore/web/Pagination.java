@@ -9,21 +9,21 @@ import javax.persistence.Query;
  */
 public interface Pagination {
 
-    Long getTotalCount();
+    long getTotalCount();
 
-    void setTotalCount(Long totalCount);
+    void setTotalCount(long totalCount);
 
-    Integer getPageSize();
+    int getPageSize();
 
-    void setPageSize(Integer pageSize);
+    void setPageSize(int pageSize);
 
-    Integer getTotalPages();
+    int getTotalPages();
 
-    Integer getPage();
+    int getPage();
 
-    void setPage(Integer page);
+    void setPage(int page);
 
-    Integer getOffset();
+    int getOffset();
 
     void applyLimits(Query q);
 

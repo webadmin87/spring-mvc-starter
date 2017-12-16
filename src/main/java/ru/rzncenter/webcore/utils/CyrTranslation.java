@@ -11,7 +11,7 @@ import java.util.Map;
 @Component
 public class CyrTranslation implements Translation {
 
-    private Map<Character, String> map = new HashMap<Character, String>();
+    private final Map<Character, String> map = new HashMap<Character, String>();
 
     {
         map.put('А', "A");

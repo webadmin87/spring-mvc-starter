@@ -15,8 +15,12 @@ import ru.rzncenter.webcore.security.TokenPreAuthenticationFilter;
 @Component("userDetailsTokenService")
 public class UserDetailsTokenServiceImpl extends AbstractUserDetails implements AuthenticationUserDetailsService<Authentication> {
 
+    private final UserService userService;
+
     @Autowired
-    private UserService userService;
+    public UserDetailsTokenServiceImpl(UserService userService) {
+        this.userService = userService;
+    }
 
     @Override
     public UserDetails loadUserDetails(Authentication authentication) throws UsernameNotFoundException {
@@ -35,7 +39,7 @@ public class UserDetailsTokenServiceImpl extends AbstractUserDetails implements 
         return userDetails;
     }
 
-    public UserDetails buildUserForAuthentication(User u) {
+    private UserDetails buildUserForAuthentication(User u) {
         return new org.springframework.security.core.userdetails.User(u.getUsername(), u.getToken(), buildUserAuthorites(u));
     }
 

@@ -1,7 +1,5 @@
 package ru.rzncenter.webcore.domains;
 
-import org.apache.commons.lang.BooleanUtils;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
@@ -32,7 +30,7 @@ public class Domain {
      */
     @NotNull
     @Column(name = "active", nullable = false)
-    private Boolean active = true;
+    private boolean active = true;
 
     /**
      * Дата создания
@@ -80,11 +78,11 @@ public class Domain {
         this.author = author;
     }
 
-    public Boolean getActive() {
-        return BooleanUtils.isTrue(active);
+    public boolean getActive() {
+        return active;
     }
 
-    public void setActive(Boolean active) {
+    public void setActive(boolean active) {
         this.active = active;
     }
 

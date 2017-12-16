@@ -5,9 +5,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 import ru.rzncenter.webcore.dao.UserDao;
+import ru.rzncenter.webcore.exceptions.ApplicationException;
+import ru.rzncenter.webcore.exceptions.ErrorCodes;
 
 import javax.annotation.PostConstruct;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
  * Менеджер прав доступа
@@ -15,15 +19,17 @@ import java.util.*;
 @Component
 public class SimplePermissionManager implements PermissionManager {
 
-    private Set<Permission> permissions = new HashSet<>();
+    private Set<Permission> permissions = new CopyOnWriteArraySet<>();
+    private Map<String, Set<Permission>> links = new ConcurrentHashMap<>();
 
-    private Map<String, Set<Permission>> links = new HashMap<>();
+    private final PermissionInitializer initializer;
+    private final UserDao userDomainDao;
 
     @Autowired
-    private PermissionInitializer initializer;
-
-    @Autowired
-    private UserDao userDomainDao;
+    public SimplePermissionManager(PermissionInitializer initializer, UserDao userDomainDao) {
+        this.initializer = initializer;
+        this.userDomainDao = userDomainDao;
+    }
 
     @PostConstruct
     public void init() {
@@ -51,15 +57,6 @@ public class SimplePermissionManager implements PermissionManager {
         links.clear();
     }
 
-    Set<Permission> getPermissionLinksSet(String role) {
-        Set<Permission> perms = links.get(role);
-        if(perms == null) {
-            perms = new HashSet<>();
-            links.put(role, perms);
-        }
-        return perms;
-    }
-
     @Override
     public void linkToRole(String role, Permission permission) {
         getPermissionLinksSet(role).add(permission);
@@ -76,7 +73,6 @@ public class SimplePermissionManager implements PermissionManager {
     public boolean isLinkedToRole(String role, Permission permission) {
         return getPermissionLinksSet(role).contains(permission);
     }
-
 
     @Override
     public Set<String> getRoles() {
@@ -122,13 +118,27 @@ public class SimplePermissionManager implements PermissionManager {
     public UserDomain getUserDomain(Authentication auth) {
         UserDomain user = userDomainDao.findByUsername(auth.getName());
         if(user == null) {
-            throw new NullPointerException("User with " + auth.getName() + " not found");
+            throw new ApplicationException(ErrorCodes.USER_NOT_FOUND);
         }
         return user;
     }
 
-    boolean testPermission(Permission perm, Authentication auth, Object domain) {
+    private boolean testPermission(Permission perm, Authentication auth, Object domain) {
         return !perm.hasRule() || perm.getRule().execute(auth, getUserDomain(auth), domain);
     }
-    
+
+    private Set<Permission> getPermissionLinksSet(String role) {
+        Set<Permission> perm = links.get(role);
+        if(perm == null) {
+            synchronized (this) {
+                perm = links.get(role);
+                if(perm == null) {
+                    perm = new HashSet<>();
+                    links.put(role, perm);
+                }
+            }
+        }
+        return perm;
+    }
+
 }

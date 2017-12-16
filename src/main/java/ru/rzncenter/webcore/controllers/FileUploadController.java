@@ -22,11 +22,14 @@ import java.util.List;
 @RequestMapping(value="/admin/")
 public class FileUploadController {
 
-    @Autowired
-    private FileUtils fileUtils;
+    private final FileUtils fileUtils;
+    private final FileUploader fileUploader;
 
     @Autowired
-    private FileUploader fileUploader;
+    public FileUploadController(FileUtils fileUtils, FileUploader fileUploader) {
+        this.fileUtils = fileUtils;
+        this.fileUploader = fileUploader;
+    }
 
     @RequestMapping(value="/upload/", method= RequestMethod.GET)
     public String provideUploadInfo() {

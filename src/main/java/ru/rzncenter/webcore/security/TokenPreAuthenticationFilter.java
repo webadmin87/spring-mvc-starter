@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 public class TokenPreAuthenticationFilter extends AbstractPreAuthenticatedProcessingFilter {
 
     public static final String TOKEN_PRINCIPAL = "TOKEN_PRINCIPAL";
-
     public static final String  TOKEN_HEADER = "X-AUTH-TOKEN";
 
     @Override

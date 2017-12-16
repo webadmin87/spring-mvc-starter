@@ -14,9 +14,13 @@ import org.springframework.stereotype.Component;
 @Component("userDetailsService")
 public class UserDetailsServiceImpl extends AbstractUserDetails implements UserDetailsService {
 
+    private final UserService userService;
+
     @Autowired
-    private UserService userService;
-    
+    public UserDetailsServiceImpl(UserService userService) {
+        this.userService = userService;
+    }
+
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         User u = userService.findByUsername(s);
@@ -26,7 +30,7 @@ public class UserDetailsServiceImpl extends AbstractUserDetails implements UserD
         return buildUserForAuthentication(u);
     }
     
-    public UserDetails buildUserForAuthentication(User u) {
+    private UserDetails buildUserForAuthentication(User u) {
         return new org.springframework.security.core.userdetails.User(u.getUsername(), u.getPassword(), buildUserAuthorites(u));
     }
 

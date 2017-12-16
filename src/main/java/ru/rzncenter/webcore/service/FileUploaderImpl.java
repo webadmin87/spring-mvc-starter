@@ -25,8 +25,12 @@ public class FileUploaderImpl implements FileUploader {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FileUploaderImpl.class);
 
+    private final FileUtils fileUtils;
+
     @Autowired
-    private FileUtils fileUtils;
+    public FileUploaderImpl(FileUtils fileUtils) {
+        this.fileUtils = fileUtils;
+    }
 
     /**
      * Загрузка файла из формы

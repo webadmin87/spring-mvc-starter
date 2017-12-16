@@ -1,10 +1,9 @@
 package ru.rzncenter.webcore.web;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Component;
 import ru.rzncenter.webcore.db.TreeDomain;
 import ru.rzncenter.webcore.domains.KeyValue;
-import ru.rzncenter.webcore.utils.Translate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,9 +13,6 @@ import java.util.List;
  */
 @Component
 public class TreeListProviderImpl implements TreeListProvider {
-
-    @Autowired
-    private Translate translate;
 
     /**
      * Формирует карту для заполнения выпадающего списка
@@ -38,8 +34,8 @@ public class TreeListProviderImpl implements TreeListProvider {
             item.setValue(preffix + domain.getTitle());
             resultList.add(item);
             List<? extends TreeDomain> children = domain.getChildren();
-            if(children != null && children.size() > 0) {
-                getList(resultList, children, startLevel+1, exclude);
+            if(CollectionUtils.isNotEmpty(children)) {
+                getList(resultList, children, startLevel + 1, exclude);
             }
         }
         return resultList;
@@ -47,17 +43,7 @@ public class TreeListProviderImpl implements TreeListProvider {
 
     @Override
     public List<KeyValue> getList(List<? extends TreeDomain> list, TreeDomain exclude) {
-        List<KeyValue> resultList = new ArrayList<>();
-        return getList(resultList, list, 0, exclude);
-    }
-
-
-    public Translate getTranslate() {
-        return translate;
-    }
-
-    public void setTranslate(Translate translate) {
-        this.translate = translate;
+        return getList(new ArrayList<>(), list, 0, exclude);
     }
 
 }

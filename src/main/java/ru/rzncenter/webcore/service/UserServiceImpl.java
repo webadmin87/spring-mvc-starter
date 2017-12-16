@@ -25,6 +25,11 @@ import java.util.Queue;
 @Service
 public class UserServiceImpl extends CrudServiceImpl<User> implements UserService {
 
+    @Autowired
+    public UserServiceImpl(UserDao userDao) {
+        super(userDao);
+    }
+
     @Override
     public UserDao getRepository() {
         return getUserDao();

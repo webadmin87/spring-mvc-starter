@@ -16,8 +16,12 @@ import java.util.Queue;
 @Service
 public class RemoveQueueJob {
 
+    private final FilesRemover filesRemover;
+
     @Autowired
-    private FilesRemover filesRemover;
+    public RemoveQueueJob(FilesRemover filesRemover) {
+        this.filesRemover = filesRemover;
+    }
 
     @Scheduled(fixedDelay = 1000)
     public void process() {

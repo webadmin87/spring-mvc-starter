@@ -11,8 +11,12 @@ import java.util.List;
 @Component
 public class WebFilesRemover implements FilesRemover {
 
+    private final FileUtils fileUtils;
+
     @Autowired
-    private FileUtils fileUtils;
+    public WebFilesRemover(FileUtils fileUtils) {
+        this.fileUtils = fileUtils;
+    }
 
     @Override
     public void removeFiles(List<String> files) {

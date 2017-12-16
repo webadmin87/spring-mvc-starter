@@ -13,15 +13,15 @@ import org.springframework.stereotype.Component;
 public class JsonUtilsImpl implements JsonUtils {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(JsonUtilsImpl.class);
+    private static final ObjectMapper MAPPER = new ObjectMapper();
 
     @Override
     public <T> T jsonToObject(String json, TypeReference<T> ref) {
         if(json==null) {
             return null;
         }
-        ObjectMapper mapper = new ObjectMapper();
         try {
-            T value = mapper.readValue(json, ref);
+            T value = MAPPER.readValue(json, ref);
             return value;
         } catch (Exception e) {
             LOGGER.error("Json read error", e);
