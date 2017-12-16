@@ -11,16 +11,16 @@ import { withRouter } from "react-router-dom"
 class Login extends React.Component {
 
     componentWillMount() {
-        this.__isRedirect(this.props)
+        this.__isRedirect(this.props);
     }
 
     componentWillReceiveProps(newProps) {
-        this.__isRedirect(newProps)
+        this.__isRedirect(newProps);
     }
 
     __isRedirect(props) {
         if(props.authentication) {
-            this.props.history.push('/')
+            this.props.history.push('/');
         }
     }
 
@@ -34,12 +34,10 @@ class Login extends React.Component {
             }
         )
             .then(function (response) {
-
-                store.dispatch(authenticationAction(response.data))
-
+                store.dispatch(authenticationAction(response.data));
             })
             .catch(function (error) {
-                store.dispatch(authenticationAction(null, i18next.t('app_authentication_error')))
+                store.dispatch(authenticationAction(null, i18next.t('app_authentication_error')));
             });
 
     }
@@ -57,6 +55,6 @@ const mapStateToProps = function(store) {
         error: store.authenticationState.error
     }
 
-}
+};
 
 export default withRouter(connect(mapStateToProps)(Login))

@@ -15,7 +15,6 @@ class AppRouter extends React.Component {
     render() {
         return (
             <Provider store={store}>
-
                 <HashRouter>
                     <App>
                         <Switch>

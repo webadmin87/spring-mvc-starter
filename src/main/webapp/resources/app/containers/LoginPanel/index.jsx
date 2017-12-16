@@ -9,16 +9,16 @@ class LoginPanel extends React.Component {
 
 
     __logout() {
-        store.dispatch(logoutAction())
-        this.props.history.push("/login")
+        store.dispatch(logoutAction());
+        this.props.history.push("/login");
     }
 
     render() {
-        let isAuth = this.props.authentication
-        return <ul className="navbar-nav navbar-right nav">
+        let isAuth = this.props.authentication;
+        return ( <ul className="navbar-nav navbar-right nav">
             { !isAuth?<li><Link to="/login">{ i18next.t('app_login_panel_enter') }</Link></li>:null }
             { isAuth?<li><a onClick={ this.__logout.bind(this) }>{ i18next.t('app_login_panel_exit') } ({ this.props.authentication.username})</a></li>:null }
-        </ul>;
+        </ul> );
     }
 
 
@@ -28,6 +28,6 @@ const mapStateToProps = function(store) {
     return {
         authentication: store.authenticationState.authentication
     }
-}
+};
 
 export default withRouter(connect(mapStateToProps)(LoginPanel))

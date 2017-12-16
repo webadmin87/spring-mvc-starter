@@ -3,11 +3,11 @@ export function authenticationAction(data, error) {
         data,
         error,
         type: 'authentication.login'
-    }
+    };
 }
 
 export function logoutAction() {
     return {
         type: 'authentication.logout'
-    }
+    };
 }

@@ -9,12 +9,12 @@ export default class FileUploader extends React.Component {
     onDrop(acceptedFiles) {
         let data = new FormData();
         acceptedFiles.forEach(file => {
-            data.append('file', file);;
+            data.append('file', file);
         });
         axios.post(Settings.UPLOAD_URL, data).then(res => {
 
             if(!res.data || !res.data.success ) {
-                alert('Upload error!')
+                alert('Upload error!');
             }
 
             let models = [];

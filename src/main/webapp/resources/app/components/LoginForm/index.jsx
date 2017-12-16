@@ -8,7 +8,7 @@ export default class LoginForm extends React.Component {
     }
 
     render() {
-        return <div className="login-form">
+        return ( <div className="login-form">
 
             { this.props.error?<div className="alert alert-danger">{ this.props.error }</div>:null }
 
@@ -29,7 +29,7 @@ export default class LoginForm extends React.Component {
 
             </form>
 
-        </div>;
+        </div> );
     }
 
 

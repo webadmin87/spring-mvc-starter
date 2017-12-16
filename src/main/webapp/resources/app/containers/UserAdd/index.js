@@ -12,24 +12,24 @@ class UserAdd extends React.Component {
 
     componentDidMount() {
         axios.get(Settings.USERS_URL + 'roles/').then(r => {
-            store.dispatch((userRolesLoadedAction(r.data)))
-        })
+            store.dispatch((userRolesLoadedAction(r.data)));
+        });
     }
 
     handleSubmit(e) {
         axios.post(Settings.USERS_URL, this.props.data).then(r => {
-            store.dispatch(userEntityReset())
-            this.props.history.push('/users')
+            store.dispatch(userEntityReset());
+            this.props.history.push('/users');
         }).catch(e => {
-            store.dispatch((userServerErrorAction(e.data)))
-        })
+            store.dispatch((userServerErrorAction(e.data)));
+        });
     }
 
     render() {
-        return <div>
+        return ( <div>
             <ServerErrors errors={ this.props.serverErrors } />
             <UserForm roles={ this.props.roles } data={ this.props.data } errors={ this.props.errors } serverErrors={ this.props.serverErrors } handleSubmit={ this.handleSubmit.bind(this) } />
-        </div>
+        </div> );
     }
 
 }

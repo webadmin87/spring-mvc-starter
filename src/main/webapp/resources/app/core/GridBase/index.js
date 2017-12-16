@@ -21,14 +21,14 @@ export class GridBase extends React.Component {
     }
 
     __getColumnMeta() {
-        return []
+        return [];
     }
 
     __getData() {
 
         let params = {
             page: this.props.currentPage+1
-        }
+        };
 
         if(this.props.externalSortColumn) {
             Object.assign(params, {
@@ -40,37 +40,37 @@ export class GridBase extends React.Component {
         if(this.props.externalResultsPerPage) {
             Object.assign(params, {
                 pageSize: this.props.externalResultsPerPage
-            })
+            });
         }
 
         axios.get(this.__getUrl(), {params}).then(r => {
             if(r.data.length == 0 && this.props.currentPage > 0) {
-                this.setPage(this.props.currentPage-1)
+                this.setPage(this.props.currentPage-1);
             } else {
                 this.__getStore().dispatch(this.__getAction()({
                     results: r.data,
                     maxPages: r.headers['x-pagination-total-pages'],
                     loadData: false
-                }))
+                }));
             }
         }).catch(err=>{
-            console.warn('Unable to load data')
-        })
+            console.warn('Unable to load data');
+        });
     }
 
     //what page is currently viewed
     setPage(index){
-        this.__getStore().dispatch(this.__getAction()({currentPage: index, loadData: true}))
+        this.__getStore().dispatch(this.__getAction()({currentPage: index, loadData: true}));
     }
 
     //this will handle how the data is sorted
     sortData(sort, sortAscending, data){
-        this.__getStore().dispatch(this.__getAction()({externalSortColumn: sort, externalSortAscending: sortAscending, loadData: true}))
+        this.__getStore().dispatch(this.__getAction()({externalSortColumn: sort, externalSortAscending: sortAscending, loadData: true}));
     }
 
     //this changes whether data is sorted in ascending or descending order
     changeSort(sort, sortAscending){
-        this.__getStore().dispatch(this.__getAction()({externalSortColumn: sort, externalSortAscending: sortAscending, loadData: true}))
+        this.__getStore().dispatch(this.__getAction()({externalSortColumn: sort, externalSortAscending: sortAscending, loadData: true}));
     }
 
     //this method handles the filtering of the data
@@ -79,24 +79,23 @@ export class GridBase extends React.Component {
 
     //this method handles determining the page size
     setPageSize(size){
-        this.__getStore().dispatch(this.__getAction()({externalResultsPerPage: size, currentPage: 0, loadData: true}))
+        this.__getStore().dispatch(this.__getAction()({externalResultsPerPage: size, currentPage: 0, loadData: true}));
     }
-
 
     render() {
 
         if(this.props.loadData) {
-            this.__getData()
+            this.__getData();
         }
 
-        return <Griddle columnMetadata={this.__getColumnMeta()} useExternal={true} externalSetPage={this.setPage.bind(this)}
+        return ( <Griddle columnMetadata={this.__getColumnMeta()} useExternal={true} externalSetPage={this.setPage.bind(this)}
                         externalChangeSort={this.changeSort.bind(this)} externalSetFilter={this.setFilter.bind(this)}
                         externalSetPageSize={this.setPageSize.bind(this)} externalMaxPage={this.props.maxPages}
                         externalCurrentPage={this.props.currentPage} results={this.props.results}
                         resultsPerPage={this.props.externalResultsPerPage}
                         externalSortColumn={this.props.externalSortColumn}
                         externalSortAscending={this.props.externalSortAscending}
-                        showFilter={false} showSettings={false} columns={this.__getColumns()} />
+                        showFilter={false} showSettings={false} columns={this.__getColumns()} /> );
     }
 
 }
@@ -152,8 +151,7 @@ export class ActionColumn extends React.Component {
                 <a href="" onClick={ this.onEdit.bind(this) }><i className="glyphicon glyphicon-pencil"></i></a>
                 <a href="" onClick={ this.onDelete.bind(this) }><i className="glyphicon glyphicon-trash"></i></a>
             </div>
-        )
-
+        );
     }
 
 }

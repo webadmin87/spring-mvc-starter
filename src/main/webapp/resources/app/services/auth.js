@@ -1,15 +1,15 @@
 let STORAGE_KEY = "AUTH_STORAGE"
 
 export let setAuthentication = function (a) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(a))
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(a));
 }
 
 export let getAuthentication = function () {
-    return JSON.parse(localStorage.getItem(STORAGE_KEY))
+    return JSON.parse(localStorage.getItem(STORAGE_KEY));
 }
 
 export let reset = function () {
-    localStorage.removeItem(STORAGE_KEY)
+    localStorage.removeItem(STORAGE_KEY);
 }
 
 export let isAuth = function() {
@@ -21,5 +21,5 @@ export let hasRole = function(roles) {
     if(!user) {
         return false;
     }
-    return roles.indexOf(user.role) > -1
+    return roles.indexOf(user.role) > -1;
 }

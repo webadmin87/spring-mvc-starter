@@ -12,19 +12,19 @@ import Settings from "settings"
 class UserList extends GridBase {
 
     __getUrl() {
-        return Settings.USERS_URL
+        return Settings.USERS_URL;
     }
 
     __getColumns() {
-        return  ["id", "name", "username", "email", "role", "action"]
+        return  ["id", "name", "username", "email", "role", "action"];
     }
 
     __getAction() {
-        return userListAction
+        return userListAction;
     }
 
     __getStore() {
-        return store
+        return store;
     }
 
     __getColumnMeta() {
@@ -36,17 +36,16 @@ class UserList extends GridBase {
                 "locked": false,
                 "sortable": false
             }
-
-        ]
+        ];
     }
 
     render() {
         let grid = super.render();
-        return <div>
+        return ( <div>
             <Link to="/userAdd" className="btn btn-primary">{ i18next.t('app_entity_add') }</Link>
             <hr />
             { grid }
-        </div>
+        </div> );
     }
 
 }
@@ -58,21 +57,21 @@ class UserActionColumn extends ActionColumn {
         if(confirm('Delete record?')) {
             axios.delete(Settings.USERS_URL + this.props.rowData.id + '/')
                 .then(r => {
-                    store.dispatch(userListAction({loadData: true}))
+                    store.dispatch(userListAction({loadData: true}));
                 })
                 .catch(r => {
-                    alert(r.data || 'Delete error')
-                })
+                    alert(r.data || 'Delete error');
+                });
         }
     }
 
     onEdit(e) {
-        e.preventDefault()
+        e.preventDefault();
         this.props.history.push('/userEdit/' + this.props.rowData.id + '/');
     }
 
 }
 
-const mapStateToProps = getMapToStateFunction('userState')
+const mapStateToProps = getMapToStateFunction('userState');
 
 export default connect(mapStateToProps)(UserList);

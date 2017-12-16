@@ -19,38 +19,40 @@ class UserForm extends FormBase {
             'email': [notEmpty, email],
             'role': [notEmpty],
             'phone': [phone]
-        }
-        let confirmPasswordBinded =  confirmPassword.bind({}, "inputPassword")
-        confirmPasswordBinded.message = confirmPassword.message
+        };
+
+        let confirmPasswordBinded =  confirmPassword.bind({}, "inputPassword");
+        confirmPasswordBinded.message = confirmPassword.message;
+
         if(!this.props.isUpdate) {
-            validators.inputPassword = [notEmpty, password]
-            validators.confirmInputPassword = [notEmpty, confirmPasswordBinded]
+            validators.inputPassword = [notEmpty, password];
+            validators.confirmInputPassword = [notEmpty, confirmPasswordBinded];
         }
 
-        return validators
+        return validators;
 
     }
 
     getStore() {
-        return store
+        return store;
     }
 
     getAddAction() {
-        return userAddAction
+        return userAddAction;
     }
 
     getErrorAction() {
-        return userErrorAction
+        return userErrorAction;
     }
 
     onCancel() {
         store.dispatch(userEntityReset())
-        this.props.history.goBack()
+        this.props.history.goBack();
     }
 
     render() {
 
-        return <form onSubmit={ this.handleSubmit.bind(this) }>
+        return ( <form onSubmit={ this.handleSubmit.bind(this) }>
 
             <div className="form-group">
                 <label htmlFor="user-name">{ i18next.t('app_user_name') }</label>
@@ -107,7 +109,7 @@ class UserForm extends FormBase {
 
             <input type="button" className="btn btn-default" onClick={ this.onCancel.bind(this) } value={ i18next.t('app_entity_cancel') } />
 
-        </form>
+        </form> );
 
     }
 
@@ -115,6 +117,6 @@ class UserForm extends FormBase {
 
 UserForm.defaultProps = {
     isUpdate: false
-}
+};
 
 export default withRouter(UserForm)
