@@ -4,7 +4,7 @@
   <groupId>ru.rzncenter</groupId>
   <artifactId>spring-mvc-starter</artifactId>
   <packaging>war</packaging>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0.0-1</version>
   <name>spring-mvc-starter Maven Webapp</name>
   <url>http://maven.apache.org</url>
   <properties>
