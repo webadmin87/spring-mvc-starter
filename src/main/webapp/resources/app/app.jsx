@@ -5,6 +5,7 @@ import axios from "axios"
 import i18next from 'i18next'
 import SETTINGS from 'settings'
 import { getAuthentication } from "services/auth"
+import { logoutAction } from "actions/authentication"
 import { withRouter } from "react-router-dom"
 
 class App extends React.Component {
@@ -12,7 +13,7 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.isReady = false;
-        this.__configureAxios();
+        this.__configureAxios(props);
     }
 
     componentWillMount() {
@@ -26,7 +27,7 @@ class App extends React.Component {
         this.__isRedirect(this.props);
     }
 
-    __configureAxios() {
+    __configureAxios(props) {
 
         axios.interceptors.request.use(config => {
             let auth = getAuthentication();
@@ -42,7 +43,8 @@ class App extends React.Component {
             return response;
         }, error => {
             if(error.status === 401 && this.props.location.pathname !== '/login') {
-                this.props.history.push("/login");
+                props.dispatch(logoutAction());
+                props.history.push("/login");
             }
             return Promise.reject(error);
         });
